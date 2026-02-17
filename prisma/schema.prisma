@@ -1,0 +1,166 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+datasource db {
+  provider = "postgresql"
+}
+
+model RoleTable {
+  role_id      String   @id @default(uuid())
+  role_name    String   @unique
+
+  users        User[]
+}
+model Categories {
+  cat_id  String @id @default(uuid())
+  cat_name  String
+
+  subtasks SubTask[]
+  contributions Contribution[]
+}
+
+model Constants {
+  const_id    String   @id @default(uuid())
+  const_name  String   @unique
+  const_value Float
+  repetation  String
+  status      String?
+  salon_id    String?
+  started_at  DateTime 
+  
+  salon       Salon?   @relation(fields: [salon_id], references: [salon_id])
+}
+
+model User {
+  user_id   String   @id @default(uuid())
+  name      String
+  phone     String?  @unique
+  password  String
+  role_id   String?
+  status    String?
+  salon_id  String?
+
+  role          RoleTable? @relation(fields: [role_id], references: [role_id])
+  salon         Salon?     @relation("SalonUsers", fields: [salon_id], references: [salon_id])
+  ownedSalons   Salon[]    @relation("SalonOwner")
+  withdrawals   withdrawal[]
+}
+
+model Salon {
+  salon_id   String   @id @default(uuid())
+  name       String
+  site       String?
+  owner_id   String?
+
+  owner        User?    @relation("SalonOwner", fields: [owner_id], references: [user_id])
+  users        User[]   @relation("SalonUsers")
+  employees    Employee[]
+  services     ServiceAction[]
+  reservations Reservation[]
+  expenses     Expense[]
+  constants    Constants[]
+}
+
+model Client {
+  client_id String   @id @default(uuid())
+  name      String
+  phone     String?
+  notes     String?
+  
+  services     ServiceAction[]
+  debts        Debt[]
+  reservations Reservation[]
+}
+
+model Employee {
+  emp_id   String   @id @default(uuid())
+  emp_name String
+  role     String?
+  field    String?
+  salon_id String
+
+  salon    Salon   @relation(fields: [salon_id], references: [salon_id])
+  tasks    SubTask[]
+  withdrawals withdrawal[]
+  contributions Contribution[]
+}
+
+model ServiceAction {
+  service_id  String   @id @default(uuid())
+  client_id   String
+  salon_id    String
+  price_total Float
+  date        DateTime
+  notes       String?
+
+  client Client @relation(fields: [client_id], references: [client_id])
+  salon  Salon  @relation(fields: [salon_id], references: [salon_id])
+  tasks  SubTask[]
+}
+
+model SubTask {
+  task_id    String @id @default(uuid())
+  service_id String
+  emp_id     String
+  sub_price  Float
+  cat_id     String
+
+  category Categories    @relation(fields: [cat_id] , references: [cat_id])
+  service  ServiceAction @relation(fields: [service_id], references: [service_id])
+  employee Employee      @relation(fields: [emp_id], references: [emp_id])
+}
+
+model Debt {
+  debt_id   String   @id @default(uuid())
+  client_id String
+  date_reg  DateTime
+  date_exp  DateTime?
+  status    String
+  debt_val  Float
+
+  client Client @relation(fields: [client_id], references: [client_id])
+}
+
+model Reservation {
+  reservation_id String   @id @default(uuid())
+  client_id      String
+  salon_id       String
+  date           DateTime
+  status         String
+
+  client Client @relation(fields: [client_id], references: [client_id])
+  salon  Salon  @relation(fields: [salon_id], references: [salon_id])
+}
+
+model Expense {
+  exp_id   String   @id @default(uuid())
+  salon_id String
+  date     DateTime
+  status   String
+  exp_type String
+  exp_val  Float
+
+  salon    Salon    @relation(fields: [salon_id], references: [salon_id])
+}
+
+model  withdrawal {
+  withdraw_id String   @id @default(uuid())
+  user_id     String 
+  emp_id      String
+  date        DateTime
+  amount      Float
+
+  user       User     @relation(fields: [user_id], references: [user_id])
+  employee   Employee @relation(fields: [emp_id], references: [emp_id])
+}
+
+model Contribution {
+  contribution_id String   @id @default(uuid())
+  category_id     String
+  emp_id         String
+  
+  category Categories @relation(fields: [category_id], references: [cat_id])
+  employee     Employee       @relation(fields: [emp_id], references: [emp_id])
+}
+
