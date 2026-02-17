@@ -44,19 +44,7 @@ export async function POST(request: NextRequest) {
       salon_id,
       started_at
     } = body;
-    // avoid duplicate constant names
-    const existingConstant = await prisma.constants.findFirst({
-      where: {
-        const_name: const_name,
-      },
-    });
 
-    if (existingConstant) {
-      return NextResponse.json({
-        message: "Constant name already exists",
-        status: 400,
-      });
-    }
     const addConstant = await prisma.constants.create({
       data: {
         const_name: const_name,
