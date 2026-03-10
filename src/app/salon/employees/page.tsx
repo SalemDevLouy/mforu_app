@@ -3,20 +3,14 @@
 import { useState } from "react";
 import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
+import { useSalonId } from "@/hooks/useSalonId";
 import { useEmployees } from "./hooks/useEmployees";
 import { Employee } from "./types";
 import { EmployeeGrid } from "./components/EmployeeGrid";
 import { AddEditEmployeeModal } from "./components/AddEditEmployeeModal";
 
 export default function EmployeesPage() {
-  const [salonId] = useState<string>(() => {
-    const userStr = typeof window !== "undefined" ? localStorage.getItem("user") : null;
-    if (userStr) {
-      const user = JSON.parse(userStr);
-      return user.salon_id || "";
-    }
-    return "";
-  });
+  const salonId = useSalonId();
   const { employees, loadingEmployees, addEmployee, editEmployee, removeEmployee } =
     useEmployees(salonId);
 

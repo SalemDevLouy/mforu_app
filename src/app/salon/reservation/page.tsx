@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
+import { useSalonId } from "@/hooks/useSalonId";
 import { useReservations } from "./hooks/useReservations";
 import { useClients } from "./hooks/useClients";
 import { Reservation } from "./types";
@@ -14,11 +15,7 @@ import { AddClientModal } from "./components/AddClientModal";
 import { DeleteReservationModal } from "./components/DeleteReservationModal";
 
 export default function ReservationsPage() {
-  const [salonId] = useState<string>(() => {
-    const userStr = typeof window !== "undefined" ? localStorage.getItem("user") : null;
-    if (userStr) { const user = JSON.parse(userStr); return user.salon_id || ""; }
-    return "";
-  });
+  const salonId = useSalonId();
 
   const [filterStatus, setFilterStatus] = useState("");
   const stableFilter = useMemo(() => filterStatus, [filterStatus]);
