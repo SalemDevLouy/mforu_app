@@ -178,7 +178,7 @@ export async function POST(request: NextRequest) {
       // 2. Sub-tasks — one row per employee per task
       //    sub_price = (task.price × CategoryRate.rate) / employeeIds.length
       const subTaskData = tasks.flatMap((task) => {
-        const rate = categoryRateMap.get(task.cat_id) ?? 0;
+        const rate = categoryRateMap.get(task.cat_id) ?? 1;  // default 1 = full price when no rate configured
         const employeePool = task.price * rate;
         const perEmployee = employeePool / task.employeeIds.length;
         return task.employeeIds.map((emp_id) => ({
