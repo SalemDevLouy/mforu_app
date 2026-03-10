@@ -1,8 +1,12 @@
+"use client";
+
 import { Card, CardBody } from "@heroui/card";
 import { Button } from "@heroui/button";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function UnauthorizedPage() {
+  const router = useRouter();
+
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
       <Card className="w-full max-w-md">
@@ -12,8 +16,14 @@ export default function UnauthorizedPage() {
           <p className="text-gray-600">
             ليس لديك صلاحية للوصول إلى هذه الصفحة
           </p>
-          <Button as={Link} href="/auth/signin" color="primary">
-            العودة لتسجيل الدخول
+          <Button 
+            onPress={() => {
+              router.back();
+              setTimeout(() => router.back(), 100);
+            }} 
+            color="primary"
+          >
+            العودة للصفحة السابقة
           </Button>
         </CardBody>
       </Card>

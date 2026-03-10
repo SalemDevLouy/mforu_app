@@ -23,10 +23,10 @@ const defaultMenuItems: Record<string, MenuItem[]> = {
     { label: "لوحة التحكم", href: "/admin/dashboard" },
     { label: "إدارة المستخدمين", href: "/admin/dashboard/users" },
     { label: "الصالونات", href: "/admin/salons" },
-    { label: "إضافة صالون", href: "/admin/salons/addsalon" },
+    // { label: "إضافة صالون", href: "/admin/salons/addsalon" },
     { label: "الفئات", href: "/admin/dashboard/category" },
-    { label: "الثوابت", href: "/admin/dashboard/constant" },
-    { label: "التقارير", href: "/admin/reports" },
+    { label: "الثوابت", href: "/admin/dashboard/constants" },
+    { label: "الحسابات", href: "/admin/accounting" },
     { label: "الإعدادات", href: "/admin/settings" },
   
   ],
@@ -34,7 +34,7 @@ const defaultMenuItems: Record<string, MenuItem[]> = {
     { label: "تسجيل خدمة", href: "/salon/{salonid}/addservice" },
     { label: "حجز موعد", href: "/salon/{salonid}/reservation" },
     { label: "العملاء", href: "/salon/{salonid}/clients" },
-    { label: "الديون", href: "/salon/{salonid}/debts" },
+    // { label: "الديون", href: "/salon/{salonid}/debts" },
     { label: "المصاريف", href: "/salon/{salonid}/expenses" },
     { label: "الموظفين", href: "/salon/{salonid}/employees" },
     { label: "التقارير", href: "/salon/{salonid}/report" },
@@ -57,21 +57,22 @@ export default function Sidebar({
     { label: "لوحة التحكم", href: "/admin/dashboard" },
     { label: "إدارة المستخدمين", href: "/admin/dashboard/users" },
     { label: "إدارة الفئات", href: "/admin/dashboard/category" },
-    { label: "إدارة الثوابت", href: "/admin/dashboard/constant" },
-    { label: "التقارير", href: "/admin/dashboard/report" },
-    { label: "إضافة صالون", href: "/admin/dashboard/addsalon" },
+    { label: "إدارة الثوابت", href: "/admin/dashboard/constants" },
+    { label: "الحسابات", href: "/admin/dashboard/accounting" },
+    // { label: "إضافة صالون", href: "/admin/dashboard/addsalon" },
   ];
 
   // Salon routes - for "salon owner" and "reception"
   const salonRoutes: MenuItem[] = [
     { label: "تسجيل خدمة", href: "/salon/addservice" },
     { label: "العملاء", href: "/salon/clients" },
-    { label: "الديون", href: "/salon/debts" },
+    // { label: "الديون", href: "/salon/debts" },
     { label: "الموظفين", href: "/salon/employees" },
     { label: "المصاريف", href: "/salon/expenses" },
+    // { label: "الثوابت والالتزامات", href: "/salon/constants" },
     { label: "حجز موعد", href: "/salon/reservation" },
-    { label: "الإعدادات", href: "/salon/settings" },
-    { label: "السحوبات", href: "/salon/withdrawals" },
+    { label: "عمليات السحب", href: "/salon/withdrawals" },
+    // { label: "الإعدادات", href: "/salon/settings" },
   ];
 
   // Determine which routes to show based on role

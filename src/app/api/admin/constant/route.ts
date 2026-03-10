@@ -1,174 +1,121 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
-// GET /api/admin/categories - Get all categories
-export async function GET() {
+// GET /api/admin/constant?salon_id=xxx&status=active
+export async function GET(request: NextRequest) {
   try {
+    const { searchParams } = new URL(request.url);
+    const salon_id = searchParams.get("salon_id");
+    const status   = searchParams.get("status");
+
     const constants = await prisma.constants.findMany({
-        select: {
-            const_id: true,
-            const_name: true,
-            const_value: true,
-            repetation: true,
-            status: true,
-            started_at: true,
-            salon: {
-                select: {
-                    salon_id: true,
-                    name: true,
-                },
-            },
+      where: {
+        ...(salon_id && { salon_id }),
+        ...(status   && { status }),
+      },
+      select: {
+        const_id:    true,
+        const_name:  true,
+        const_value: true,
+        repetation:  true,
+        status:      true,
+        started_at:  true,
+        salon: {
+          select: { salon_id: true, name: true },
         },
+      },
+      orderBy: { started_at: "desc" },
     });
 
-    return NextResponse.json(constants);
+    return NextResponse.json({ success: true, constants });
   } catch (error) {
-    console.error("Error fetching categories:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch categories" },
-      { status: 500 }
-    );
+    console.error("GET /api/admin/constant error:", error);
+    return NextResponse.json({ error: "فشل جلب الثوابت" }, { status: 500 });
   }
 }
 
-// add new constant
+// POST /api/admin/constant
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    // 5c4e314a-c627-4f43-bd64-bb3a8a2186b7
-    const {
-      const_name,
-      const_value,
-      repetation,
-      status,
-      salon_id,
-      started_at
-    } = body;
+    const { const_name, const_value, repetation, status, salon_id, started_at } =
+      await request.json();
 
-    const addConstant = await prisma.constants.create({
+    if (!const_name || !const_value || !repetation || !started_at) {
+      return NextResponse.json({ error: "جميع الحقول المطلوبة يجب ملؤها" }, { status: 400 });
+    }
+
+    const constant = await prisma.constants.create({
       data: {
-        const_name: const_name,
-        const_value: const_value,
-        repetation: repetation,
-        status: status,
-        salon_id: salon_id,
-        started_at: new Date(started_at),
-      }
+        const_name:  const_name.trim(),
+        const_value: Number.parseFloat(const_value),
+        repetation,
+        status:      status || "active",
+        salon_id:    salon_id || null,
+        started_at:  new Date(started_at),
+      },
     });
 
-    if (addConstant) {
-      return NextResponse.json({
-        message: "Add new constant successful",
-        status: 200
-      });
-    }
-
+    return NextResponse.json({ success: true, constant, message: "تم إضافة الثابت بنجاح" }, { status: 201 });
   } catch (error) {
-    console.error("POST /api/admin/constant error", error);
-    const message = error instanceof Error ? error.message : String(error);
-    return new NextResponse(JSON.stringify({ error: message }), { status: 400 });
+    console.error("POST /api/admin/constant error:", error);
+    return NextResponse.json({ error: "فشل إضافة الثابت" }, { status: 500 });
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// PUT
+// PUT /api/admin/constant
 export async function PUT(request: NextRequest) {
-  const body = await request.json();
-  const { id, category_name } = body;
-  
   try {
-    // Check if category exists
-    const existingCategory = await prisma.categories.findUnique({
-      where: { cat_id: id },
-    });
-    if (!existingCategory) {
-      return NextResponse.json(
-        { error: "Category not found" },
-        { status: 404 }
-      );
+    const { const_id, const_name, const_value, repetation, status, salon_id, started_at } =
+      await request.json();
+
+    if (!const_id) {
+      return NextResponse.json({ error: "معرف الثابت مطلوب" }, { status: 400 });
     }
 
-    // Update category
-    const updatedCategory = await prisma.categories.update({
-      where: { cat_id: id },
-      data: { cat_name: category_name },
+    const existing = await prisma.constants.findUnique({ where: { const_id } });
+    if (!existing) {
+      return NextResponse.json({ error: "الثابت غير موجود" }, { status: 404 });
+    }
+
+    const updated = await prisma.constants.update({
+      where: { const_id },
+      data: {
+        ...(const_name  && { const_name: const_name.trim() }),
+        ...(const_value && { const_value: Number.parseFloat(const_value) }),
+        ...(repetation  && { repetation }),
+        ...(status !== undefined && { status }),
+        ...(salon_id !== undefined && { salon_id: salon_id || null }),
+        ...(started_at  && { started_at: new Date(started_at) }),
+      },
     });
 
-    return NextResponse.json({
-      message: "Category updated successfully",
-      category: updatedCategory,
-    });
-
-} catch (error) {
-    console.error("Error updating category:", error);
-    return NextResponse.json(
-      { error: "Failed to update category" },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: true, constant: updated, message: "تم تحديث الثابت بنجاح" });
+  } catch (error) {
+    console.error("PUT /api/admin/constant error:", error);
+    return NextResponse.json({ error: "فشل تحديث الثابت" }, { status: 500 });
   }
 }
 
-//Delete category
+// DELETE /api/admin/constant?const_id=xxx
 export async function DELETE(request: NextRequest) {
-  const body = await request.json();
-  const { id } = body;
-
   try {
-    // Check if category exists
-    const existingCategory = await prisma.categories.findUnique({
-      where: { cat_id: id },
-    });
-    if (!existingCategory) {
-      return NextResponse.json(
-        { error: "Category not found" },
-        { status: 404 }
-      );
+    const { searchParams } = new URL(request.url);
+    const const_id = searchParams.get("const_id");
+
+    if (!const_id) {
+      return NextResponse.json({ error: "معرف الثابت مطلوب" }, { status: 400 });
     }
 
-    // Delete category
-    await prisma.categories.delete({
-      where: { cat_id: id },
-    });
+    const existing = await prisma.constants.findUnique({ where: { const_id } });
+    if (!existing) {
+      return NextResponse.json({ error: "الثابت غير موجود" }, { status: 404 });
+    }
 
-    return NextResponse.json({
-      message: "Category deleted successfully",
-    });
+    await prisma.constants.delete({ where: { const_id } });
 
+    return NextResponse.json({ success: true, message: "تم حذف الثابت بنجاح" });
   } catch (error) {
-    console.error("Error deleting category:", error);
-    return NextResponse.json(
-      { error: "Failed to delete category" },
-      { status: 500 }
-    );
+    console.error("DELETE /api/admin/constant error:", error);
+    return NextResponse.json({ error: "فشل حذف الثابت" }, { status: 500 });
   }
 }

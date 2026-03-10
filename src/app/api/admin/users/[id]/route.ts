@@ -1,20 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
-import { Role, UserStatus } from "@/generated/prisma";
 
 // GET /api/admin/users/[id] - Get single user
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const user = await prisma.user.findUnique({
-      where: { id: params.id },
+      where: { user_id: id },
       include: {
         salon: {
           select: {
-            id: true,
+            salon_id: true,
             name: true,
           },
         },
@@ -45,25 +45,17 @@ export async function GET(
 // PUT /api/admin/users/[id] - Update user
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
-    const { fullName, phone, password, role, salonId, status } = body;
+    const { name, phone, password, role_id, salonId, status } = body;
 
     // Validate required fields
-    if (!fullName?.trim() || !phone?.trim() || !role) {
+    if (!name?.trim() || !phone?.trim()) {
       return NextResponse.json(
-        { error: "Full name, phone, and role are required" },
-        { status: 400 }
-      );
-    }
-
-    // Validate role
-    const validRoles = ["APP_OWNER", "ACCOUNTANT", "SALON_OWNER", "RECEPTIONIST", "EMPLOYEE"];
-    if (!validRoles.includes(role)) {
-      return NextResponse.json(
-        { error: "Invalid role" },
+        { error: "Name and phone are required" },
         { status: 400 }
       );
     }
@@ -80,7 +72,7 @@ export async function PUT(
     const existingUser = await prisma.user.findFirst({
       where: {
         phone: phone.trim(),
-        id: { not: params.id },
+        user_id: { not: id },
       },
     });
 
@@ -91,18 +83,10 @@ export async function PUT(
       );
     }
 
-    // If user has a salon-related role, validate salonId
-    if (["SALON_OWNER", "RECEPTIONIST", "EMPLOYEE"].includes(role) && !salonId) {
-      return NextResponse.json(
-        { error: "Salon ID is required for this role" },
-        { status: 400 }
-      );
-    }
-
     // If salonId is provided, verify it exists
     if (salonId) {
       const salonExists = await prisma.salon.findUnique({
-        where: { id: salonId },
+        where: { salon_id: salonId },
       });
       if (!salonExists) {
         return NextResponse.json(
@@ -114,18 +98,18 @@ export async function PUT(
 
     // Build update data
     interface UpdateData {
-      fullName: string;
+      name: string;
       phone: string;
-      role: Role;
-      salonId: string | null;
-      status?: UserStatus;
+      role_id?: string | null;
+      salon_id?: string | null;
+      status?: string;
       password?: string;
     }
     const updateData: UpdateData = {
-      fullName: fullName.trim(),
+      name: name.trim(),
       phone: phone.trim(),
-      role: role as Role,
-      salonId: salonId || null,
+      role_id: role_id || null,
+      salon_id: salonId || null,
     };
 
     // Only update password if provided
@@ -135,17 +119,17 @@ export async function PUT(
 
     // Only update status if provided
     if (status) {
-      updateData.status = status as UserStatus;
+      updateData.status = status;
     }
 
     // Update user
     const user = await prisma.user.update({
-      where: { id: params.id },
+      where: { user_id: id },
       data: updateData,
       include: {
         salon: {
           select: {
-            id: true,
+            salon_id: true,
             name: true,
           },
         },
@@ -172,12 +156,13 @@ export async function PUT(
 // DELETE /api/admin/users/[id] - Delete user
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     // Check if user exists
     const user = await prisma.user.findUnique({
-      where: { id: params.id },
+      where: { user_id: id },
     });
 
     if (!user) {
@@ -189,7 +174,7 @@ export async function DELETE(
 
     // Delete user
     await prisma.user.delete({
-      where: { id: params.id },
+      where: { user_id: id },
     });
 
     return NextResponse.json({

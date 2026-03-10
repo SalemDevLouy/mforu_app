@@ -4,11 +4,12 @@ import prisma from "@/lib/prisma";
 // GET /api/admin/categories/[id] - Get single category
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const category = await prisma.category.findUnique({
-      where: { id: params.id },
+    const { id } = await params;
+    const category = await prisma.categories.findUnique({
+      where: { cat_id: id },
     });
 
     if (!category) {
@@ -31,9 +32,10 @@ export async function GET(
 // PUT /api/admin/categories/[id] - Update category
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
     const { name } = body;
 
@@ -46,10 +48,10 @@ export async function PUT(
     }
 
     // Update category
-    const category = await prisma.category.update({
-      where: { id: params.id },
+    const category = await prisma.categories.update({
+      where: { cat_id: id },
       data: {
-        name: name.trim(),
+        cat_name: name.trim(),
       },
     });
 
@@ -69,12 +71,13 @@ export async function PUT(
 // DELETE /api/admin/categories/[id] - Delete category
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Check if category has tasks
-    const tasksCount = await prisma.task.count({
-      where: { categoryId: params.id },
+    const { id } = await params;
+    // Check if category has subtasks
+    const tasksCount = await prisma.subTask.count({
+      where: { cat_id: id },
     });
 
     if (tasksCount > 0) {
@@ -87,8 +90,8 @@ export async function DELETE(
     }
 
     // Delete category
-    await prisma.category.delete({
-      where: { id: params.id },
+    await prisma.categories.delete({
+      where: { cat_id: id },
     });
 
     return NextResponse.json({

@@ -124,14 +124,14 @@ async function main() {
   });
 
   console.log("💇 Creating employees...");
-  await prisma.employee.create({ data: { emp_name: "محمد أحمد", role: "حلاق", field: "قص شعر", salon_id: salon1.salon_id } });
-  await prisma.employee.create({ data: { emp_name: "نورة سعيد", role: "مصففة شعر", field: "تسريحات", salon_id: salon1.salon_id } });
-  await prisma.employee.create({ data: { emp_name: "John Smith", role: "Barber", field: "Hair Cut", salon_id: salon2.salon_id } });
+  await prisma.employee.create({ data: { emp_name: "محمد أحمد", salon_id: salon1.salon_id } });
+  await prisma.employee.create({ data: { emp_name: "نورة سعيد", salon_id: salon1.salon_id } });
+  await prisma.employee.create({ data: { emp_name: "John Smith", salon_id: salon2.salon_id } });
 
   console.log("👥 Creating clients...");
-  await prisma.client.create({ data: { name: "عبدالله محمد", phone: "0501111111", notes: "يفضل القص القصير" } });
-  await prisma.client.create({ data: { name: "سارة أحمد", phone: "0502222222", notes: "حساسية من بعض المنتجات" } });
-  await prisma.client.create({ data: { name: "Mike Johnson", phone: "0503333333", notes: "Regular customer" } });
+  await prisma.client.create({ data: { name: "عبدالله محمد", phone: "0501111111", notes: "يفضل القص القصير", salon_id: salon1.salon_id } });
+  await prisma.client.create({ data: { name: "سارة أحمد", phone: "0502222222", notes: "حساسية من بعض المنتجات", salon_id: salon1.salon_id } });
+  await prisma.client.create({ data: { name: "Mike Johnson", phone: "0503333333", notes: "Regular customer", salon_id: salon2.salon_id } });
 
   console.log("\n✨ Seed completed!");
   console.log("📊 Summary: 6 categories, 4 roles, 6 users, 2 salons, 3 employees, 3 clients");

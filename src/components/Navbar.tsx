@@ -55,18 +55,7 @@ export default function Navbar({ role, onMenuToggle }: NavbarProps) {
 
       {/* Right side - Actions & User */}
       <div className="flex items-center gap-3">
-        <Link href="/notifications" className="hidden md:inline-block">
-          <Button variant="ghost" size="sm">
-            <span className="ml-1">🔔</span>{" "}
-            إشعارات
-          </Button>
-        </Link>
-        <Link href="/help" className="hidden md:inline-block">
-          <Button variant="ghost" size="sm">
-            <span className="ml-1">❓</span>{" "}
-            مساعدة
-          </Button>
-        </Link>
+        
         <div className="relative">
           <Avatar size="sm" name="مستخدم" src={undefined} />
         </div>

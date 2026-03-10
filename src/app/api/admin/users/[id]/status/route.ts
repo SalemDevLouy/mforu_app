@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { UserStatus } from "@/generated/prisma";
 
 // PATCH /api/admin/users/[id]/status - Toggle user status
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
     const { status } = body;
 
@@ -21,14 +21,14 @@ export async function PATCH(
 
     // Update user status
     const user = await prisma.user.update({
-      where: { id: params.id },
+      where: { user_id: id },
       data: {
-        status: status as UserStatus,
+        status: status as string,
       },
       include: {
         salon: {
           select: {
-            id: true,
+            salon_id: true,
             name: true,
           },
         },

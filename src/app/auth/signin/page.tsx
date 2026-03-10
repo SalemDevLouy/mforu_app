@@ -46,9 +46,9 @@ export default function SignInPage() {
       if (role === "admin of system" || role === "accounting man") {
         router.push("/admin/dashboard");
       } else if (role === "salon owner") {
-        router.push(`/salon/${data.user.salon_id}`);
+        router.push(`/salon`);
       } else if (role === "reception") {
-        router.push("/reception");
+        router.push("/salon");
       } else {
         router.push("/");
       }

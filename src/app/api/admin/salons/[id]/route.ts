@@ -4,32 +4,31 @@ import prisma from "@/lib/prisma";
 // GET /api/admin/salons/[id] - Get single salon
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const salon = await prisma.salon.findUnique({
-      where: { id: params.id },
+      where: { salon_id: id },
       include: {
         users: {
           select: {
-            id: true,
-            fullName: true,
+            user_id: true,
+            name: true,
             phone: true,
-            role: true,
+            role_id: true,
             status: true,
-            createdAt: true,
           },
         },
         employees: {
           select: {
-            id: true,
-            name: true,
-            hiredAt: true,
+            emp_id: true,
+            emp_name: true,
           },
         },
-        customers: {
+        clients: {
           select: {
-            id: true,
+            client_id: true,
             name: true,
             phone: true,
           },
@@ -37,8 +36,8 @@ export async function GET(
         _count: {
           select: {
             employees: true,
-            customers: true,
-            visits: true,
+            clients: true,
+            services: true,
           },
         },
       },
@@ -64,44 +63,27 @@ export async function GET(
 // PUT /api/admin/salons/[id] - Update salon
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
-    const { name, site, phone, ownerName, ownerPhone } = body;
+    const { name, site } = body;
 
     // Validate required fields
-    if (!name?.trim() || !site?.trim() || !phone?.trim()) {
+    if (!name?.trim()) {
       return NextResponse.json(
-        { error: "Salon name, site, and phone are required" },
-        { status: 400 }
-      );
-    }
-
-    // Check if phone is already used by another salon
-    const existingSalon = await prisma.salon.findFirst({
-      where: {
-        phone: phone.trim(),
-        id: { not: params.id },
-      },
-    });
-
-    if (existingSalon) {
-      return NextResponse.json(
-        { error: "Phone number already in use by another salon" },
+        { error: "Salon name is required" },
         { status: 400 }
       );
     }
 
     // Update salon
     const salon = await prisma.salon.update({
-      where: { id: params.id },
+      where: { salon_id: id },
       data: {
         name: name.trim(),
-        site: site.trim(),
-        phone: phone.trim(),
-        ownerName: ownerName?.trim(),
-        ownerPhone: ownerPhone?.trim(),
+        site: site?.trim() || null,
       },
     });
 
@@ -121,19 +103,20 @@ export async function PUT(
 // DELETE /api/admin/salons/[id] - Delete salon
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     // Check if salon has related data
     const salon = await prisma.salon.findUnique({
-      where: { id: params.id },
+      where: { salon_id: id },
       include: {
         _count: {
           select: {
             users: true,
             employees: true,
-            customers: true,
-            visits: true,
+            clients: true,
+            services: true,
           },
         },
       },
@@ -149,13 +132,13 @@ export async function DELETE(
     const totalRecords =
       salon._count.users +
       salon._count.employees +
-      salon._count.customers +
-      salon._count.visits;
+      salon._count.clients +
+      salon._count.services;
 
     if (totalRecords > 0) {
       return NextResponse.json(
         {
-          error: `Cannot delete salon. It has ${totalRecords} related records (users, employees, customers, or visits).`,
+          error: `Cannot delete salon. It has ${totalRecords} related records (users, employees, clients, or services).`,
           details: salon._count,
         },
         { status: 400 }
@@ -164,7 +147,7 @@ export async function DELETE(
 
     // Delete salon
     await prisma.salon.delete({
-      where: { id: params.id },
+      where: { salon_id: id },
     });
 
     return NextResponse.json({

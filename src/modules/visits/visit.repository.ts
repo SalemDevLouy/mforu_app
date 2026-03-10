@@ -1,22 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// Repository: data access for Visit related operations
-export async function createVisitRecord(data: unknown) {
-  const { PrismaClient } = await import("../../generated/prisma");
-  const prisma = new PrismaClient();
-  try {
-    const v = await prisma.visit.create({ data: data as any });
-    return v;
-  } finally {
-    await prisma.$disconnect();
-  }
+// Repository: data access for ServiceAction (visit) related operations
+import prisma from "@/lib/prisma";
+
+export async function createVisitRecord(data: {
+  salon_id: string;
+  client_id: string;
+  price_total: number;
+  date: Date;
+  notes?: string | null;
+}) {
+  return prisma.serviceAction.create({ data });
 }
 
 export async function findVisitById(id: string) {
-  const { PrismaClient } = await import("../../generated/prisma");
-  const prisma = new PrismaClient();
-  try {
-    return await prisma.visit.findUnique({ where: { id } });
-  } finally {
-    await prisma.$disconnect();
-  }
+  return prisma.serviceAction.findUnique({ where: { service_id: id } });
 }

@@ -22,3 +22,45 @@ body {
 /* Small utilities for RTL spacing if needed */
 .rtl\:pl-4[dir="rtl"] { padding-left: 0; }
 
+/* Print styles */
+@media print {
+  body {
+    background: white !important;
+  }
+  
+  .print\:hidden {
+    display: none !important;
+  }
+  
+  .print\:block {
+    display: block !important;
+  }
+  
+  .print\:space-y-4 > * + * {
+    margin-top: 1rem !important;
+  }
+  
+  /* Hide elements that shouldn't be printed */
+  nav, aside, button, .no-print {
+    display: none !important;
+  }
+  
+  /* Ensure proper page breaks */
+  table {
+    page-break-inside: auto;
+  }
+  
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+  
+  thead {
+    display: table-header-group;
+  }
+  
+  tfoot {
+    display: table-footer-group;
+  }
+}
+

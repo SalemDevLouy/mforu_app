@@ -1,377 +1,290 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Card } from "@heroui/card";
+import { Card, CardBody } from "@heroui/card";
 import { Button } from "@heroui/button";
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableCell,
-  TableColumn,
-} from "@heroui/table";
+import { Chip } from "@heroui/chip";
+import { Select, SelectItem } from "@heroui/select";
+import { Category, CategoryRate, Salon } from "./types";
+import AddCatDialog from "../components/Dialoges/Category/AddCatDialog";
+import CategoryCard from "@/app/admin/dashboard/components/Dialoges/Category/CategoryCard";
+import { DashCard } from "@/components/common/DashCard";
 
-interface Category {
-  cat_id: string;
-  cat_name: string;
-}
-
-export default function Page() {
-  const [activeTab, setActiveTab] = useState<"list" | "add" | "edit">("list");
-  const [editingCategory, setEditingCategory] = useState<Category | null>(null);
+export default function CategoryPage() {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [salons, setSalons] = useState<Salon[]>([]);
+  const [selectedSalon, setSelectedSalon] = useState<string>("");
+  const [rates, setRates] = useState<CategoryRate[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  
-  // Category form state
-  const [formData, setFormData] = useState({
-    name: "",
-  });
 
-  // Fetch categories on component mount
+  // New category form
+
+  // Per-card inline edit state
+  const [editingCatId, setEditingCatId] = useState<string | null>(null);
+  const [editingCatName, setEditingCatName] = useState("");
+
+  // Per-card inline rate edit
+  const [editingRateCatId, setEditingRateCatId] = useState<string | null>(null);
+  const [editingRateValue, setEditingRateValue] = useState("");
+
+  // Dialog state
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+
   useEffect(() => {
     fetchCategories();
+    fetchSalons();
   }, []);
+
+  useEffect(() => {
+    if (selectedSalon) fetchRates(selectedSalon);
+  }, [selectedSalon]);
 
   const fetchCategories = async () => {
     setIsLoading(true);
-    setError("");
     try {
-      const response = await fetch("/api/admin/categories");
-      if (!response.ok) throw new Error("Failed to fetch categories");
-      const data = await response.json();
-      setCategories(data);
-    } catch (err) {
-      setError("فشل في تحميل الفئات");
-      console.error("Error fetching categories:", err);
+      const res = await fetch("/api/admin/categories");
+      if (res.ok) setCategories(await res.json());
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError("");
-    
+  const fetchSalons = async () => {
     try {
-      if (activeTab === "edit" && editingCategory) {
-        // Update existing category
-        const response = await fetch("/api/admin/categories", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            id: editingCategory.cat_id,
-            category_name: formData.name,
-          }),
-        });
-
-        if (!response.ok) {
-          const data = await response.json();
-          throw new Error(data.error || "Failed to update category");
-        }
-
-        alert("تم تحديث الفئة بنجاح!");
-      } else {
-        // Add new category
-        const response = await fetch("/api/admin/categories", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            category_name: formData.name,
-          }),
-        });
-
-        const data = await response.json();
-        
-        if (data.status === 400) {
-          throw new Error(data.message || "Category already exists");
-        }
-
-        if (!response.ok) {
-          throw new Error("Failed to add category");
-        }
-
-        alert("تم إضافة الفئة بنجاح!");
+      const res = await fetch("/api/admin/salons");
+      if (res.ok) {
+        const data: Salon[] = await res.json();
+        setSalons(data);
+        if (data.length > 0) setSelectedSalon(data[0].salon_id);
       }
-      
-      // Refresh categories list
-      await fetchCategories();
-      
-      // Reset form and go back to list
-      handleReset();
-      setActiveTab("list");
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "حدث خطأ";
-      setError(errorMessage);
-      alert(errorMessage);
-    } finally {
-      setIsLoading(false);
+    } catch (e) {
+      console.error(e);
     }
   };
 
-  const handleReset = () => {
-    setFormData({
-      name: "",
-    });
-    setEditingCategory(null);
-  };
-
-  const handleEdit = (category: Category) => {
-    setEditingCategory(category);
-    setFormData({
-      name: category.cat_name,
-    });
-    setActiveTab("edit");
-  };
-
-  const handleDelete = async (id: string) => {
-    if (!confirm("هل أنت متأكد من حذف هذه الفئة؟")) {
-      return;
-    }
-
-    setIsLoading(true);
+  const fetchRates = async (salonId: string) => {
     try {
-      const response = await fetch("/api/admin/categories", {
+      const res = await fetch(`/api/admin/category-rates?salon_id=${salonId}`);
+      if (res.ok) setRates(await res.json());
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const getRateForCat = (catId: string): CategoryRate | undefined =>
+    rates.find((r) => r.cat_id === catId);
+
+  const formatRate = (rate: number) => {
+    if (Math.abs(rate - 1 / 3) < 0.001) return "33% (١/٣)";
+    if (rate === 0.25) return "25% (١/٤)";
+    if (rate === 0.5) return "50% (١/٢)";
+    if (Math.abs(rate - 2 / 3) < 0.001) return "67% (٢/٣)";
+    if (rate === 0.75) return "75% (٣/٤)";
+    return `${(rate * 100).toFixed(0)}%`;
+  };
+
+  // ── Inline rename ─────────────────────────────────────────
+  const startEditCat = (cat: Category) => {
+    setEditingCatId(cat.cat_id);
+    setEditingCatName(cat.cat_name);
+    setEditingRateCatId(null);
+  };
+
+  const saveEditCat = async (catId: string) => {
+    if (!editingCatName.trim()) return;
+    try {
+      const res = await fetch("/api/admin/categories", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: catId, category_name: editingCatName.trim() }),
+      });
+      if (!res.ok) { const d = await res.json(); alert(d.error); return; }
+      setEditingCatId(null);
+      fetchCategories();
+    } catch {
+      alert("فشل في تحديث الفئة");
+    }
+  };
+
+  // ── Delete category ───────────────────────────────────────
+  const handleDeleteCat = async (catId: string) => {
+    if (!confirm("هل أنت متأكد من حذف هذه الفئة؟")) return;
+    try {
+      const res = await fetch("/api/admin/categories", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id }),
+        body: JSON.stringify({ id: catId }),
       });
+      if (!res.ok) { const d = await res.json(); alert(d.error); return; }
+      fetchCategories();
+      if (selectedSalon) fetchRates(selectedSalon);
+    } catch {
+      alert("فشل في حذف الفئة");
+    }
+  };
 
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || "Failed to delete category");
+  // ── Inline rate edit ──────────────────────────────────────
+  const startEditRate = (cat: Category) => {
+    const existing = getRateForCat(cat.cat_id);
+    setEditingRateCatId(cat.cat_id);
+    setEditingRateValue(existing ? existing.rate.toString() : "");
+    setEditingCatId(null);
+  };
+
+  const saveRate = async (catId: string) => {
+    if (!selectedSalon) { alert("اختر صالون أولاً"); return; }
+    const rate = Number.parseFloat(editingRateValue);
+    if (Number.isNaN(rate) || rate < 0 || rate > 1) {
+      alert("النسبة يجب أن تكون بين 0 و 1 (مثال: 0.33)");
+      return;
+    }
+    try {
+      const existing = getRateForCat(catId);
+      if (existing) {
+        await fetch("/api/admin/category-rates", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ rate_id: existing.rate_id, rate }),
+        });
+      } else {
+        const res = await fetch("/api/admin/category-rates", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ salon_id: selectedSalon, cat_id: catId, rate }),
+        });
+        if (!res.ok) { const d = await res.json(); alert(d.error); return; }
       }
+      setEditingRateCatId(null);
+      fetchRates(selectedSalon);
+    } catch {
+      alert("فشل في حفظ النسبة");
+    }
+  };
 
-      alert("تم حذف الفئة بنجاح!");
-      
-      // Refresh categories list
-      await fetchCategories();
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "حدث خطأ";
-      alert(errorMessage);
-    } finally {
-      setIsLoading(false);
+  const deleteRate = async (catId: string) => {
+    const existing = getRateForCat(catId);
+    if (!existing || !confirm("هل تريد حذف نسبة هذه الفئة؟")) return;
+    try {
+      await fetch(`/api/admin/category-rates?rate_id=${existing.rate_id}`, { method: "DELETE" });
+      fetchRates(selectedSalon);
+    } catch {
+      alert("فشل في حذف النسبة");
     }
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6" dir="rtl">
       {/* Header */}
-      <div className="flex flex-col gap-2">
-        <h1 className="text-2xl md:text-3xl font-bold">إدارة الفئات</h1>
-        <p className="text-default-500">إضافة وتعديل وحذف فئات الخدمات</p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold">إدارة الفئات</h1>
+          <p className="text-default-500 text-sm mt-1">إضافة وتعديل الفئات ونسب الموظفين لكل صالون</p>
+        </div>
+        <Button color="primary" onPress={() => setIsAddDialogOpen(true)}>
+          + إضافة فئة جديدة
+        </Button>
       </div>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Card className="p-4">
-          <div className="flex justify-between items-center">
-            <div>
-              <p className="text-sm text-default-500">إجمالي الفئات</p>
-              <p className="text-2xl font-bold text-primary">{categories.length}</p>
-            </div>
-            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-              <span className="text-2xl">📂</span>
-            </div>
-          </div>
-        </Card>
-        <Card className="p-4">
-          <div className="flex justify-between items-center">
-            <div>
-              <p className="text-sm text-default-500">آخر تحديث</p>
-              <p className="text-sm font-medium text-default-700">
-                {new Date().toLocaleDateString("ar-EG")}
-              </p>
-            </div>
-            <div className="w-12 h-12 rounded-full bg-success/10 flex items-center justify-center">
-              <span className="text-2xl">�</span>
-            </div>
-          </div>
-        </Card>
+      {/* Stats bar */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <DashCard title="إجمالي الفئات" value={categories.length} icon="📂" />
+        <DashCard title="الصالونات" value={salons.length} icon="🏪" />
+        <DashCard title="فئات لها نسبة" value={rates.length} icon="✅" />
       </div>
 
-      {/* Tabs */}
-      <div className="flex gap-2 border-b border-default-200">
-        <button
-          className={`px-4 py-2 font-medium transition-colors ${
-            activeTab === "list"
-              ? "border-b-2 border-primary text-primary"
-              : "text-default-500 hover:text-default-900"
-          }`}
-          onClick={() => {
-            setActiveTab("list");
-            handleReset();
-          }}
-        >
-          جميع الفئات
-        </button>
-        <button
-          className={`px-4 py-2 font-medium transition-colors ${
-            activeTab === "add"
-              ? "border-b-2 border-primary text-primary"
-              : "text-default-500 hover:text-default-900"
-          }`}
-          onClick={() => {
-            setActiveTab("add");
-            handleReset();
-          }}
-        >
-          إضافة فئة
-        </button>
-        {activeTab === "edit" && (
-          <button
-            className="px-4 py-2 font-medium border-b-2 border-primary text-primary"
-          >
-            تعديل فئة
-          </button>
-        )}
-      </div>
-
-      {/* List Categories Tab */}
-      {activeTab === "list" && (
-        <Card className="p-4 md:p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold">جميع الفئات ({categories.length})</h2>
-            <button
-              className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50"
-              onClick={() => setActiveTab("add")}
-              disabled={isLoading}
-            >
-              + إضافة فئة جديدة
-            </button>
-          </div>
-
-          {error && (
-            <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-lg">
-              {error}
-            </div>
-          )}
-
-          {isLoading && (
-            <div className="flex justify-center items-center py-8">
-              <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
-            </div>
-          )}
-
-          {!isLoading && categories.length === 0 && (
-            <div className="text-center py-8 text-gray-500">
-              لا توجد فئات. قم بإضافة فئة جديدة للبدء.
-            </div>
-          )}
-
-          {!isLoading && categories.length > 0 && (
-            <div className="overflow-x-auto">
-              <Table aria-label="جدول الفئات">
-                <TableHeader>
-                  <TableColumn>اسم الفئة</TableColumn>
-                  <TableColumn>الإجراءات</TableColumn>
-                </TableHeader>
-                <TableBody>
-                  {categories.map((category) => (
-                    <TableRow key={category.cat_id}>
-                      <TableCell className="font-medium">{category.cat_name}</TableCell>
-                      <TableCell>
-                        <div className="flex gap-2">
-                          <button
-                            className="text-primary hover:text-primary-600 text-sm disabled:opacity-50"
-                            onClick={() => handleEdit(category)}
-                            disabled={isLoading}
-                          >
-                            تعديل
-                          </button>
-                          <button
-                            className="text-danger hover:text-danger-600 text-sm disabled:opacity-50"
-                            onClick={() => handleDelete(category.cat_id)}
-                            disabled={isLoading}
-                          >
-                            حذف
-                          </button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          )}
-        </Card>
-      )}
-
-      {/* Add/Edit Category Tab */}
-      {(activeTab === "add" || activeTab === "edit") && (
-        <Card className="p-4 md:p-6">
-          <h2 className="text-xl font-semibold mb-4">
-            {activeTab === "add" ? "إضافة فئة جديدة" : "تعديل الفئة"}
-          </h2>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Category Information */}
-            <div className="space-y-4">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-2">
-                  اسم الفئة <span className="text-danger">*</span>
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  className="w-full px-3 py-2 border border-default-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                  value={formData.name}
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                  required
-                  placeholder="مثال: قص الشعر"
-                />
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex justify-end gap-3 pt-4 border-t">
-              <button
-                type="button"
-                className="px-6 py-2 border border-default-300 rounded-lg hover:bg-default-100 transition-colors"
-                onClick={handleReset}
-              >
-                إعادة تعيين
-              </button>
-              <button
-                type="button"
-                className="px-6 py-2 border border-default-300 rounded-lg hover:bg-default-100 transition-colors"
-                onClick={() => {
-                  setActiveTab("list");
-                  handleReset();
+      {/* Salon selector */}
+      <Card>
+        <CardBody className="p-4">
+          <div className="flex flex-col sm:flex-row sm:items-end gap-4">
+            <div className="flex-1 max-w-sm">
+              <Select
+                placeholder="اختر الصالون"
+                variant="bordered"
+                size="sm"
+                startContent={<span className="text-default-400">🏪</span>}
+                selectedKeys={selectedSalon ? new Set([selectedSalon]) : new Set()}
+                onSelectionChange={(keys) => {
+                  const val = Array.from(keys)[0] as string;
+                  if (val) setSelectedSalon(val);
                 }}
+                items={salons.map((s) => ({
+                  key: s.salon_id,
+                  label: s.name + (s.site ? ` — ${s.site}` : ""),
+                }))}
               >
-                إلغاء
-              </button>
-              <Button type="submit" color="primary" className="px-8" disabled={isLoading}>
-                {isLoading && "جاري الحفظ..."}
-                {!isLoading && activeTab === "add" && "إضافة الفئة"}
-                {!isLoading && activeTab === "edit" && "حفظ التعديلات"}
-              </Button>
+                {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
+              </Select>
             </div>
-          </form>
+            {selectedSalon && (
+              <div className="flex items-center gap-2 pb-1">
+                <Chip size="sm" variant="flat" color="success">
+                  {rates.length} فئة لها نسبة
+                </Chip>
+                <Chip size="sm" variant="flat" color="default">
+                  {categories.length - rates.length} بدون نسبة
+                </Chip>
+              </div>
+            )}
+          </div>
+        </CardBody>
+      </Card>
+
+      {/* Categories grid */}
+      {isLoading && (
+        <div className="flex justify-center py-16">
+          <div className="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+        </div>
+      )}
+
+      {!isLoading && categories.length === 0 && (
+        <Card>
+          <CardBody className="py-16 flex flex-col items-center gap-3 text-default-400">
+            <span className="text-5xl">📂</span>
+            <p className="font-medium">لا توجد فئات</p>
+            <p className="text-sm">أضف فئة جديدة بالضغط على الزر أعلاه</p>
+          </CardBody>
         </Card>
       )}
 
-      {/* Info Card */}
-      {activeTab === "list" && (
-        <Card className="p-4 md:p-6 bg-primary/5">
-          <div className="flex items-start gap-3">
-            <span className="text-2xl">ℹ️</span>
-            <div>
-              <h3 className="font-semibold mb-2">نصائح لإدارة الفئات</h3>
-              <ul className="text-sm text-default-600 space-y-1 list-disc list-inside">
-                <li>استخدم أسماء واضحة ومختصرة للفئات</li>
-                <li>اختر أيقونات مناسبة تعبر عن كل فئة</li>
-                <li>يمكنك تعطيل الفئة بدلاً من حذفها للحفاظ على البيانات</li>
-                <li>عند حذف فئة، تأكد من نقل الخدمات المرتبطة بها إلى فئة أخرى</li>
-              </ul>
-            </div>
-          </div>
-        </Card>
+      {!isLoading && categories.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {categories.map((cat) => {
+            const existingRate = getRateForCat(cat.cat_id);
+            const isEditingName = editingCatId === cat.cat_id;
+            const isEditingRate = editingRateCatId === cat.cat_id;
+
+            return (
+              <CategoryCard
+                key={cat.cat_id}
+                cat={cat}
+                existingRate={existingRate}
+                selectedSalon={selectedSalon}
+                isEditingName={isEditingName}
+                isEditingRate={isEditingRate}
+                editingCatName={editingCatName}
+                editingRateValue={editingRateValue}
+                formatRate={formatRate}
+                onCatNameChange={setEditingCatName}
+                onRateValueChange={setEditingRateValue}
+                onSaveEditName={() => saveEditCat(cat.cat_id)}
+                onCancelEditName={() => setEditingCatId(null)}
+                onSaveRate={() => saveRate(cat.cat_id)}
+                onCancelEditRate={() => setEditingRateCatId(null)}
+                onDeleteRate={() => deleteRate(cat.cat_id)}
+                onStartEditName={() => startEditCat(cat)}
+                onStartEditRate={() => startEditRate(cat)}
+                onDelete={() => handleDeleteCat(cat.cat_id)}
+              />
+            );
+          })}
+        </div>
       )}
+
+      <AddCatDialog
+        isOpen={isAddDialogOpen}
+        onClose={() => setIsAddDialogOpen(false)}
+        onSuccess={fetchCategories}
+      />
     </div>
   );
 }

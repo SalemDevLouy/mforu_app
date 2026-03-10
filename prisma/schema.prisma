@@ -2,87 +2,93 @@ generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
+
 datasource db {
   provider = "postgresql"
 }
 
 model RoleTable {
-  role_id      String   @id @default(uuid())
-  role_name    String   @unique
+  role_id   String @id @default(uuid())
+  role_name String @unique
 
-  users        User[]
+  users User[]
 }
-model Categories {
-  cat_id  String @id @default(uuid())
-  cat_name  String
 
-  subtasks SubTask[]
+model Categories {
+  cat_id   String @id @default(uuid())
+  cat_name String
+
+  subtasks      SubTask[]
   contributions Contribution[]
+  categoryRates CategoryRate[]
 }
 
 model Constants {
   const_id    String   @id @default(uuid())
-  const_name  String   
+  const_name  String
   const_value Float
   repetation  String
   status      String?
   salon_id    String?
-  started_at  DateTime 
-  
-  salon       Salon?   @relation(fields: [salon_id], references: [salon_id])
+  started_at  DateTime
+
+  salon Salon? @relation(fields: [salon_id], references: [salon_id])
 }
 
 model User {
-  user_id   String   @id @default(uuid())
-  name      String
-  phone     String?  @unique
-  password  String
-  role_id   String?
-  status    String?
-  salon_id  String?
+  user_id  String  @id @default(uuid())
+  name     String
+  phone    String? @unique
+  password String
+  role_id  String?
+  status   String?
+  salon_id String?
 
-  role          RoleTable? @relation(fields: [role_id], references: [role_id])
-  salon         Salon?     @relation("SalonUsers", fields: [salon_id], references: [salon_id])
-  ownedSalons   Salon[]    @relation("SalonOwner")
-  withdrawals   withdrawal[]
+  role        RoleTable?   @relation(fields: [role_id], references: [role_id])
+  salon       Salon?       @relation("SalonUsers", fields: [salon_id], references: [salon_id])
+  ownedSalons Salon[]      @relation("SalonOwner")
 }
 
 model Salon {
-  salon_id   String   @id @default(uuid())
-  name       String
-  site       String?
-  owner_id   String?
+  salon_id String  @id @default(uuid())
+  name     String
+  site     String?
+  owner_id String?
 
-  owner        User?    @relation("SalonOwner", fields: [owner_id], references: [user_id])
-  users        User[]   @relation("SalonUsers")
-  employees    Employee[]
-  services     ServiceAction[]
-  reservations Reservation[]
-  expenses     Expense[]
-  constants    Constants[]
+  owner         User?           @relation("SalonOwner", fields: [owner_id], references: [user_id])
+  users         User[]          @relation("SalonUsers")
+  clients       Client[]
+  employees     Employee[]
+  services      ServiceAction[]
+  reservations  Reservation[]
+  expenses      Expense[]
+  constants     Constants[]
+  categoryRates CategoryRate[]
+  withdrawals   withdrawal[]
 }
 
 model Client {
-  client_id String   @id @default(uuid())
+  client_id String  @id @default(uuid())
+  salon_id  String
   name      String
   phone     String?
   notes     String?
-  
+
+  salon        Salon           @relation(fields: [salon_id], references: [salon_id])
   services     ServiceAction[]
   debts        Debt[]
   reservations Reservation[]
 }
 
 model Employee {
-  emp_id   String   @id @default(uuid())
-  emp_name String
-  role     String?
-  field    String?
-  salon_id String
+  emp_id    String  @id @default(uuid())
+  emp_name  String
+  emp_phone String?
+  salon_id  String
 
-  salon    Salon   @relation(fields: [salon_id], references: [salon_id])
-  tasks    SubTask[]
-  withdrawals withdrawal[]
+  salon         Salon          @relation(fields: [salon_id], references: [salon_id])
+  tasks         SubTask[]
+  withdrawals   withdrawal[]
   contributions Contribution[]
 }
 
@@ -94,8 +100,8 @@ model ServiceAction {
   date        DateTime
   notes       String?
 
-  client Client @relation(fields: [client_id], references: [client_id])
-  salon  Salon  @relation(fields: [salon_id], references: [salon_id])
+  client Client    @relation(fields: [client_id], references: [client_id])
+  salon  Salon     @relation(fields: [salon_id], references: [salon_id])
   tasks  SubTask[]
 }
 
@@ -106,13 +112,13 @@ model SubTask {
   sub_price  Float
   cat_id     String
 
-  category Categories    @relation(fields: [cat_id] , references: [cat_id])
+  category Categories    @relation(fields: [cat_id], references: [cat_id])
   service  ServiceAction @relation(fields: [service_id], references: [service_id])
   employee Employee      @relation(fields: [emp_id], references: [emp_id])
 }
 
 model Debt {
-  debt_id   String   @id @default(uuid())
+  debt_id   String    @id @default(uuid())
   client_id String
   date_reg  DateTime
   date_exp  DateTime?
@@ -123,10 +129,12 @@ model Debt {
 }
 
 model Reservation {
-  reservation_id String   @id @default(uuid())
+  reservation_id String   @id @default(cuid())
   client_id      String
   salon_id       String
-  date           DateTime
+  date_register  DateTime @default(now())
+  date_exploit   DateTime
+  deposit        Float    @default(0)
   status         String
 
   client Client @relation(fields: [client_id], references: [client_id])
@@ -134,33 +142,49 @@ model Reservation {
 }
 
 model Expense {
-  exp_id   String   @id @default(uuid())
-  salon_id String
-  date     DateTime
-  status   String
-  exp_type String
-  exp_val  Float
+  exp_id      String   @id @default(uuid())
+  salon_id    String
+  date        DateTime
+  status      String
+  exp_type    String
+  exp_val     Float
+  description String?
 
-  salon    Salon    @relation(fields: [salon_id], references: [salon_id])
+  salon Salon @relation(fields: [salon_id], references: [salon_id])
 }
 
-model  withdrawal {
+model withdrawal {
   withdraw_id String   @id @default(uuid())
-  user_id     String 
+  salon_id    String
   emp_id      String
   date        DateTime
   amount      Float
 
-  user       User     @relation(fields: [user_id], references: [user_id])
-  employee   Employee @relation(fields: [emp_id], references: [emp_id])
+  salon    Salon    @relation(fields: [salon_id], references: [salon_id])
+  employee Employee @relation(fields: [emp_id], references: [emp_id])
 }
 
 model Contribution {
-  contribution_id String   @id @default(uuid())
+  contribution_id String @id @default(uuid())
   category_id     String
-  emp_id         String
-  
+  emp_id          String
+
   category Categories @relation(fields: [category_id], references: [cat_id])
-  employee     Employee       @relation(fields: [emp_id], references: [emp_id])
+  employee Employee   @relation(fields: [emp_id], references: [emp_id])
 }
 
+model CategoryRate {
+  rate_id    String   @id @default(uuid())
+  salon_id   String
+  cat_id     String
+  rate       Float // النسبة من 0 إلى 1 (مثال: 0.33 يعني 1/3)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  salon    Salon      @relation(fields: [salon_id], references: [salon_id], onDelete: Cascade)
+  category Categories @relation(fields: [cat_id], references: [cat_id], onDelete: Cascade)
+
+  @@unique([salon_id, cat_id])
+  @@index([salon_id])
+  @@index([cat_id])
+}
