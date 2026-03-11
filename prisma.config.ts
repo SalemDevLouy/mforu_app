@@ -8,6 +8,6 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    url:  "postgresql://postgres:salem@127.0.0.1:5432/mforu_app?schema=public"
+    url:  "postgresql://neondb_owner:npg_gTHFcA3npU8s@ep-damp-mouse-adm04q4r.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&connect_timeout=15"
   },
 });

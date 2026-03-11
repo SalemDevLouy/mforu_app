@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { parseAmount } from "@/lib/math";
 
 // GET /api/admin/constant?salon_id=xxx&status=active
 export async function GET(request: NextRequest) {
@@ -47,7 +48,7 @@ export async function POST(request: NextRequest) {
     const constant = await prisma.constants.create({
       data: {
         const_name:  const_name.trim(),
-        const_value: Number.parseFloat(const_value),
+        const_value: parseAmount(const_value),
         repetation,
         status:      status || "active",
         salon_id:    salon_id || null,
@@ -81,7 +82,7 @@ export async function PUT(request: NextRequest) {
       where: { const_id },
       data: {
         ...(const_name  && { const_name: const_name.trim() }),
-        ...(const_value && { const_value: Number.parseFloat(const_value) }),
+        ...(const_value && { const_value: parseAmount(const_value) }),
         ...(repetation  && { repetation }),
         ...(status !== undefined && { status }),
         ...(salon_id !== undefined && { salon_id: salon_id || null }),

@@ -8,6 +8,7 @@ import {
   ModalFooter,
 } from "@heroui/modal";
 import { Client, Debt } from "../types";
+import { sum, toFixed2 } from "@/lib/math";
 
 interface DebtsModalProps {
   isOpen: boolean;
@@ -42,20 +43,14 @@ export default function DebtsModal({
                 <div>
                   <p className="text-xs text-default-500">ديون على العميل</p>
                   <p className="text-xl font-bold text-danger">
-                    {debts
-                      .filter((d) => d.status === "pending")
-                      .reduce((sum, d) => sum + d.amount, 0)
-                      .toFixed(2)}{" "}
+                    {toFixed2(sum(debts.filter((d) => d.status === "pending").map((d) => d.amount)))}{" "}
                     دج
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-default-500">فكة مستحقة للعميل</p>
                   <p className="text-xl font-bold text-amber-600">
-                    {debts
-                      .filter((d) => d.status === "credit")
-                      .reduce((sum, d) => sum + d.amount, 0)
-                      .toFixed(2)}{" "}
+                    {toFixed2(sum(debts.filter((d) => d.status === "credit").map((d) => d.amount)))}{" "}
                     دج
                   </p>
                 </div>

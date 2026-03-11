@@ -23,7 +23,6 @@ export default function Page() {
     addTask,
     removeTask,
     handleTaskChange,
-    handleEmployeeToggle,
     getTotalPrice,
     getRemainingAmount,
     submitting,
@@ -33,6 +32,7 @@ export default function Page() {
     todayTotal,
     selectedDate,
     setSelectedDate,
+    refresh,
   } = useAddService();
 
   return (
@@ -60,7 +60,6 @@ export default function Page() {
           addTask={addTask}
           removeTask={removeTask}
           handleTaskChange={handleTaskChange}
-          handleEmployeeToggle={handleEmployeeToggle}
           categories={categories}
           employees={employees}
           loadingCategories={loadingCategories}
@@ -78,6 +77,7 @@ export default function Page() {
         todayTotal={todayTotal}
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
+        onRefresh={refresh}
       />
     </div>
   );

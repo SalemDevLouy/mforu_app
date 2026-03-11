@@ -56,6 +56,29 @@ export interface SubmitServiceResult {
   [key: string]: unknown;
 }
 
+export async function updateService(
+  service_id: string,
+  data: { notes?: string | null; price_total?: number }
+): Promise<void> {
+  const res = await fetch("/api/salon/addservice", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ service_id, ...data }),
+  });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || "فشل تحديث الخدمة");
+}
+
+export async function deleteService(service_id: string): Promise<void> {
+  const res = await fetch("/api/salon/addservice", {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ service_id }),
+  });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || "فشل حذف الخدمة");
+}
+
 export async function submitService(
   payload: SubmitServicePayload
 ): Promise<SubmitServiceResult> {

@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Button } from "@heroui/button";
 import { WithdrawalFilters } from "./types";
+import { parseAmount } from "@/lib/math";
 import { useWithdrawals } from "./hooks/useWithdrawals";
 import { useEmployees } from "./hooks/useEmployees";
 import { WithdrawalStatsCards } from "./components/WithdrawalStatsCards";
@@ -40,7 +41,7 @@ export default function WithdrawalsPage() {
     await addWithdrawal({
       salon_id: salonId,
       emp_id: formData.emp_id,
-      amount: Number.parseFloat(formData.amount),
+      amount: parseAmount(formData.amount),
       date: formData.date,
     });
   };

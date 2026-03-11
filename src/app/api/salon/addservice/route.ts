@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { sum, sub, mul, div } from "@/lib/math";
 
 // GET /api/salon/addservice?salon_id=...&date=YYYY-MM-DD
 export async function GET(request: NextRequest) {
@@ -52,7 +53,7 @@ export async function GET(request: NextRequest) {
       };
     });
 
-    const todayTotal = result.reduce((sum, s) => sum + s.price_total, 0);
+    const todayTotal = sum(result.map((s) => s.price_total));
 
     return NextResponse.json({ success: true, services: result, todayTotal });
   } catch (error) {
@@ -159,8 +160,8 @@ export async function POST(request: NextRequest) {
     const categoryRateMap = new Map(categoryRates.map((cr) => [cr.cat_id, cr.rate]));
 
     // --- Compute price total ---
-    const priceTotal = tasks.reduce((sum, t) => sum + (t.price || 0), 0);
-    const remaining = priceTotal - paidAmount;
+    const priceTotal = sum(tasks.map((t) => t.price || 0));
+    const remaining = sub(priceTotal, paidAmount);
 
     // --- Create ServiceAction + SubTasks + optional Debt in one transaction ---
     const result = await prisma.$transaction(async (tx) => {
@@ -179,8 +180,8 @@ export async function POST(request: NextRequest) {
       //    sub_price = (task.price × CategoryRate.rate) / employeeIds.length
       const subTaskData = tasks.flatMap((task) => {
         const rate = categoryRateMap.get(task.cat_id) ?? 1;  // default 1 = full price when no rate configured
-        const employeePool = task.price * rate;
-        const perEmployee = employeePool / task.employeeIds.length;
+        const employeePool = mul(task.price, rate);
+        const perEmployee = div(employeePool, task.employeeIds.length);
         return task.employeeIds.map((emp_id) => ({
           service_id: service.service_id,
           emp_id,
@@ -239,5 +240,52 @@ export async function POST(request: NextRequest) {
       { error: "حدث خطأ أثناء تسجيل الخدمة" },
       { status: 500 }
     );
+  }
+}
+
+// PUT /api/salon/addservice — update notes and/or price_total of an existing service
+export async function PUT(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { service_id, notes, price_total }: { service_id: string; notes?: string | null; price_total?: number } = body;
+
+    if (!service_id) {
+      return NextResponse.json({ error: "service_id مطلوب" }, { status: 400 });
+    }
+
+    const updated = await prisma.serviceAction.update({
+      where: { service_id },
+      data: {
+        notes: notes === undefined ? undefined : (notes?.trim() || null),
+        ...(price_total !== undefined && price_total > 0 ? { price_total } : {}),
+      },
+    });
+
+    return NextResponse.json({ success: true, service: updated });
+  } catch (error) {
+    console.error("Error updating service:", error);
+    return NextResponse.json({ error: "حدث خطأ أثناء تحديث الخدمة" }, { status: 500 });
+  }
+}
+
+// DELETE /api/salon/addservice — delete a service and all its sub-tasks
+export async function DELETE(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { service_id }: { service_id: string } = body;
+
+    if (!service_id) {
+      return NextResponse.json({ error: "service_id مطلوب" }, { status: 400 });
+    }
+
+    await prisma.$transaction([
+      prisma.subTask.deleteMany({ where: { service_id } }),
+      prisma.serviceAction.delete({ where: { service_id } }),
+    ]);
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Error deleting service:", error);
+    return NextResponse.json({ error: "حدث خطأ أثناء حذف الخدمة" }, { status: 500 });
   }
 }

@@ -13,6 +13,7 @@ export async function GET(
     const salons = await prisma.salon.findMany({
       select: {
         salon_id: true,
+        name: true,
         site: true,
         owner: {
           select: {

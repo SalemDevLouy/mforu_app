@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { sum, add, parseAmount } from "@/lib/math";
 
 // GET /api/salon/expenses - Get all expenses for a salon
 export async function GET(request: NextRequest) {
@@ -35,9 +36,9 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    const totalExpenses = expenses.reduce((sum, exp) => sum + exp.exp_val, 0);
+    const totalExpenses = sum(expenses.map((exp) => exp.exp_val));
     const expensesByType = expenses.reduce((acc, exp) => {
-      acc[exp.exp_type] = (acc[exp.exp_type] || 0) + exp.exp_val;
+      acc[exp.exp_type] = add(acc[exp.exp_type] ?? 0, exp.exp_val);
       return acc;
     }, {} as Record<string, number>);
 
@@ -90,7 +91,7 @@ export async function POST(request: NextRequest) {
       data: {
         salon_id,
         exp_type: exp_type.trim(),
-        exp_val: Number.parseFloat(exp_val),
+        exp_val: parseAmount(exp_val),
         date: date ? new Date(date) : new Date(),
         status: status || "paid",
         description: description?.trim() || null,
@@ -146,7 +147,7 @@ export async function PUT(request: NextRequest) {
       where: { exp_id },
       data: {
         ...(exp_type && { exp_type: exp_type.trim() }),
-        ...(exp_val && { exp_val: Number.parseFloat(exp_val) }),
+        ...(exp_val && { exp_val: parseAmount(exp_val) }),
         ...(date && { date: new Date(date) }),
         ...(status && { status }),
         description: description !== undefined ? (description?.trim() || null) : undefined,

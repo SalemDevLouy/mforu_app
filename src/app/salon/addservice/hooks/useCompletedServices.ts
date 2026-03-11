@@ -7,9 +7,12 @@ export function useCompletedServices(salonId: string, refreshKey: number) {
   const [completedServices, setCompletedServices] = useState<CompletedService[]>([]);
   const [loadingCompleted, setLoadingCompleted] = useState(false);
   const [todayTotal, setTodayTotal] = useState(0);
+  const [localKey, setLocalKey] = useState(0);
   const [selectedDate, setSelectedDate] = useState<string>(
     new Date().toISOString().split("T")[0]
   );
+
+  const refresh = () => setLocalKey((k) => k + 1);
 
   useEffect(() => {
     const load = () => {
@@ -25,7 +28,7 @@ export function useCompletedServices(salonId: string, refreshKey: number) {
     };
 
     load();
-  }, [salonId, selectedDate, refreshKey]);
+  }, [salonId, selectedDate, refreshKey, localKey]);
 
-  return { completedServices, loadingCompleted, todayTotal, selectedDate, setSelectedDate };
+  return { completedServices, loadingCompleted, todayTotal, selectedDate, setSelectedDate, refresh };
 }

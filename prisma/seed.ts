@@ -3,7 +3,7 @@ import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
 import bcrypt from "bcryptjs";
 
-const connectionString = "postgresql://postgres:salem@127.0.0.1:5432/mforu_app?schema=public";
+const connectionString = "postgresql://neondb_owner:npg_gTHFcA3npU8s@ep-damp-mouse-adm04q4r.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
 const pool = new Pool({ connectionString });
 const adapter = new PrismaPg(pool);
 

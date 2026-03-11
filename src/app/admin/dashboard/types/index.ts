@@ -2,6 +2,7 @@ type ViewMode = "grid" | "table";
 
 interface ApiSalon {
   salon_id: string;
+  name: string;
   site: string | null;
   owner: {
     name: string;

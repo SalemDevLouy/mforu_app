@@ -1,6 +1,7 @@
 import React from "react";
 import { Card } from "@heroui/card";
 import { Client } from "../types";
+import { sum } from "@/lib/math";
 
 interface ClientStatsProps {
   clients: Client[];
@@ -10,8 +11,8 @@ export default function ClientStats({ clients }: Readonly<ClientStatsProps>) {
   const totalClientsWithDebt = clients.filter(
     (c) => c.totalDebt && c.totalDebt > 0
   ).length;
-  const totalDebtAmount = clients.reduce((sum, c) => sum + (c.totalDebt || 0), 0);
-  const totalCreditAmount = clients.reduce((sum, c) => sum + (c.totalCredit || 0), 0);
+  const totalDebtAmount   = sum(clients.map((c) => c.totalDebt ?? 0));
+  const totalCreditAmount = sum(clients.map((c) => c.totalCredit ?? 0));
   const totalClientsWithCredit = clients.filter(
     (c) => c.totalCredit && c.totalCredit > 0
   ).length;

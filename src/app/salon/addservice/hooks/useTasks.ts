@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { TaskItem } from "../types";
+import { parseAmount, sum } from "@/lib/math";
 
 const emptyTask = (): TaskItem => ({
   id: Date.now(),
@@ -39,7 +40,7 @@ export function useTasks() {
   };
 
   const getTotalPrice = () =>
-    tasks.reduce((sum, t) => sum + (Number.parseFloat(t.price) || 0), 0);
+    sum(tasks.map((t) => parseAmount(t.price)));
 
   const resetTasks = () => setTasks([emptyTask()]);
 

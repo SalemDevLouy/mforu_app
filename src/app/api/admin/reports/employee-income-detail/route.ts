@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { sum, sub, add } from "@/lib/math";
 
 // GET /api/admin/reports/employee-income - Get employee income report
 export async function GET(request: NextRequest) {
@@ -115,9 +116,9 @@ export async function GET(request: NextRequest) {
     }
 
     // Calculate totals
-    const totalEarned = employee.tasks.reduce((sum, task) => sum + task.sub_price, 0);
-    const totalWithdrawn = employee.withdrawals.reduce((sum, withdrawal) => sum + withdrawal.amount, 0);
-    const balance = totalEarned - totalWithdrawn;
+    const totalEarned    = sum(employee.tasks.map((task) => task.sub_price));
+    const totalWithdrawn = sum(employee.withdrawals.map((withdrawal) => withdrawal.amount));
+    const balance        = sub(totalEarned, totalWithdrawn);
 
     // Group tasks by category
     const tasksByCategory = employee.tasks.reduce((acc, task) => {
@@ -131,7 +132,7 @@ export async function GET(request: NextRequest) {
         };
       }
       acc[category].count++;
-      acc[category].total += task.sub_price;
+      acc[category].total = add(acc[category].total, task.sub_price);
       acc[category].tasks.push({
         task_id: task.task_id,
         amount: task.sub_price,

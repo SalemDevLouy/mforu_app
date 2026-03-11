@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { sum, parseAmount } from "@/lib/math";
 
 // GET /api/salon/withdrawals - Get all withdrawals
 export async function GET(request: NextRequest) {
@@ -35,7 +36,7 @@ export async function GET(request: NextRequest) {
       orderBy: { date: "desc" },
     });
 
-    const totalWithdrawals = withdrawals.reduce((sum, w) => sum + w.amount, 0);
+    const totalWithdrawals = sum(withdrawals.map((w) => w.amount));
 
     return NextResponse.json({
       success: true,
@@ -97,7 +98,7 @@ export async function POST(request: NextRequest) {
       data: {
         salon_id,
         emp_id,
-        amount: Number.parseFloat(amount),
+        amount: parseAmount(amount),
         date: date ? new Date(date) : new Date(),
       },
       include: {
@@ -155,7 +156,7 @@ export async function PUT(request: NextRequest) {
     const updatedWithdrawal = await prisma.withdrawal.update({
       where: { withdraw_id },
       data: {
-        ...(amount && { amount: Number.parseFloat(amount) }),
+        ...(amount && { amount: parseAmount(amount) }),
         ...(date && { date: new Date(date) }),
       },
       include: {

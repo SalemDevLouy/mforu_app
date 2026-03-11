@@ -23,8 +23,8 @@ function getStatusColor(status?: string | null): "success" | "warning" | "danger
 }
 
 export default function SalonCard({ salon }: { salon: ApiSalon }) {
-  const initials = salon.owner?.name
-    ? salon.owner.name.split(' ').map((w) => w[0]).slice(0, 2).join('')
+  const initials = salon.name
+    ? salon.name.split(' ').map((w) => w[0]).slice(0, 2).join('')
     : '?'
 
   return (
@@ -40,7 +40,7 @@ export default function SalonCard({ salon }: { salon: ApiSalon }) {
           </div>
           <div className="flex-1 min-w-0">
             <h3 className="text-base font-semibold text-default-900 truncate">
-              {salon.owner?.name ?? '—'}
+              {salon.name}
             </h3>
             <p className="text-xs text-default-400 mt-0.5 flex items-center gap-1">
               <span>📍</span>
@@ -62,7 +62,12 @@ export default function SalonCard({ salon }: { salon: ApiSalon }) {
         {/* Info rows */}
         <div className="space-y-2 text-sm">
           <div className="flex items-center gap-2">
-            <span className="text-default-400 w-5 text-center">📞</span>
+            <span className="text-default-400 w-5 text-center">�</span>
+            <span className="text-default-500">المالك:</span>
+            <span className="text-default-700 font-medium">{salon.owner?.name ?? '—'}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-default-400 w-5 text-center">�📞</span>
             <span className="text-default-500">الهاتف:</span>
             <span className="text-default-700 font-medium">{salon.owner?.phone ?? '—'}</span>
           </div>

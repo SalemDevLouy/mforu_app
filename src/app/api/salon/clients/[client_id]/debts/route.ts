@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { sum, parseAmount } from "@/lib/math";
 
 // GET /api/salon/clients/[client_id]/debts - Get client debts
 export async function GET(
@@ -29,7 +30,7 @@ export async function GET(
       },
     });
 
-    const totalDebt = debts.reduce((sum, debt) => sum + debt.debt_val, 0);
+    const totalDebt = sum(debts.map((debt) => debt.debt_val));
 
     return NextResponse.json({
       success: true,
@@ -86,7 +87,7 @@ export async function POST(
     const debt = await prisma.debt.create({
       data: {
         client_id,
-        debt_val: Number.parseFloat(debt_val),
+        debt_val: parseAmount(debt_val),
         date_reg: new Date(),
         date_exp: date_exp ? new Date(date_exp) : null,
         status: "pending",

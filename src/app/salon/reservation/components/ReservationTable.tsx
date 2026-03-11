@@ -49,9 +49,8 @@ export function ReservationTable({
                   })}
                 </TableCell>
                 <TableCell>
-                  {new Date(r.date_exploit).toLocaleString("ar-DZ", {
+                  {new Date(r.date_exploit).toLocaleDateString("ar-DZ", {
                     dateStyle: "short",
-                    timeStyle: "short",
                   })}
                 </TableCell>
                 <TableCell>

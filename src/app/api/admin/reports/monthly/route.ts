@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { sum, sub, mul, div, add } from "@/lib/math";
 
 // GET /api/admin/reports/monthly - Get monthly report for a specific salon
 export async function GET(request: NextRequest) {
@@ -81,7 +82,7 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    const totalIncome = services.reduce((sum, service) => sum + service.price_total, 0);
+    const totalIncome = sum(services.map((service) => service.price_total));
 
     // Get total expenses
     const expenses = await prisma.expense.findMany({
@@ -100,7 +101,7 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    const totalExpenses = expenses.reduce((sum, expense) => sum + expense.exp_val, 0);
+    const totalExpenses = sum(expenses.map((expense) => expense.exp_val));
 
     // Get constants (recurring expenses like rent, utilities, etc.)
     const constants = await prisma.constants.findMany({
@@ -117,23 +118,15 @@ export async function GET(request: NextRequest) {
     });
 
     // Calculate constants total based on repetition
-    const constantsTotal = constants.reduce((sum, constant) => {
+    const constantsTotal = constants.reduce((acc, constant) => {
       if (month) {
-        // Monthly report
-        if (constant.repetation === "MONTHLY") {
-          return sum + constant.const_value;
-        } else if (constant.repetation === "YEARLY") {
-          return sum + constant.const_value / 12; // Divide yearly by 12 months
-        }
+        if (constant.repetation === "MONTHLY") return add(acc, constant.const_value);
+        if (constant.repetation === "YEARLY")  return add(acc, div(constant.const_value, 12));
       } else if (year) {
-        // Yearly report
-        if (constant.repetation === "MONTHLY") {
-          return sum + constant.const_value * 12;
-        } else if (constant.repetation === "YEARLY") {
-          return sum + constant.const_value;
-        }
+        if (constant.repetation === "MONTHLY") return add(acc, mul(constant.const_value, 12));
+        if (constant.repetation === "YEARLY")  return add(acc, constant.const_value);
       }
-      return sum;
+      return acc;
     }, 0);
 
     // Build a cat_id → rate map from the salon's CategoryRate table
@@ -212,9 +205,9 @@ export async function GET(request: NextRequest) {
     }
 
     const employeeIncomeDetails = employeeIncomes.map((employee) => {
-      const totalEarned = employee.tasks.reduce((sum, task) => sum + task.sub_price, 0);
-      const totalWithdrawn = employee.withdrawals.reduce((sum, withdrawal) => sum + withdrawal.amount, 0);
-      const balance = totalEarned - totalWithdrawn;
+      const totalEarned    = sum(employee.tasks.map((task) => task.sub_price));
+      const totalWithdrawn = sum(employee.withdrawals.map((withdrawal) => withdrawal.amount));
+      const balance        = sub(totalEarned, totalWithdrawn);
 
       return {
         emp_id: employee.emp_id,
@@ -242,10 +235,10 @@ export async function GET(request: NextRequest) {
       };
     });
 
-    const totalEmployeeIncome = employeeIncomeDetails.reduce((sum, emp) => sum + emp.total_earned, 0);
+    const totalEmployeeIncome = sum(employeeIncomeDetails.map((emp) => emp.total_earned));
 
     // Calculate net profit
-    const netProfit = totalIncome - totalExpenses - constantsTotal;
+    const netProfit = sub(sub(totalIncome, totalExpenses), constantsTotal);
 
     // eslint-disable-next-line unicorn/no-nested-ternary
     let periodType = "monthly";

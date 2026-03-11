@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { sub, neg, sum, parseAmount } from "@/lib/math";
 
 // Helper function to process credit payment
 async function processCreditPayment(
@@ -24,7 +25,7 @@ async function processCreditPayment(
         where: { debt_id: debt.debt_id },
         data: { status: "paid" },
       });
-      remainingCredit -= debt.debt_val;
+      remainingCredit = sub(remainingCredit, debt.debt_val);
       updatedDebts.push({
         debt_id: debt.debt_id,
         amount: debt.debt_val,
@@ -32,7 +33,7 @@ async function processCreditPayment(
       });
     } else {
       // Partially pay off this debt
-      const newDebtValue = debt.debt_val - remainingCredit;
+      const newDebtValue = sub(debt.debt_val, remainingCredit);
       await prisma.debt.update({
         where: { debt_id: debt.debt_id },
         data: { debt_val: newDebtValue },
@@ -52,7 +53,7 @@ async function processCreditPayment(
     const creditDebt = await prisma.debt.create({
       data: {
         client_id: clientId,
-        debt_val: -remainingCredit, // Negative value represents credit
+        debt_val: neg(remainingCredit), // Negative value represents credit
         date_reg: new Date(),
         date_exp: null,
         status: "paid",
@@ -109,7 +110,7 @@ export async function POST(
       );
     }
 
-    const numericAmount = Number.parseFloat(amount);
+    const numericAmount = parseAmount(amount);
 
     if (type === "debit") {
       // Add debt (client owes money)
@@ -179,21 +180,24 @@ export async function GET(
       );
     }
 
-    const totalBalance = client.debts.reduce((sum, debt) => {
-      if (debt.status === "pending" || (debt.status === "paid" && debt.debt_val < 0)) {
-        return sum + debt.debt_val;
-      }
-      return sum;
-    }, 0);
+    const totalBalance = sum(
+      client.debts
+        .filter((debt) => debt.status === "pending" || (debt.status === "paid" && debt.debt_val < 0))
+        .map((debt) => debt.debt_val)
+    );
 
-    const pendingDebts = client.debts
-      .filter((d) => d.status === "pending" && d.debt_val > 0)
-      .reduce((sum, d) => sum + d.debt_val, 0);
+    const pendingDebts = sum(
+      client.debts
+        .filter((d) => d.status === "pending" && d.debt_val > 0)
+        .map((d) => d.debt_val)
+    );
 
     const creditBalance = Math.abs(
-      client.debts
-        .filter((d) => d.status === "paid" && d.debt_val < 0)
-        .reduce((sum, d) => sum + d.debt_val, 0)
+      sum(
+        client.debts
+          .filter((d) => d.status === "paid" && d.debt_val < 0)
+          .map((d) => d.debt_val)
+      )
     );
 
     let balanceStatus: "debtor" | "creditor" | "balanced";

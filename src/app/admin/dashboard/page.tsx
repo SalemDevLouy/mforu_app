@@ -28,7 +28,7 @@ export default function Page() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/api/admin/dashboard", { cache: "force-cache" });
+      const res = await fetch("/api/admin/dashboard", { cache: "no-store" });
       if (!res.ok) throw new Error(`Status: ${res.status}`);
       const payload = await res.json();
       const data = payload.data;
@@ -47,13 +47,13 @@ export default function Page() {
     load();
   }, [load]);
 
-  // Filtered using owner name or site
+  // Filtered using salon name or site
   const filtered = salons.filter((s) => {
     const q = searchQuery.trim().toLowerCase();
     if (!q) return true;
-    const ownerName = s.owner?.name?.toLowerCase() ?? "";
+    const salonName = s.name?.toLowerCase() ?? "";
     const site = s.site?.toLowerCase() ?? "";
-    return ownerName.includes(q) || site.includes(q) || s.salon_id.includes(q);
+    return salonName.includes(q) || site.includes(q) || s.salon_id.includes(q);
   });
 
   return (
@@ -92,7 +92,7 @@ export default function Page() {
             <span className="absolute right-3 top-1/2 -translate-y-1/2 text-default-400 pointer-events-none">🔍</span>
             <input
               type="text"
-              placeholder="البحث باسم المالك أو الموقع أو المعرف..."
+              placeholder="البحث باسم الصالون أو الموقع أو المعرف..."
               className="w-full pr-10 pl-4 py-2.5 border border-default-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary bg-default-50 text-sm"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { sum } from "@/lib/math";
 
 // GET /api/salon/clients/[client_id] - Get client details with debts
 export async function GET(
@@ -48,13 +49,13 @@ export async function GET(
     }
 
     // Calculate debt statistics
-    const totalDebt = client.debts.reduce((sum, debt) => sum + debt.debt_val, 0);
-    const pendingDebt = client.debts
-      .filter((debt) => debt.status === "pending")
-      .reduce((sum, debt) => sum + debt.debt_val, 0);
-    const paidDebt = client.debts
-      .filter((debt) => debt.status === "paid")
-      .reduce((sum, debt) => sum + debt.debt_val, 0);
+    const totalDebt = sum(client.debts.map((debt) => debt.debt_val));
+    const pendingDebt = sum(
+      client.debts.filter((debt) => debt.status === "pending").map((debt) => debt.debt_val)
+    );
+    const paidDebt = sum(
+      client.debts.filter((debt) => debt.status === "paid").map((debt) => debt.debt_val)
+    );
 
     return NextResponse.json({
       success: true,

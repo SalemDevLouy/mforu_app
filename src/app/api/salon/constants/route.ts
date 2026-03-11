@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { sum, parseAmount } from "@/lib/math";
 
 // GET /api/salon/constants?salon_id=xxx
 export async function GET(request: NextRequest) {
@@ -20,9 +21,11 @@ export async function GET(request: NextRequest) {
       orderBy: { started_at: "desc" },
     });
 
-    const totalMonthly = constants
-      .filter((c) => c.status === "active" && c.repetation === "monthly")
-      .reduce((s, c) => s + c.const_value, 0);
+    const totalMonthly = sum(
+      constants
+        .filter((c) => c.status === "active" && c.repetation === "monthly")
+        .map((c) => c.const_value)
+    );
 
     return NextResponse.json({
       success: true,
@@ -63,7 +66,7 @@ export async function POST(request: NextRequest) {
       data: {
         salon_id,
         const_name: const_name.trim(),
-        const_value: Number.parseFloat(const_value),
+        const_value: parseAmount(const_value),
         repetation,
         status: status || "active",
         started_at: new Date(started_at),
@@ -99,7 +102,7 @@ export async function PUT(request: NextRequest) {
       where: { const_id },
       data: {
         ...(const_name && { const_name: const_name.trim() }),
-        ...(const_value && { const_value: Number.parseFloat(const_value) }),
+        ...(const_value && { const_value: parseAmount(const_value) }),
         ...(repetation && { repetation }),
         ...(status !== undefined && { status }),
         ...(started_at && { started_at: new Date(started_at) }),

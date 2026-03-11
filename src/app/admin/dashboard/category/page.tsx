@@ -8,6 +8,7 @@ import { Select, SelectItem } from "@heroui/select";
 import { Category, CategoryRate, Salon } from "./types";
 import AddCatDialog from "../components/Dialoges/Category/AddCatDialog";
 import CategoryCard from "@/app/admin/dashboard/components/Dialoges/Category/CategoryCard";
+import { parseAmount } from "@/lib/math";
 import { DashCard } from "@/components/common/DashCard";
 
 export default function CategoryPage() {
@@ -133,7 +134,7 @@ export default function CategoryPage() {
 
   const saveRate = async (catId: string) => {
     if (!selectedSalon) { alert("اختر صالون أولاً"); return; }
-    const rate = Number.parseFloat(editingRateValue);
+    const rate = parseAmount(editingRateValue);
     if (Number.isNaN(rate) || rate < 0 || rate > 1) {
       alert("النسبة يجب أن تكون بين 0 و 1 (مثال: 0.33)");
       return;

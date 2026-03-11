@@ -7,6 +7,7 @@ import { useCompletedServices } from "./useCompletedServices";
 import { useClientSearch } from "./useClientSearch";
 import { useTasks } from "./useTasks";
 import { submitService } from "../model/Services";
+import { parseAmount, sub } from "@/lib/math";
 
 export function useAddService() {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -37,7 +38,7 @@ export function useAddService() {
   const { categories, loadingCategories } = useCategories();
   const { employees, loadingEmployees } = useEmployees(salonId);
   const completedState = useCompletedServices(salonId, refreshKey);
-  const { tasks, addTask, removeTask, handleTaskChange, handleEmployeeToggle, getTotalPrice, resetTasks } = useTasks();
+  const { tasks, addTask, removeTask, handleTaskChange, getTotalPrice, resetTasks } = useTasks();
   const { clientData, searchingClient, doSearch, clearClient } = useClientSearch(
     salonId,
     (name) => setFormData((prev) => ({ ...prev, clientName: name }))
@@ -59,7 +60,7 @@ export function useAddService() {
   };
 
   const getRemainingAmount = () =>
-    getTotalPrice() - (Number.parseFloat(formData.paidAmount) || 0);
+    sub(getTotalPrice(), parseAmount(formData.paidAmount));
 
   const resetForm = () => {
     setFormData({ clientName: "", clientPhone: "", paidAmount: "", notes: "" });
@@ -76,7 +77,7 @@ export function useAddService() {
       return;
     }
     const total = getTotalPrice();
-    const paid = Number.parseFloat(formData.paidAmount) || 0;
+    const paid = parseAmount(formData.paidAmount);
     if (paid < 0) { alert("المبلغ المدفوع لا يمكن أن يكون سالباً"); return; }
 
     setSubmitting(true);
@@ -90,12 +91,12 @@ export function useAddService() {
         notes: formData.notes.trim() || undefined,
         tasks: tasks.map((t) => ({
           cat_id: t.catId,
-          price: Number.parseFloat(t.price) || 0,
+          price: parseAmount(t.price),
           employeeIds: t.employeeIds,
         })),
       });
 
-      const remaining = total - paid;
+      const remaining = sub(total, paid);
       let msg = `✓ تم تسجيل الخدمة بنجاح\n\nالعميل: ${data.client_name}\nالإجمالي: ${total.toFixed(2)} دج\nالمدفوع: ${paid.toFixed(2)} دج`;
       if (remaining > 0) msg += `\n\n⚠️ دين مُسجَّل على العميل: ${remaining.toFixed(2)} دج`;
       else if (remaining < 0) msg += `\n\n💰 فائض مدفوع: ${Math.abs(remaining).toFixed(2)} دج\nالصالون مدين بإرجاع هذا المبلغ للعميل وقد تم تسجيله كرصيد دائن للعميل.`;
@@ -118,7 +119,7 @@ export function useAddService() {
     employees, loadingEmployees,
     clientData, searchingClient,
     formData, handleChange, handlePhoneChange,
-    tasks, addTask, removeTask, handleTaskChange, handleEmployeeToggle,
+    tasks, addTask, removeTask, handleTaskChange,
     getTotalPrice, getRemainingAmount,
     submitting, handleSubmit, resetForm,
     ...completedState,

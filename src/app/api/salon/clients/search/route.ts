@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { sum } from "@/lib/math";
 
 // GET /api/salon/clients/search?phone=XXXXXXXXXX&salon_id=...
 export async function GET(request: NextRequest) {
@@ -61,10 +62,7 @@ export async function GET(request: NextRequest) {
     }
 
     // حساب إجمالي الديون
-    const totalDebt = client.debts.reduce(
-      (sum, debt) => sum + debt.debt_val,
-      0
-    );
+    const totalDebt = sum(client.debts.map((debt) => debt.debt_val));
 
     // التحقق من وجود حجز بمقدم (يمكن تخزين المقدم في notes أو إضافة حقل advance_payment)
     const hasReservation = client.reservations.length > 0;
