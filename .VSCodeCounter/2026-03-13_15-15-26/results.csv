@@ -1,0 +1,209 @@
+"filename", "language", "TypeScript", "Prisma", "JSON", "TypeScript JSX", "PostCSS", "JavaScript", "JSON with Comments", "XML", "Markdown", "comment", "blank", "total"
+"/home/salem/my-projects/mforu_app/README.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 0, 56, 0, 29, 85
+"/home/salem/my-projects/mforu_app/eslint.config.mjs", "JavaScript", 0, 0, 0, 0, 0, 16, 0, 0, 0, 3, 3, 22
+"/home/salem/my-projects/mforu_app/middleware.ts", "TypeScript", 20, 0, 0, 0, 0, 0, 0, 0, 0, 3, 7, 30
+"/home/salem/my-projects/mforu_app/next.config.ts", "TypeScript", 4, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 8
+"/home/salem/my-projects/mforu_app/package-lock.json", "JSON", 0, 0, 11843, 0, 0, 0, 0, 0, 0, 0, 1, 11844
+"/home/salem/my-projects/mforu_app/package.json", "JSON", 0, 0, 44, 0, 0, 0, 0, 0, 0, 0, 1, 45
+"/home/salem/my-projects/mforu_app/postcss.config.mjs", "JavaScript", 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 2, 8
+"/home/salem/my-projects/mforu_app/prisma.config.ts", "TypeScript", 10, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 14
+"/home/salem/my-projects/mforu_app/prisma/schema.prisma", "Prisma", 0, 158, 0, 0, 0, 0, 0, 0, 0, 0, 33, 191
+"/home/salem/my-projects/mforu_app/prisma/seed.ts", "TypeScript", 137, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 156
+"/home/salem/my-projects/mforu_app/public/file.svg", "XML", 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1
+"/home/salem/my-projects/mforu_app/public/globe.svg", "XML", 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1
+"/home/salem/my-projects/mforu_app/public/next.svg", "XML", 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1
+"/home/salem/my-projects/mforu_app/public/vercel.svg", "XML", 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1
+"/home/salem/my-projects/mforu_app/public/window.svg", "XML", 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1
+"/home/salem/my-projects/mforu_app/src/app/(auth)/login/page.tsx", "TypeScript JSX", 0, 0, 0, 103, 0, 0, 0, 0, 0, 0, 14, 117
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/accounting/[salonId]/page.tsx", "TypeScript JSX", 0, 0, 0, 144, 0, 0, 0, 0, 0, 3, 16, 163
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/accounting/[salonId]/types.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/accounting/[salonId]/utils.ts", "TypeScript", 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 24
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/accounting/page.tsx", "TypeScript JSX", 0, 0, 0, 110, 0, 0, 0, 0, 0, 10, 19, 139
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/category/page.tsx", "TypeScript JSX", 0, 0, 0, 253, 0, 0, 0, 0, 0, 11, 28, 292
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/category/types.ts", "TypeScript", 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 18
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Cards/EmployeeCard.tsx", "TypeScript JSX", 0, 0, 0, 51, 0, 0, 0, 0, 0, 1, 5, 57
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Cards/SalonCard.tsx", "TypeScript JSX", 0, 0, 0, 81, 0, 0, 0, 0, 0, 3, 9, 93
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Cards/SummaryCards.tsx", "TypeScript JSX", 0, 0, 0, 36, 0, 0, 0, 0, 0, 0, 6, 42
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Common/EmployeesTab.tsx", "TypeScript JSX", 0, 0, 0, 64, 0, 0, 0, 0, 0, 5, 6, 75
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Common/GlobalTab.tsx", "TypeScript JSX", 0, 0, 0, 76, 0, 0, 0, 0, 0, 2, 8, 86
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Common/PageHeader.tsx", "TypeScript JSX", 0, 0, 0, 26, 0, 0, 0, 0, 0, 0, 3, 29
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Dialoges/AddSalonDialog.tsx", "TypeScript JSX", 0, 0, 0, 198, 0, 0, 0, 0, 0, 9, 19, 226
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Dialoges/Category/AddCatDialog.tsx", "TypeScript JSX", 0, 0, 0, 96, 0, 0, 0, 0, 0, 4, 10, 110
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Dialoges/Category/CategoryCard.tsx", "TypeScript JSX", 0, 0, 0, 147, 0, 0, 0, 0, 0, 3, 7, 157
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Dialoges/Constants/AddConstantModal.tsx", "TypeScript JSX", 0, 0, 0, 216, 0, 0, 0, 0, 0, 9, 13, 238
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Dialoges/Constants/DeleteModal.tsx", "TypeScript JSX", 0, 0, 0, 45, 0, 0, 0, 0, 0, 1, 5, 51
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Dialoges/Users/AddUsersDialog.tsx", "TypeScript JSX", 0, 0, 0, 228, 0, 0, 0, 0, 0, 8, 12, 248
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Dialoges/Users/DeleteUserDialoge.tsx", "TypeScript JSX", 0, 0, 0, 60, 0, 0, 0, 0, 0, 5, 8, 73
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Dialoges/Users/UpdateUserDialog.tsx", "TypeScript JSX", 0, 0, 0, 219, 0, 0, 0, 0, 0, 7, 11, 237
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/tables/ConstantTable.tsx", "TypeScript JSX", 0, 0, 0, 168, 0, 0, 0, 0, 0, 3, 7, 178
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/tables/ConstantsTable.tsx", "TypeScript JSX", 0, 0, 0, 49, 0, 0, 0, 0, 0, 0, 4, 53
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/tables/EmployeeTasksTable.tsx", "TypeScript JSX", 0, 0, 0, 68, 0, 0, 0, 0, 0, 0, 4, 72
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/tables/EmployeeWithdrawalsTable.tsx", "TypeScript JSX", 0, 0, 0, 43, 0, 0, 0, 0, 0, 0, 5, 48
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/tables/ExpensesTable.tsx", "TypeScript JSX", 0, 0, 0, 45, 0, 0, 0, 0, 0, 0, 4, 49
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/tables/SalonsTable.tsx", "TypeScript JSX", 0, 0, 0, 42, 0, 0, 0, 0, 0, 0, 4, 46
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/tables/ServicesTable.tsx", "TypeScript JSX", 0, 0, 0, 48, 0, 0, 0, 0, 0, 0, 3, 51
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/tables/UsersTable.tsx", "TypeScript JSX", 0, 0, 0, 87, 0, 0, 0, 0, 0, 0, 3, 90
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/constants/data.ts", "TypeScript", 55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 63
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/constants/page.tsx", "TypeScript JSX", 0, 0, 0, 165, 0, 0, 0, 0, 0, 9, 21, 195
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/constants/types.ts", "TypeScript", 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 17
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/page.tsx", "TypeScript JSX", 0, 0, 0, 154, 0, 0, 0, 0, 0, 10, 18, 182
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/reports/employee-income/page.tsx", "TypeScript JSX", 0, 0, 0, 333, 0, 0, 0, 0, 0, 10, 32, 375
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/reports/monthly/page.tsx", "TypeScript JSX", 0, 0, 0, 365, 0, 0, 0, 0, 0, 12, 31, 408
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/types/index.ts", "TypeScript", 86, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 90
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/users/model/roles.ts", "TypeScript", 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 9
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/users/model/salons.ts", "TypeScript", 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 9
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/users/model/users.ts", "TypeScript", 66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 74
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/users/page.tsx", "TypeScript JSX", 0, 0, 0, 353, 0, 0, 0, 0, 0, 12, 31, 396
+"/home/salem/my-projects/mforu_app/src/app/admin/dashboard/users/types.ts", "TypeScript", 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 28
+"/home/salem/my-projects/mforu_app/src/app/admin/layout.tsx", "TypeScript JSX", 0, 0, 0, 30, 0, 0, 0, 0, 0, 2, 6, 38
+"/home/salem/my-projects/mforu_app/src/app/admin/loading.tsx", "TypeScript JSX", 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 1, 11
+"/home/salem/my-projects/mforu_app/src/app/admin/page.tsx", "TypeScript JSX", 0, 0, 0, 104, 0, 0, 0, 0, 0, 3, 5, 112
+"/home/salem/my-projects/mforu_app/src/app/api/admin/categories/[id]/route.ts", "TypeScript", 89, 0, 0, 0, 0, 0, 0, 0, 0, 7, 12, 108
+"/home/salem/my-projects/mforu_app/src/app/api/admin/categories/route.ts", "TypeScript", 103, 0, 0, 0, 0, 0, 0, 0, 0, 9, 16, 128
+"/home/salem/my-projects/mforu_app/src/app/api/admin/category-rates/route.ts", "TypeScript", 156, 0, 0, 0, 0, 0, 0, 0, 0, 8, 21, 185
+"/home/salem/my-projects/mforu_app/src/app/api/admin/constant/route.ts", "TypeScript", 101, 0, 0, 0, 0, 0, 0, 0, 0, 4, 18, 123
+"/home/salem/my-projects/mforu_app/src/app/api/admin/dashboard/route.ts", "TypeScript", 41, 0, 0, 0, 0, 0, 0, 0, 0, 1, 7, 49
+"/home/salem/my-projects/mforu_app/src/app/api/admin/reports/employee-income-detail/route.ts", "TypeScript", 164, 0, 0, 0, 0, 0, 0, 0, 0, 7, 11, 182
+"/home/salem/my-projects/mforu_app/src/app/api/admin/reports/monthly/route.ts", "TypeScript", 237, 0, 0, 0, 0, 0, 0, 0, 0, 16, 22, 275
+"/home/salem/my-projects/mforu_app/src/app/api/admin/roles/route.ts", "TypeScript", 24, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 28
+"/home/salem/my-projects/mforu_app/src/app/api/admin/salons/[id]/route.ts", "TypeScript", 143, 0, 0, 0, 0, 0, 0, 0, 0, 7, 14, 164
+"/home/salem/my-projects/mforu_app/src/app/api/admin/salons/route.ts", "TypeScript", 110, 0, 0, 0, 0, 0, 0, 0, 0, 12, 17, 139
+"/home/salem/my-projects/mforu_app/src/app/api/admin/users/[id]/route.ts", "TypeScript", 153, 0, 0, 0, 0, 0, 0, 0, 0, 17, 21, 191
+"/home/salem/my-projects/mforu_app/src/app/api/admin/users/[id]/status/route.ts", "TypeScript", 43, 0, 0, 0, 0, 0, 0, 0, 0, 5, 6, 54
+"/home/salem/my-projects/mforu_app/src/app/api/admin/users/route.ts", "TypeScript", 221, 0, 0, 0, 0, 0, 0, 0, 0, 16, 29, 266
+"/home/salem/my-projects/mforu_app/src/app/api/auth/[...nextauth]/route.ts", "TypeScript", 8, 0, 0, 0, 0, 0, 0, 0, 0, 2, 5, 15
+"/home/salem/my-projects/mforu_app/src/app/api/auth/login/route.ts", "TypeScript", 60, 0, 0, 0, 0, 0, 0, 0, 0, 5, 9, 74
+"/home/salem/my-projects/mforu_app/src/app/api/auth/logout/route.ts", "TypeScript", 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 9
+"/home/salem/my-projects/mforu_app/src/app/api/reports/employee-income/route.ts", "TypeScript", 27, 0, 0, 0, 0, 0, 0, 0, 0, 6, 5, 38
+"/home/salem/my-projects/mforu_app/src/app/api/salon/addservice/route.ts", "TypeScript", 396, 0, 0, 0, 0, 0, 0, 0, 0, 14, 69, 479
+"/home/salem/my-projects/mforu_app/src/app/api/salon/clients/[client_id]/balance/route.ts", "TypeScript", 250, 0, 0, 0, 0, 0, 0, 0, 0, 9, 32, 291
+"/home/salem/my-projects/mforu_app/src/app/api/salon/clients/[client_id]/debts/route.ts", "TypeScript", 102, 0, 0, 0, 0, 0, 0, 0, 0, 3, 11, 116
+"/home/salem/my-projects/mforu_app/src/app/api/salon/clients/[client_id]/route.ts", "TypeScript", 99, 0, 0, 0, 0, 0, 0, 0, 0, 2, 6, 107
+"/home/salem/my-projects/mforu_app/src/app/api/salon/clients/debts/[debt_id]/route.ts", "TypeScript", 82, 0, 0, 0, 0, 0, 0, 0, 0, 3, 13, 98
+"/home/salem/my-projects/mforu_app/src/app/api/salon/clients/route.ts", "TypeScript", 236, 0, 0, 0, 0, 0, 0, 0, 0, 9, 31, 276
+"/home/salem/my-projects/mforu_app/src/app/api/salon/clients/search/route.ts", "TypeScript", 86, 0, 0, 0, 0, 0, 0, 0, 0, 7, 9, 102
+"/home/salem/my-projects/mforu_app/src/app/api/salon/constants/route.ts", "TypeScript", 117, 0, 0, 0, 0, 0, 0, 0, 0, 4, 21, 142
+"/home/salem/my-projects/mforu_app/src/app/api/salon/employees/[id]/route.ts", "TypeScript", 73, 0, 0, 0, 0, 0, 0, 0, 0, 7, 12, 92
+"/home/salem/my-projects/mforu_app/src/app/api/salon/employees/route.ts", "TypeScript", 60, 0, 0, 0, 0, 0, 0, 0, 0, 5, 10, 75
+"/home/salem/my-projects/mforu_app/src/app/api/salon/expenses/route.ts", "TypeScript", 191, 0, 0, 0, 0, 0, 0, 0, 0, 4, 23, 218
+"/home/salem/my-projects/mforu_app/src/app/api/salon/reservations/route.ts", "TypeScript", 216, 0, 0, 0, 0, 0, 0, 0, 0, 4, 24, 244
+"/home/salem/my-projects/mforu_app/src/app/api/salon/tasks/[id]/assign/route.ts", "TypeScript", 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 17
+"/home/salem/my-projects/mforu_app/src/app/api/salon/tasks/route.ts", "TypeScript", 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 16
+"/home/salem/my-projects/mforu_app/src/app/api/salon/users/route.ts", "TypeScript", 18, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 23
+"/home/salem/my-projects/mforu_app/src/app/api/salon/visits/route.ts", "TypeScript", 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 16
+"/home/salem/my-projects/mforu_app/src/app/api/salon/withdrawals/route.ts", "TypeScript", 199, 0, 0, 0, 0, 0, 0, 0, 0, 6, 25, 230
+"/home/salem/my-projects/mforu_app/src/app/auth/signin/page.tsx", "TypeScript JSX", 0, 0, 0, 101, 0, 0, 0, 0, 0, 2, 15, 118
+"/home/salem/my-projects/mforu_app/src/app/generated/prisma/browser.ts", "TypeScript", 13, 0, 0, 0, 0, 0, 0, 0, 0, 49, 3, 65
+"/home/salem/my-projects/mforu_app/src/app/generated/prisma/client.ts", "TypeScript", 22, 0, 0, 0, 0, 0, 0, 0, 0, 59, 6, 87
+"/home/salem/my-projects/mforu_app/src/app/generated/prisma/commonInputTypes.ts", "TypeScript", 289, 0, 0, 0, 0, 0, 0, 0, 0, 9, 29, 327
+"/home/salem/my-projects/mforu_app/src/app/generated/prisma/enums.ts", "TypeScript", 1, 0, 0, 0, 0, 0, 0, 0, 0, 10, 5, 16
+"/home/salem/my-projects/mforu_app/src/app/generated/prisma/internal/class.ts", "TypeScript", 68, 0, 0, 0, 0, 0, 0, 0, 0, 166, 37, 271
+"/home/salem/my-projects/mforu_app/src/app/generated/prisma/internal/prismaNamespace.ts", "TypeScript", 1113, 0, 0, 0, 0, 0, 0, 0, 0, 199, 162, 1474
+"/home/salem/my-projects/mforu_app/src/app/generated/prisma/internal/prismaNamespaceBrowser.ts", "TypeScript", 121, 0, 0, 0, 0, 0, 0, 0, 0, 33, 52, 206
+"/home/salem/my-projects/mforu_app/src/app/generated/prisma/models.ts", "TypeScript", 10, 0, 0, 0, 0, 0, 0, 0, 0, 9, 1, 20
+"/home/salem/my-projects/mforu_app/src/app/generated/prisma/models/Client.ts", "TypeScript", 710, 0, 0, 0, 0, 0, 0, 0, 0, 686, 123, 1519
+"/home/salem/my-projects/mforu_app/src/app/generated/prisma/models/Debt.ts", "TypeScript", 666, 0, 0, 0, 0, 0, 0, 0, 0, 648, 110, 1424
+"/home/salem/my-projects/mforu_app/src/app/generated/prisma/models/Employee.ts", "TypeScript", 795, 0, 0, 0, 0, 0, 0, 0, 0, 677, 131, 1603
+"/home/salem/my-projects/mforu_app/src/app/generated/prisma/models/Expense.ts", "TypeScript", 991, 0, 0, 0, 0, 0, 0, 0, 0, 672, 141, 1804
+"/home/salem/my-projects/mforu_app/src/app/generated/prisma/models/Reservation.ts", "TypeScript", 705, 0, 0, 0, 0, 0, 0, 0, 0, 638, 118, 1461
+"/home/salem/my-projects/mforu_app/src/app/generated/prisma/models/Salon.ts", "TypeScript", 924, 0, 0, 0, 0, 0, 0, 0, 0, 716, 146, 1786
+"/home/salem/my-projects/mforu_app/src/app/generated/prisma/models/ServiceAction.ts", "TypeScript", 889, 0, 0, 0, 0, 0, 0, 0, 0, 672, 142, 1703
+"/home/salem/my-projects/mforu_app/src/app/generated/prisma/models/SubTask.ts", "TypeScript", 692, 0, 0, 0, 0, 0, 0, 0, 0, 648, 124, 1464
+"/home/salem/my-projects/mforu_app/src/app/generated/prisma/models/User.ts", "TypeScript", 750, 0, 0, 0, 0, 0, 0, 0, 0, 674, 122, 1546
+"/home/salem/my-projects/mforu_app/src/app/globals.css", "PostCSS", 0, 0, 0, 0, 46, 0, 0, 0, 0, 7, 14, 67
+"/home/salem/my-projects/mforu_app/src/app/layout.tsx", "TypeScript JSX", 0, 0, 0, 29, 0, 0, 0, 0, 0, 0, 5, 34
+"/home/salem/my-projects/mforu_app/src/app/page.tsx", "TypeScript JSX", 0, 0, 0, 77, 0, 0, 0, 0, 0, 5, 6, 88
+"/home/salem/my-projects/mforu_app/src/app/salon/addservice/components/AddServiceDialog.tsx", "TypeScript JSX", 0, 0, 0, 129, 0, 0, 0, 0, 0, 3, 7, 139
+"/home/salem/my-projects/mforu_app/src/app/salon/addservice/components/ClientInfoCard.tsx", "TypeScript JSX", 0, 0, 0, 111, 0, 0, 0, 0, 0, 5, 8, 124
+"/home/salem/my-projects/mforu_app/src/app/salon/addservice/components/CompletedServicesTable.tsx", "TypeScript JSX", 0, 0, 0, 275, 0, 0, 0, 0, 0, 6, 15, 296
+"/home/salem/my-projects/mforu_app/src/app/salon/addservice/components/PaymentSummaryCard.tsx", "TypeScript JSX", 0, 0, 0, 108, 0, 0, 0, 0, 0, 6, 12, 126
+"/home/salem/my-projects/mforu_app/src/app/salon/addservice/components/ServiceTasksCard.tsx", "TypeScript JSX", 0, 0, 0, 195, 0, 0, 0, 0, 0, 9, 10, 214
+"/home/salem/my-projects/mforu_app/src/app/salon/addservice/hooks/hooks.ts", "TypeScript", 124, 0, 0, 0, 0, 0, 0, 0, 0, 4, 17, 145
+"/home/salem/my-projects/mforu_app/src/app/salon/addservice/hooks/useCategories.ts", "TypeScript", 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 19
+"/home/salem/my-projects/mforu_app/src/app/salon/addservice/hooks/useClientSearch.ts", "TypeScript", 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 38
+"/home/salem/my-projects/mforu_app/src/app/salon/addservice/hooks/useCompletedServices.ts", "TypeScript", 29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 35
+"/home/salem/my-projects/mforu_app/src/app/salon/addservice/hooks/useEmployees.ts", "TypeScript", 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 20
+"/home/salem/my-projects/mforu_app/src/app/salon/addservice/hooks/useTasks.ts", "TypeScript", 39, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 49
+"/home/salem/my-projects/mforu_app/src/app/salon/addservice/model/Categories.ts", "TypeScript", 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 10
+"/home/salem/my-projects/mforu_app/src/app/salon/addservice/model/Employees.ts", "TypeScript", 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 11
+"/home/salem/my-projects/mforu_app/src/app/salon/addservice/model/Services.ts", "TypeScript", 81, 0, 0, 0, 0, 0, 0, 0, 0, 3, 15, 99
+"/home/salem/my-projects/mforu_app/src/app/salon/addservice/page.tsx", "TypeScript JSX", 0, 0, 0, 80, 0, 0, 0, 0, 0, 0, 5, 85
+"/home/salem/my-projects/mforu_app/src/app/salon/addservice/types.ts", "TypeScript", 57, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 63
+"/home/salem/my-projects/mforu_app/src/app/salon/clients/components/AddDebtModal.tsx", "TypeScript JSX", 0, 0, 0, 79, 0, 0, 0, 0, 0, 0, 3, 82
+"/home/salem/my-projects/mforu_app/src/app/salon/clients/components/BalanceModal.tsx", "TypeScript JSX", 0, 0, 0, 118, 0, 0, 0, 0, 0, 0, 6, 124
+"/home/salem/my-projects/mforu_app/src/app/salon/clients/components/ClientFormModal.tsx", "TypeScript JSX", 0, 0, 0, 105, 0, 0, 0, 0, 0, 0, 4, 109
+"/home/salem/my-projects/mforu_app/src/app/salon/clients/components/ClientStats.tsx", "TypeScript JSX", 0, 0, 0, 72, 0, 0, 0, 0, 0, 0, 7, 79
+"/home/salem/my-projects/mforu_app/src/app/salon/clients/components/ClientsTable.tsx", "TypeScript JSX", 0, 0, 0, 129, 0, 0, 0, 0, 0, 0, 5, 134
+"/home/salem/my-projects/mforu_app/src/app/salon/clients/components/DebtsModal.tsx", "TypeScript JSX", 0, 0, 0, 175, 0, 0, 0, 0, 0, 4, 7, 186
+"/home/salem/my-projects/mforu_app/src/app/salon/clients/components/DeleteClientModal.tsx", "TypeScript JSX", 0, 0, 0, 44, 0, 0, 0, 0, 0, 0, 4, 48
+"/home/salem/my-projects/mforu_app/src/app/salon/clients/hooks/useClients.ts", "TypeScript", 119, 0, 0, 0, 0, 0, 0, 0, 0, 5, 16, 140
+"/home/salem/my-projects/mforu_app/src/app/salon/clients/hooks/useDebts.ts", "TypeScript", 130, 0, 0, 0, 0, 0, 0, 0, 0, 6, 15, 151
+"/home/salem/my-projects/mforu_app/src/app/salon/clients/model/clients.model.ts", "TypeScript", 46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 53
+"/home/salem/my-projects/mforu_app/src/app/salon/clients/model/debts.model.ts", "TypeScript", 44, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 49
+"/home/salem/my-projects/mforu_app/src/app/salon/clients/page.tsx", "TypeScript JSX", 0, 0, 0, 123, 0, 0, 0, 0, 0, 8, 12, 143
+"/home/salem/my-projects/mforu_app/src/app/salon/clients/types.ts", "TypeScript", 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 37
+"/home/salem/my-projects/mforu_app/src/app/salon/debts/page.tsx", "TypeScript JSX", 0, 0, 0, 492, 0, 0, 0, 0, 0, 20, 21, 533
+"/home/salem/my-projects/mforu_app/src/app/salon/employees/components/AddEditEmployeeModal.tsx", "TypeScript JSX", 0, 0, 0, 107, 0, 0, 0, 0, 0, 0, 10, 117
+"/home/salem/my-projects/mforu_app/src/app/salon/employees/components/EmployeeGrid.tsx", "TypeScript JSX", 0, 0, 0, 59, 0, 0, 0, 0, 0, 0, 5, 64
+"/home/salem/my-projects/mforu_app/src/app/salon/employees/hooks/useEmployees.ts", "TypeScript", 41, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 49
+"/home/salem/my-projects/mforu_app/src/app/salon/employees/model/Employees.ts", "TypeScript", 49, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 55
+"/home/salem/my-projects/mforu_app/src/app/salon/employees/page.tsx", "TypeScript JSX", 0, 0, 0, 69, 0, 0, 0, 0, 0, 4, 11, 84
+"/home/salem/my-projects/mforu_app/src/app/salon/employees/types.ts", "TypeScript", 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 12
+"/home/salem/my-projects/mforu_app/src/app/salon/expenses/components/AddEditExpenseModal.tsx", "TypeScript JSX", 0, 0, 0, 210, 0, 0, 0, 0, 0, 7, 13, 230
+"/home/salem/my-projects/mforu_app/src/app/salon/expenses/components/DeleteExpenseModal.tsx", "TypeScript JSX", 0, 0, 0, 48, 0, 0, 0, 0, 0, 0, 4, 52
+"/home/salem/my-projects/mforu_app/src/app/salon/expenses/components/ExpenseFiltersBar.tsx", "TypeScript JSX", 0, 0, 0, 43, 0, 0, 0, 0, 0, 0, 6, 49
+"/home/salem/my-projects/mforu_app/src/app/salon/expenses/components/ExpenseStatsCards.tsx", "TypeScript JSX", 0, 0, 0, 42, 0, 0, 0, 0, 0, 0, 6, 48
+"/home/salem/my-projects/mforu_app/src/app/salon/expenses/components/ExpenseTable.tsx", "TypeScript JSX", 0, 0, 0, 90, 0, 0, 0, 0, 0, 0, 3, 93
+"/home/salem/my-projects/mforu_app/src/app/salon/expenses/constants.ts", "TypeScript", 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 37
+"/home/salem/my-projects/mforu_app/src/app/salon/expenses/hooks/useExpenses.ts", "TypeScript", 45, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 56
+"/home/salem/my-projects/mforu_app/src/app/salon/expenses/model/Expenses.ts", "TypeScript", 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 71
+"/home/salem/my-projects/mforu_app/src/app/salon/expenses/page.tsx", "TypeScript JSX", 0, 0, 0, 88, 0, 0, 0, 0, 0, 5, 17, 110
+"/home/salem/my-projects/mforu_app/src/app/salon/expenses/types.ts", "TypeScript", 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 22
+"/home/salem/my-projects/mforu_app/src/app/salon/layout.tsx", "TypeScript JSX", 0, 0, 0, 30, 0, 0, 0, 0, 0, 2, 6, 38
+"/home/salem/my-projects/mforu_app/src/app/salon/loading.tsx", "TypeScript JSX", 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 1, 11
+"/home/salem/my-projects/mforu_app/src/app/salon/page.tsx", "TypeScript JSX", 0, 0, 0, 101, 0, 0, 0, 0, 0, 3, 5, 109
+"/home/salem/my-projects/mforu_app/src/app/salon/reservation/components/AddClientModal.tsx", "TypeScript JSX", 0, 0, 0, 83, 0, 0, 0, 0, 0, 0, 7, 90
+"/home/salem/my-projects/mforu_app/src/app/salon/reservation/components/AddEditReservationModal.tsx", "TypeScript JSX", 0, 0, 0, 269, 0, 0, 0, 0, 0, 7, 25, 301
+"/home/salem/my-projects/mforu_app/src/app/salon/reservation/components/DeleteReservationModal.tsx", "TypeScript JSX", 0, 0, 0, 38, 0, 0, 0, 0, 0, 0, 4, 42
+"/home/salem/my-projects/mforu_app/src/app/salon/reservation/components/ReservationFiltersBar.tsx", "TypeScript JSX", 0, 0, 0, 31, 0, 0, 0, 0, 0, 0, 3, 34
+"/home/salem/my-projects/mforu_app/src/app/salon/reservation/components/ReservationStatsCards.tsx", "TypeScript JSX", 0, 0, 0, 25, 0, 0, 0, 0, 0, 0, 4, 29
+"/home/salem/my-projects/mforu_app/src/app/salon/reservation/components/ReservationTable.tsx", "TypeScript JSX", 0, 0, 0, 93, 0, 0, 0, 0, 0, 0, 3, 96
+"/home/salem/my-projects/mforu_app/src/app/salon/reservation/constants.ts", "TypeScript", 27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 32
+"/home/salem/my-projects/mforu_app/src/app/salon/reservation/hooks/useClients.ts", "TypeScript", 29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 35
+"/home/salem/my-projects/mforu_app/src/app/salon/reservation/hooks/useReservations.ts", "TypeScript", 47, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 56
+"/home/salem/my-projects/mforu_app/src/app/salon/reservation/model/Clients.ts", "TypeScript", 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 38
+"/home/salem/my-projects/mforu_app/src/app/salon/reservation/model/Reservations.ts", "TypeScript", 74, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 85
+"/home/salem/my-projects/mforu_app/src/app/salon/reservation/page.tsx", "TypeScript JSX", 0, 0, 0, 88, 0, 0, 0, 0, 0, 8, 17, 113
+"/home/salem/my-projects/mforu_app/src/app/salon/reservation/types.ts", "TypeScript", 26, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 30
+"/home/salem/my-projects/mforu_app/src/app/salon/settings/page.tsx", "TypeScript JSX", 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 2, 10
+"/home/salem/my-projects/mforu_app/src/app/salon/withdrawals/components/AddWithdrawalModal.tsx", "TypeScript JSX", 0, 0, 0, 163, 0, 0, 0, 0, 0, 4, 16, 183
+"/home/salem/my-projects/mforu_app/src/app/salon/withdrawals/components/DeleteWithdrawalModal.tsx", "TypeScript JSX", 0, 0, 0, 42, 0, 0, 0, 0, 0, 0, 4, 46
+"/home/salem/my-projects/mforu_app/src/app/salon/withdrawals/components/WithdrawalFilters.tsx", "TypeScript JSX", 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 7, 72
+"/home/salem/my-projects/mforu_app/src/app/salon/withdrawals/components/WithdrawalStatsCards.tsx", "TypeScript JSX", 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 7, 71
+"/home/salem/my-projects/mforu_app/src/app/salon/withdrawals/components/WithdrawalTable.tsx", "TypeScript JSX", 0, 0, 0, 75, 0, 0, 0, 0, 0, 0, 3, 78
+"/home/salem/my-projects/mforu_app/src/app/salon/withdrawals/hooks/useEmployees.ts", "TypeScript", 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 32
+"/home/salem/my-projects/mforu_app/src/app/salon/withdrawals/hooks/useWithdrawals.ts", "TypeScript", 38, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 45
+"/home/salem/my-projects/mforu_app/src/app/salon/withdrawals/model/Employees.ts", "TypeScript", 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 11
+"/home/salem/my-projects/mforu_app/src/app/salon/withdrawals/model/Withdrawals.ts", "TypeScript", 54, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 65
+"/home/salem/my-projects/mforu_app/src/app/salon/withdrawals/page.tsx", "TypeScript JSX", 0, 0, 0, 90, 0, 0, 0, 0, 0, 6, 14, 110
+"/home/salem/my-projects/mforu_app/src/app/salon/withdrawals/types.ts", "TypeScript", 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 29
+"/home/salem/my-projects/mforu_app/src/app/style/hero.ts", "TypeScript", 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 3
+"/home/salem/my-projects/mforu_app/src/app/unauthorized/page.tsx", "TypeScript JSX", 0, 0, 0, 29, 0, 0, 0, 0, 0, 0, 4, 33
+"/home/salem/my-projects/mforu_app/src/components/Navbar.tsx", "TypeScript JSX", 0, 0, 0, 55, 0, 0, 0, 0, 0, 4, 7, 66
+"/home/salem/my-projects/mforu_app/src/components/Providers.tsx", "TypeScript JSX", 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 4, 13
+"/home/salem/my-projects/mforu_app/src/components/Sidebar.tsx", "TypeScript JSX", 0, 0, 0, 183, 0, 0, 0, 0, 0, 16, 18, 217
+"/home/salem/my-projects/mforu_app/src/components/common/DashCard.tsx", "TypeScript JSX", 0, 0, 0, 19, 0, 0, 0, 0, 0, 0, 3, 22
+"/home/salem/my-projects/mforu_app/src/hooks/useAuth.ts", "TypeScript", 47, 0, 0, 0, 0, 0, 0, 0, 0, 1, 12, 60
+"/home/salem/my-projects/mforu_app/src/hooks/useSalonId.ts", "TypeScript", 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 20
+"/home/salem/my-projects/mforu_app/src/hooks/useUsers.ts", "TypeScript", 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 15
+"/home/salem/my-projects/mforu_app/src/lib/auth.ts", "TypeScript", 83, 0, 0, 0, 0, 0, 0, 0, 0, 6, 11, 100
+"/home/salem/my-projects/mforu_app/src/lib/math.ts", "TypeScript", 38, 0, 0, 0, 0, 0, 0, 0, 0, 15, 11, 64
+"/home/salem/my-projects/mforu_app/src/lib/password.ts", "TypeScript", 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 14
+"/home/salem/my-projects/mforu_app/src/lib/prisma.ts", "TypeScript", 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 25
+"/home/salem/my-projects/mforu_app/src/lib/rbac.ts", "TypeScript", 11, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 15
+"/home/salem/my-projects/mforu_app/src/modules/tasks/task.repository.ts", "TypeScript", 15, 0, 0, 0, 0, 0, 0, 0, 0, 2, 4, 21
+"/home/salem/my-projects/mforu_app/src/modules/tasks/task.service.ts", "TypeScript", 22, 0, 0, 0, 0, 0, 0, 0, 0, 4, 7, 33
+"/home/salem/my-projects/mforu_app/src/modules/visits/visit.repository.ts", "TypeScript", 13, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 18
+"/home/salem/my-projects/mforu_app/src/modules/visits/visit.service.ts", "TypeScript", 18, 0, 0, 0, 0, 0, 0, 0, 0, 3, 5, 26
+"/home/salem/my-projects/mforu_app/tsconfig.json", "JSON with Comments", 0, 0, 0, 0, 0, 0, 34, 0, 0, 0, 1, 35
+"Total", "-", 14814, 158, 11887, 8985, 46, 22, 34, 5, 56, 7112, 3193, 46312

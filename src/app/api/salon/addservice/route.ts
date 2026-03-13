@@ -220,12 +220,6 @@ async function settleServiceBalance(
   clientId: string,
   serviceRemaining: number
 ) {
-  const baseSettlement = {
-    appliedExistingCreditToOldDebts: 0,
-    appliedExistingCreditToCurrentService: 0,
-    appliedSurplusToOldDebts: 0,
-  };
-
   const oldBalances = await reconcileOldBalances(tx, clientId);
   const refreshedDebts = await tx.debt.findMany({
     where: {
@@ -249,9 +243,6 @@ async function settleServiceBalance(
     appliedSurplusToOldDebts: currentBalance.appliedSurplusToOldDebts,
     newPendingDebt: currentBalance.debt?.status === "pending" ? currentBalance.debt.debt_val : 0,
     newCreditBalance: currentBalance.debt?.status === "credit" ? currentBalance.debt.debt_val : 0,
-    ...baseSettlement,
-    ...oldBalances,
-    ...currentBalance,
   };
 }
 

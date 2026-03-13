@@ -1,0 +1,373 @@
+Date : 2026-03-13 15:15:26
+Directory : /home/salem/my-projects/mforu_app
+Total : 207 files,  36007 codes, 7112 comments, 3193 blanks, all 46312 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| TypeScript         |        111 |     14,814 |      6,826 |      2,340 |     23,980 |
+| JSON               |          2 |     11,887 |          0 |          2 |     11,889 |
+| TypeScript JSX     |         83 |      8,985 |        276 |        769 |     10,030 |
+| Prisma             |          1 |        158 |          0 |         33 |        191 |
+| Markdown           |          1 |         56 |          0 |         29 |         85 |
+| PostCSS            |          1 |         46 |          7 |         14 |         67 |
+| JSON with Comments |          1 |         34 |          0 |          1 |         35 |
+| JavaScript         |          2 |         22 |          3 |          5 |         30 |
+| XML                |          5 |          5 |          0 |          0 |          5 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                         | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                            |        207 |     36,007 |      7,112 |      3,193 |     46,312 |
+| . (Files)                                                                                                    |          9 |     12,033 |          9 |         49 |     12,091 |
+| prisma                                                                                                       |          2 |        295 |          0 |         52 |        347 |
+| public                                                                                                       |          5 |          5 |          0 |          0 |          5 |
+| src                                                                                                          |        191 |     23,674 |      7,103 |      3,092 |     33,869 |
+| src/app                                                                                                      |        175 |     23,103 |      7,049 |      2,988 |     33,140 |
+| src/app (Files)                                                                                              |          3 |        152 |         12 |         25 |        189 |
+| src/app/(auth)                                                                                               |          1 |        103 |          0 |         14 |        117 |
+| src/app/(auth)/login                                                                                         |          1 |        103 |          0 |         14 |        117 |
+| src/app/admin                                                                                                |         43 |      4,412 |        142 |        399 |      4,953 |
+| src/app/admin (Files)                                                                                        |          3 |        144 |          5 |         12 |        161 |
+| src/app/admin/dashboard                                                                                      |         40 |      4,268 |        137 |        387 |      4,792 |
+| src/app/admin/dashboard (Files)                                                                              |          1 |        154 |         10 |         18 |        182 |
+| src/app/admin/dashboard/accounting                                                                           |          4 |        275 |         13 |         39 |        327 |
+| src/app/admin/dashboard/accounting (Files)                                                                   |          1 |        110 |         10 |         19 |        139 |
+| src/app/admin/dashboard/accounting/[salonId]                                                                 |          3 |        165 |          3 |         20 |        188 |
+| src/app/admin/dashboard/category                                                                             |          2 |        269 |         11 |         30 |        310 |
+| src/app/admin/dashboard/components                                                                           |         22 |      2,093 |         60 |        156 |      2,309 |
+| src/app/admin/dashboard/components/Cards                                                                     |          3 |        168 |          4 |         20 |        192 |
+| src/app/admin/dashboard/components/Common                                                                    |          3 |        166 |          7 |         17 |        190 |
+| src/app/admin/dashboard/components/Dialoges                                                                  |          8 |      1,209 |         46 |         85 |      1,340 |
+| src/app/admin/dashboard/components/Dialoges (Files)                                                          |          1 |        198 |          9 |         19 |        226 |
+| src/app/admin/dashboard/components/Dialoges/Category                                                         |          2 |        243 |          7 |         17 |        267 |
+| src/app/admin/dashboard/components/Dialoges/Constants                                                        |          2 |        261 |         10 |         18 |        289 |
+| src/app/admin/dashboard/components/Dialoges/Users                                                            |          3 |        507 |         20 |         31 |        558 |
+| src/app/admin/dashboard/components/tables                                                                    |          8 |        550 |          3 |         34 |        587 |
+| src/app/admin/dashboard/constants                                                                            |          3 |        235 |          9 |         31 |        275 |
+| src/app/admin/dashboard/reports                                                                              |          2 |        698 |         22 |         63 |        783 |
+| src/app/admin/dashboard/reports/employee-income                                                              |          1 |        333 |         10 |         32 |        375 |
+| src/app/admin/dashboard/reports/monthly                                                                      |          1 |        365 |         12 |         31 |        408 |
+| src/app/admin/dashboard/types                                                                                |          1 |         86 |          0 |          4 |         90 |
+| src/app/admin/dashboard/users                                                                                |          5 |        458 |         12 |         46 |        516 |
+| src/app/admin/dashboard/users (Files)                                                                        |          2 |        378 |         12 |         34 |        424 |
+| src/app/admin/dashboard/users/model                                                                          |          3 |         80 |          0 |         12 |         92 |
+| src/app/api                                                                                                  |         34 |      3,855 |        202 |        513 |      4,570 |
+| src/app/api/admin                                                                                            |         13 |      1,585 |        110 |        197 |      1,892 |
+| src/app/api/admin/categories                                                                                 |          2 |        192 |         16 |         28 |        236 |
+| src/app/api/admin/categories (Files)                                                                         |          1 |        103 |          9 |         16 |        128 |
+| src/app/api/admin/categories/[id]                                                                            |          1 |         89 |          7 |         12 |        108 |
+| src/app/api/admin/category-rates                                                                             |          1 |        156 |          8 |         21 |        185 |
+| src/app/api/admin/constant                                                                                   |          1 |        101 |          4 |         18 |        123 |
+| src/app/api/admin/dashboard                                                                                  |          1 |         41 |          1 |          7 |         49 |
+| src/app/api/admin/reports                                                                                    |          2 |        401 |         23 |         33 |        457 |
+| src/app/api/admin/reports/employee-income-detail                                                             |          1 |        164 |          7 |         11 |        182 |
+| src/app/api/admin/reports/monthly                                                                            |          1 |        237 |         16 |         22 |        275 |
+| src/app/api/admin/roles                                                                                      |          1 |         24 |          1 |          3 |         28 |
+| src/app/api/admin/salons                                                                                     |          2 |        253 |         19 |         31 |        303 |
+| src/app/api/admin/salons (Files)                                                                             |          1 |        110 |         12 |         17 |        139 |
+| src/app/api/admin/salons/[id]                                                                                |          1 |        143 |          7 |         14 |        164 |
+| src/app/api/admin/users                                                                                      |          3 |        417 |         38 |         56 |        511 |
+| src/app/api/admin/users (Files)                                                                              |          1 |        221 |         16 |         29 |        266 |
+| src/app/api/admin/users/[id]                                                                                 |          2 |        196 |         22 |         27 |        245 |
+| src/app/api/admin/users/[id] (Files)                                                                         |          1 |        153 |         17 |         21 |        191 |
+| src/app/api/admin/users/[id]/status                                                                          |          1 |         43 |          5 |          6 |         54 |
+| src/app/api/auth                                                                                             |          3 |         75 |          7 |         16 |         98 |
+| src/app/api/auth/[...nextauth]                                                                               |          1 |          8 |          2 |          5 |         15 |
+| src/app/api/auth/login                                                                                       |          1 |         60 |          5 |          9 |         74 |
+| src/app/api/auth/logout                                                                                      |          1 |          7 |          0 |          2 |          9 |
+| src/app/api/reports                                                                                          |          1 |         27 |          6 |          5 |         38 |
+| src/app/api/reports/employee-income                                                                          |          1 |         27 |          6 |          5 |         38 |
+| src/app/api/salon                                                                                            |         17 |      2,168 |         79 |        295 |      2,542 |
+| src/app/api/salon/addservice                                                                                 |          1 |        396 |         14 |         69 |        479 |
+| src/app/api/salon/clients                                                                                    |          6 |        855 |         33 |        102 |        990 |
+| src/app/api/salon/clients (Files)                                                                            |          1 |        236 |          9 |         31 |        276 |
+| src/app/api/salon/clients/[client_id]                                                                        |          3 |        451 |         14 |         49 |        514 |
+| src/app/api/salon/clients/[client_id] (Files)                                                                |          1 |         99 |          2 |          6 |        107 |
+| src/app/api/salon/clients/[client_id]/balance                                                                |          1 |        250 |          9 |         32 |        291 |
+| src/app/api/salon/clients/[client_id]/debts                                                                  |          1 |        102 |          3 |         11 |        116 |
+| src/app/api/salon/clients/debts                                                                              |          1 |         82 |          3 |         13 |         98 |
+| src/app/api/salon/clients/debts/[debt_id]                                                                    |          1 |         82 |          3 |         13 |         98 |
+| src/app/api/salon/clients/search                                                                             |          1 |         86 |          7 |          9 |        102 |
+| src/app/api/salon/constants                                                                                  |          1 |        117 |          4 |         21 |        142 |
+| src/app/api/salon/employees                                                                                  |          2 |        133 |         12 |         22 |        167 |
+| src/app/api/salon/employees (Files)                                                                          |          1 |         60 |          5 |         10 |         75 |
+| src/app/api/salon/employees/[id]                                                                             |          1 |         73 |          7 |         12 |         92 |
+| src/app/api/salon/expenses                                                                                   |          1 |        191 |          4 |         23 |        218 |
+| src/app/api/salon/reservations                                                                               |          1 |        216 |          4 |         24 |        244 |
+| src/app/api/salon/tasks                                                                                      |          2 |         29 |          0 |          4 |         33 |
+| src/app/api/salon/tasks (Files)                                                                              |          1 |         14 |          0 |          2 |         16 |
+| src/app/api/salon/tasks/[id]                                                                                 |          1 |         15 |          0 |          2 |         17 |
+| src/app/api/salon/tasks/[id]/assign                                                                          |          1 |         15 |          0 |          2 |         17 |
+| src/app/api/salon/users                                                                                      |          1 |         18 |          2 |          3 |         23 |
+| src/app/api/salon/visits                                                                                     |          1 |         14 |          0 |          2 |         16 |
+| src/app/api/salon/withdrawals                                                                                |          1 |        199 |          6 |         25 |        230 |
+| src/app/auth                                                                                                 |          1 |        101 |          2 |         15 |        118 |
+| src/app/auth/signin                                                                                          |          1 |        101 |          2 |         15 |        118 |
+| src/app/generated                                                                                            |         17 |      8,759 |      6,565 |      1,452 |     16,776 |
+| src/app/generated/prisma                                                                                     |         17 |      8,759 |      6,565 |      1,452 |     16,776 |
+| src/app/generated/prisma (Files)                                                                             |          5 |        335 |        136 |         44 |        515 |
+| src/app/generated/prisma/internal                                                                            |          3 |      1,302 |        398 |        251 |      1,951 |
+| src/app/generated/prisma/models                                                                              |          9 |      7,122 |      6,031 |      1,157 |     14,310 |
+| src/app/salon                                                                                                |         74 |      5,690 |        125 |        566 |      6,381 |
+| src/app/salon (Files)                                                                                        |          3 |        141 |          5 |         12 |        158 |
+| src/app/salon/addservice                                                                                     |         16 |      1,308 |         36 |        129 |      1,473 |
+| src/app/salon/addservice (Files)                                                                             |          2 |        137 |          0 |         11 |        148 |
+| src/app/salon/addservice/components                                                                          |          5 |        818 |         29 |         52 |        899 |
+| src/app/salon/addservice/hooks                                                                               |          6 |        255 |          4 |         47 |        306 |
+| src/app/salon/addservice/model                                                                               |          3 |         98 |          3 |         19 |        120 |
+| src/app/salon/clients                                                                                        |         13 |      1,216 |         23 |         96 |      1,335 |
+| src/app/salon/clients (Files)                                                                                |          2 |        155 |          8 |         17 |        180 |
+| src/app/salon/clients/components                                                                             |          7 |        722 |          4 |         36 |        762 |
+| src/app/salon/clients/hooks                                                                                  |          2 |        249 |         11 |         31 |        291 |
+| src/app/salon/clients/model                                                                                  |          2 |         90 |          0 |         12 |        102 |
+| src/app/salon/debts                                                                                          |          1 |        492 |         20 |         21 |        533 |
+| src/app/salon/employees                                                                                      |          6 |        335 |          4 |         42 |        381 |
+| src/app/salon/employees (Files)                                                                              |          2 |         79 |          4 |         13 |         96 |
+| src/app/salon/employees/components                                                                           |          2 |        166 |          0 |         15 |        181 |
+| src/app/salon/employees/hooks                                                                                |          1 |         41 |          0 |          8 |         49 |
+| src/app/salon/employees/model                                                                                |          1 |         49 |          0 |          6 |         55 |
+| src/app/salon/expenses                                                                                       |         10 |        678 |         12 |         78 |        768 |
+| src/app/salon/expenses (Files)                                                                               |          3 |        140 |          5 |         24 |        169 |
+| src/app/salon/expenses/components                                                                            |          5 |        433 |          7 |         32 |        472 |
+| src/app/salon/expenses/hooks                                                                                 |          1 |         45 |          0 |         11 |         56 |
+| src/app/salon/expenses/model                                                                                 |          1 |         60 |          0 |         11 |         71 |
+| src/app/salon/reservation                                                                                    |         13 |        862 |         15 |        104 |        981 |
+| src/app/salon/reservation (Files)                                                                            |          3 |        141 |          8 |         26 |        175 |
+| src/app/salon/reservation/components                                                                         |          6 |        539 |          7 |         46 |        592 |
+| src/app/salon/reservation/hooks                                                                              |          2 |         76 |          0 |         15 |         91 |
+| src/app/salon/reservation/model                                                                              |          2 |        106 |          0 |         17 |        123 |
+| src/app/salon/settings                                                                                       |          1 |          8 |          0 |          2 |         10 |
+| src/app/salon/withdrawals                                                                                    |         11 |        650 |         10 |         82 |        742 |
+| src/app/salon/withdrawals (Files)                                                                            |          2 |        115 |          6 |         18 |        139 |
+| src/app/salon/withdrawals/components                                                                         |          5 |        409 |          4 |         37 |        450 |
+| src/app/salon/withdrawals/hooks                                                                              |          2 |         63 |          0 |         14 |         77 |
+| src/app/salon/withdrawals/model                                                                              |          2 |         63 |          0 |         13 |         76 |
+| src/app/style                                                                                                |          1 |          2 |          1 |          0 |          3 |
+| src/app/unauthorized                                                                                         |          1 |         29 |          0 |          4 |         33 |
+| src/components                                                                                               |          4 |        266 |         20 |         32 |        318 |
+| src/components (Files)                                                                                       |          3 |        247 |         20 |         29 |        296 |
+| src/components/common                                                                                        |          1 |         19 |          0 |          3 |         22 |
+| src/hooks                                                                                                    |          3 |         75 |          1 |         19 |         95 |
+| src/lib                                                                                                      |          5 |        162 |         22 |         34 |        218 |
+| src/modules                                                                                                  |          4 |         68 |         11 |         19 |         98 |
+| src/modules/tasks                                                                                            |          2 |         37 |          6 |         11 |         54 |
+| src/modules/visits                                                                                           |          2 |         31 |          5 |          8 |         44 |
++--------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                                     | language           | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| /home/salem/my-projects/mforu_app/README.md                                                                  | Markdown           |         56 |          0 |         29 |         85 |
+| /home/salem/my-projects/mforu_app/eslint.config.mjs                                                          | JavaScript         |         16 |          3 |          3 |         22 |
+| /home/salem/my-projects/mforu_app/middleware.ts                                                              | TypeScript         |         20 |          3 |          7 |         30 |
+| /home/salem/my-projects/mforu_app/next.config.ts                                                             | TypeScript         |          4 |          1 |          3 |          8 |
+| /home/salem/my-projects/mforu_app/package-lock.json                                                          | JSON               |     11,843 |          0 |          1 |     11,844 |
+| /home/salem/my-projects/mforu_app/package.json                                                               | JSON               |         44 |          0 |          1 |         45 |
+| /home/salem/my-projects/mforu_app/postcss.config.mjs                                                         | JavaScript         |          6 |          0 |          2 |          8 |
+| /home/salem/my-projects/mforu_app/prisma.config.ts                                                           | TypeScript         |         10 |          2 |          2 |         14 |
+| /home/salem/my-projects/mforu_app/prisma/schema.prisma                                                       | Prisma             |        158 |          0 |         33 |        191 |
+| /home/salem/my-projects/mforu_app/prisma/seed.ts                                                             | TypeScript         |        137 |          0 |         19 |        156 |
+| /home/salem/my-projects/mforu_app/public/file.svg                                                            | XML                |          1 |          0 |          0 |          1 |
+| /home/salem/my-projects/mforu_app/public/globe.svg                                                           | XML                |          1 |          0 |          0 |          1 |
+| /home/salem/my-projects/mforu_app/public/next.svg                                                            | XML                |          1 |          0 |          0 |          1 |
+| /home/salem/my-projects/mforu_app/public/vercel.svg                                                          | XML                |          1 |          0 |          0 |          1 |
+| /home/salem/my-projects/mforu_app/public/window.svg                                                          | XML                |          1 |          0 |          0 |          1 |
+| /home/salem/my-projects/mforu_app/src/app/(auth)/login/page.tsx                                              | TypeScript JSX     |        103 |          0 |         14 |        117 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/accounting/[salonId]/page.tsx                      | TypeScript JSX     |        144 |          3 |         16 |        163 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/accounting/[salonId]/types.ts                      | TypeScript         |          0 |          0 |          1 |          1 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/accounting/[salonId]/utils.ts                      | TypeScript         |         21 |          0 |          3 |         24 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/accounting/page.tsx                                | TypeScript JSX     |        110 |         10 |         19 |        139 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/category/page.tsx                                  | TypeScript JSX     |        253 |         11 |         28 |        292 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/category/types.ts                                  | TypeScript         |         16 |          0 |          2 |         18 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Cards/EmployeeCard.tsx                  | TypeScript JSX     |         51 |          1 |          5 |         57 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Cards/SalonCard.tsx                     | TypeScript JSX     |         81 |          3 |          9 |         93 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Cards/SummaryCards.tsx                  | TypeScript JSX     |         36 |          0 |          6 |         42 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Common/EmployeesTab.tsx                 | TypeScript JSX     |         64 |          5 |          6 |         75 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Common/GlobalTab.tsx                    | TypeScript JSX     |         76 |          2 |          8 |         86 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Common/PageHeader.tsx                   | TypeScript JSX     |         26 |          0 |          3 |         29 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Dialoges/AddSalonDialog.tsx             | TypeScript JSX     |        198 |          9 |         19 |        226 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Dialoges/Category/AddCatDialog.tsx      | TypeScript JSX     |         96 |          4 |         10 |        110 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Dialoges/Category/CategoryCard.tsx      | TypeScript JSX     |        147 |          3 |          7 |        157 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Dialoges/Constants/AddConstantModal.tsx | TypeScript JSX     |        216 |          9 |         13 |        238 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Dialoges/Constants/DeleteModal.tsx      | TypeScript JSX     |         45 |          1 |          5 |         51 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Dialoges/Users/AddUsersDialog.tsx       | TypeScript JSX     |        228 |          8 |         12 |        248 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Dialoges/Users/DeleteUserDialoge.tsx    | TypeScript JSX     |         60 |          5 |          8 |         73 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/Dialoges/Users/UpdateUserDialog.tsx     | TypeScript JSX     |        219 |          7 |         11 |        237 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/tables/ConstantTable.tsx                | TypeScript JSX     |        168 |          3 |          7 |        178 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/tables/ConstantsTable.tsx               | TypeScript JSX     |         49 |          0 |          4 |         53 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/tables/EmployeeTasksTable.tsx           | TypeScript JSX     |         68 |          0 |          4 |         72 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/tables/EmployeeWithdrawalsTable.tsx     | TypeScript JSX     |         43 |          0 |          5 |         48 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/tables/ExpensesTable.tsx                | TypeScript JSX     |         45 |          0 |          4 |         49 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/tables/SalonsTable.tsx                  | TypeScript JSX     |         42 |          0 |          4 |         46 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/tables/ServicesTable.tsx                | TypeScript JSX     |         48 |          0 |          3 |         51 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/components/tables/UsersTable.tsx                   | TypeScript JSX     |         87 |          0 |          3 |         90 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/constants/data.ts                                  | TypeScript         |         55 |          0 |          8 |         63 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/constants/page.tsx                                 | TypeScript JSX     |        165 |          9 |         21 |        195 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/constants/types.ts                                 | TypeScript         |         15 |          0 |          2 |         17 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/page.tsx                                           | TypeScript JSX     |        154 |         10 |         18 |        182 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/reports/employee-income/page.tsx                   | TypeScript JSX     |        333 |         10 |         32 |        375 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/reports/monthly/page.tsx                           | TypeScript JSX     |        365 |         12 |         31 |        408 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/types/index.ts                                     | TypeScript         |         86 |          0 |          4 |         90 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/users/model/roles.ts                               | TypeScript         |          7 |          0 |          2 |          9 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/users/model/salons.ts                              | TypeScript         |          7 |          0 |          2 |          9 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/users/model/users.ts                               | TypeScript         |         66 |          0 |          8 |         74 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/users/page.tsx                                     | TypeScript JSX     |        353 |         12 |         31 |        396 |
+| /home/salem/my-projects/mforu_app/src/app/admin/dashboard/users/types.ts                                     | TypeScript         |         25 |          0 |          3 |         28 |
+| /home/salem/my-projects/mforu_app/src/app/admin/layout.tsx                                                   | TypeScript JSX     |         30 |          2 |          6 |         38 |
+| /home/salem/my-projects/mforu_app/src/app/admin/loading.tsx                                                  | TypeScript JSX     |         10 |          0 |          1 |         11 |
+| /home/salem/my-projects/mforu_app/src/app/admin/page.tsx                                                     | TypeScript JSX     |        104 |          3 |          5 |        112 |
+| /home/salem/my-projects/mforu_app/src/app/api/admin/categories/[id]/route.ts                                 | TypeScript         |         89 |          7 |         12 |        108 |
+| /home/salem/my-projects/mforu_app/src/app/api/admin/categories/route.ts                                      | TypeScript         |        103 |          9 |         16 |        128 |
+| /home/salem/my-projects/mforu_app/src/app/api/admin/category-rates/route.ts                                  | TypeScript         |        156 |          8 |         21 |        185 |
+| /home/salem/my-projects/mforu_app/src/app/api/admin/constant/route.ts                                        | TypeScript         |        101 |          4 |         18 |        123 |
+| /home/salem/my-projects/mforu_app/src/app/api/admin/dashboard/route.ts                                       | TypeScript         |         41 |          1 |          7 |         49 |
+| /home/salem/my-projects/mforu_app/src/app/api/admin/reports/employee-income-detail/route.ts                  | TypeScript         |        164 |          7 |         11 |        182 |
+| /home/salem/my-projects/mforu_app/src/app/api/admin/reports/monthly/route.ts                                 | TypeScript         |        237 |         16 |         22 |        275 |
+| /home/salem/my-projects/mforu_app/src/app/api/admin/roles/route.ts                                           | TypeScript         |         24 |          1 |          3 |         28 |
+| /home/salem/my-projects/mforu_app/src/app/api/admin/salons/[id]/route.ts                                     | TypeScript         |        143 |          7 |         14 |        164 |
+| /home/salem/my-projects/mforu_app/src/app/api/admin/salons/route.ts                                          | TypeScript         |        110 |         12 |         17 |        139 |
+| /home/salem/my-projects/mforu_app/src/app/api/admin/users/[id]/route.ts                                      | TypeScript         |        153 |         17 |         21 |        191 |
+| /home/salem/my-projects/mforu_app/src/app/api/admin/users/[id]/status/route.ts                               | TypeScript         |         43 |          5 |          6 |         54 |
+| /home/salem/my-projects/mforu_app/src/app/api/admin/users/route.ts                                           | TypeScript         |        221 |         16 |         29 |        266 |
+| /home/salem/my-projects/mforu_app/src/app/api/auth/[...nextauth]/route.ts                                    | TypeScript         |          8 |          2 |          5 |         15 |
+| /home/salem/my-projects/mforu_app/src/app/api/auth/login/route.ts                                            | TypeScript         |         60 |          5 |          9 |         74 |
+| /home/salem/my-projects/mforu_app/src/app/api/auth/logout/route.ts                                           | TypeScript         |          7 |          0 |          2 |          9 |
+| /home/salem/my-projects/mforu_app/src/app/api/reports/employee-income/route.ts                               | TypeScript         |         27 |          6 |          5 |         38 |
+| /home/salem/my-projects/mforu_app/src/app/api/salon/addservice/route.ts                                      | TypeScript         |        396 |         14 |         69 |        479 |
+| /home/salem/my-projects/mforu_app/src/app/api/salon/clients/[client_id]/balance/route.ts                     | TypeScript         |        250 |          9 |         32 |        291 |
+| /home/salem/my-projects/mforu_app/src/app/api/salon/clients/[client_id]/debts/route.ts                       | TypeScript         |        102 |          3 |         11 |        116 |
+| /home/salem/my-projects/mforu_app/src/app/api/salon/clients/[client_id]/route.ts                             | TypeScript         |         99 |          2 |          6 |        107 |
+| /home/salem/my-projects/mforu_app/src/app/api/salon/clients/debts/[debt_id]/route.ts                         | TypeScript         |         82 |          3 |         13 |         98 |
+| /home/salem/my-projects/mforu_app/src/app/api/salon/clients/route.ts                                         | TypeScript         |        236 |          9 |         31 |        276 |
+| /home/salem/my-projects/mforu_app/src/app/api/salon/clients/search/route.ts                                  | TypeScript         |         86 |          7 |          9 |        102 |
+| /home/salem/my-projects/mforu_app/src/app/api/salon/constants/route.ts                                       | TypeScript         |        117 |          4 |         21 |        142 |
+| /home/salem/my-projects/mforu_app/src/app/api/salon/employees/[id]/route.ts                                  | TypeScript         |         73 |          7 |         12 |         92 |
+| /home/salem/my-projects/mforu_app/src/app/api/salon/employees/route.ts                                       | TypeScript         |         60 |          5 |         10 |         75 |
+| /home/salem/my-projects/mforu_app/src/app/api/salon/expenses/route.ts                                        | TypeScript         |        191 |          4 |         23 |        218 |
+| /home/salem/my-projects/mforu_app/src/app/api/salon/reservations/route.ts                                    | TypeScript         |        216 |          4 |         24 |        244 |
+| /home/salem/my-projects/mforu_app/src/app/api/salon/tasks/[id]/assign/route.ts                               | TypeScript         |         15 |          0 |          2 |         17 |
+| /home/salem/my-projects/mforu_app/src/app/api/salon/tasks/route.ts                                           | TypeScript         |         14 |          0 |          2 |         16 |
+| /home/salem/my-projects/mforu_app/src/app/api/salon/users/route.ts                                           | TypeScript         |         18 |          2 |          3 |         23 |
+| /home/salem/my-projects/mforu_app/src/app/api/salon/visits/route.ts                                          | TypeScript         |         14 |          0 |          2 |         16 |
+| /home/salem/my-projects/mforu_app/src/app/api/salon/withdrawals/route.ts                                     | TypeScript         |        199 |          6 |         25 |        230 |
+| /home/salem/my-projects/mforu_app/src/app/auth/signin/page.tsx                                               | TypeScript JSX     |        101 |          2 |         15 |        118 |
+| /home/salem/my-projects/mforu_app/src/app/generated/prisma/browser.ts                                        | TypeScript         |         13 |         49 |          3 |         65 |
+| /home/salem/my-projects/mforu_app/src/app/generated/prisma/client.ts                                         | TypeScript         |         22 |         59 |          6 |         87 |
+| /home/salem/my-projects/mforu_app/src/app/generated/prisma/commonInputTypes.ts                               | TypeScript         |        289 |          9 |         29 |        327 |
+| /home/salem/my-projects/mforu_app/src/app/generated/prisma/enums.ts                                          | TypeScript         |          1 |         10 |          5 |         16 |
+| /home/salem/my-projects/mforu_app/src/app/generated/prisma/internal/class.ts                                 | TypeScript         |         68 |        166 |         37 |        271 |
+| /home/salem/my-projects/mforu_app/src/app/generated/prisma/internal/prismaNamespace.ts                       | TypeScript         |      1,113 |        199 |        162 |      1,474 |
+| /home/salem/my-projects/mforu_app/src/app/generated/prisma/internal/prismaNamespaceBrowser.ts                | TypeScript         |        121 |         33 |         52 |        206 |
+| /home/salem/my-projects/mforu_app/src/app/generated/prisma/models.ts                                         | TypeScript         |         10 |          9 |          1 |         20 |
+| /home/salem/my-projects/mforu_app/src/app/generated/prisma/models/Client.ts                                  | TypeScript         |        710 |        686 |        123 |      1,519 |
+| /home/salem/my-projects/mforu_app/src/app/generated/prisma/models/Debt.ts                                    | TypeScript         |        666 |        648 |        110 |      1,424 |
+| /home/salem/my-projects/mforu_app/src/app/generated/prisma/models/Employee.ts                                | TypeScript         |        795 |        677 |        131 |      1,603 |
+| /home/salem/my-projects/mforu_app/src/app/generated/prisma/models/Expense.ts                                 | TypeScript         |        991 |        672 |        141 |      1,804 |
+| /home/salem/my-projects/mforu_app/src/app/generated/prisma/models/Reservation.ts                             | TypeScript         |        705 |        638 |        118 |      1,461 |
+| /home/salem/my-projects/mforu_app/src/app/generated/prisma/models/Salon.ts                                   | TypeScript         |        924 |        716 |        146 |      1,786 |
+| /home/salem/my-projects/mforu_app/src/app/generated/prisma/models/ServiceAction.ts                           | TypeScript         |        889 |        672 |        142 |      1,703 |
+| /home/salem/my-projects/mforu_app/src/app/generated/prisma/models/SubTask.ts                                 | TypeScript         |        692 |        648 |        124 |      1,464 |
+| /home/salem/my-projects/mforu_app/src/app/generated/prisma/models/User.ts                                    | TypeScript         |        750 |        674 |        122 |      1,546 |
+| /home/salem/my-projects/mforu_app/src/app/globals.css                                                        | PostCSS            |         46 |          7 |         14 |         67 |
+| /home/salem/my-projects/mforu_app/src/app/layout.tsx                                                         | TypeScript JSX     |         29 |          0 |          5 |         34 |
+| /home/salem/my-projects/mforu_app/src/app/page.tsx                                                           | TypeScript JSX     |         77 |          5 |          6 |         88 |
+| /home/salem/my-projects/mforu_app/src/app/salon/addservice/components/AddServiceDialog.tsx                   | TypeScript JSX     |        129 |          3 |          7 |        139 |
+| /home/salem/my-projects/mforu_app/src/app/salon/addservice/components/ClientInfoCard.tsx                     | TypeScript JSX     |        111 |          5 |          8 |        124 |
+| /home/salem/my-projects/mforu_app/src/app/salon/addservice/components/CompletedServicesTable.tsx             | TypeScript JSX     |        275 |          6 |         15 |        296 |
+| /home/salem/my-projects/mforu_app/src/app/salon/addservice/components/PaymentSummaryCard.tsx                 | TypeScript JSX     |        108 |          6 |         12 |        126 |
+| /home/salem/my-projects/mforu_app/src/app/salon/addservice/components/ServiceTasksCard.tsx                   | TypeScript JSX     |        195 |          9 |         10 |        214 |
+| /home/salem/my-projects/mforu_app/src/app/salon/addservice/hooks/hooks.ts                                    | TypeScript         |        124 |          4 |         17 |        145 |
+| /home/salem/my-projects/mforu_app/src/app/salon/addservice/hooks/useCategories.ts                            | TypeScript         |         15 |          0 |          4 |         19 |
+| /home/salem/my-projects/mforu_app/src/app/salon/addservice/hooks/useClientSearch.ts                          | TypeScript         |         32 |          0 |          6 |         38 |
+| /home/salem/my-projects/mforu_app/src/app/salon/addservice/hooks/useCompletedServices.ts                     | TypeScript         |         29 |          0 |          6 |         35 |
+| /home/salem/my-projects/mforu_app/src/app/salon/addservice/hooks/useEmployees.ts                             | TypeScript         |         16 |          0 |          4 |         20 |
+| /home/salem/my-projects/mforu_app/src/app/salon/addservice/hooks/useTasks.ts                                 | TypeScript         |         39 |          0 |         10 |         49 |
+| /home/salem/my-projects/mforu_app/src/app/salon/addservice/model/Categories.ts                               | TypeScript         |          8 |          0 |          2 |         10 |
+| /home/salem/my-projects/mforu_app/src/app/salon/addservice/model/Employees.ts                                | TypeScript         |          9 |          0 |          2 |         11 |
+| /home/salem/my-projects/mforu_app/src/app/salon/addservice/model/Services.ts                                 | TypeScript         |         81 |          3 |         15 |         99 |
+| /home/salem/my-projects/mforu_app/src/app/salon/addservice/page.tsx                                          | TypeScript JSX     |         80 |          0 |          5 |         85 |
+| /home/salem/my-projects/mforu_app/src/app/salon/addservice/types.ts                                          | TypeScript         |         57 |          0 |          6 |         63 |
+| /home/salem/my-projects/mforu_app/src/app/salon/clients/components/AddDebtModal.tsx                          | TypeScript JSX     |         79 |          0 |          3 |         82 |
+| /home/salem/my-projects/mforu_app/src/app/salon/clients/components/BalanceModal.tsx                          | TypeScript JSX     |        118 |          0 |          6 |        124 |
+| /home/salem/my-projects/mforu_app/src/app/salon/clients/components/ClientFormModal.tsx                       | TypeScript JSX     |        105 |          0 |          4 |        109 |
+| /home/salem/my-projects/mforu_app/src/app/salon/clients/components/ClientStats.tsx                           | TypeScript JSX     |         72 |          0 |          7 |         79 |
+| /home/salem/my-projects/mforu_app/src/app/salon/clients/components/ClientsTable.tsx                          | TypeScript JSX     |        129 |          0 |          5 |        134 |
+| /home/salem/my-projects/mforu_app/src/app/salon/clients/components/DebtsModal.tsx                            | TypeScript JSX     |        175 |          4 |          7 |        186 |
+| /home/salem/my-projects/mforu_app/src/app/salon/clients/components/DeleteClientModal.tsx                     | TypeScript JSX     |         44 |          0 |          4 |         48 |
+| /home/salem/my-projects/mforu_app/src/app/salon/clients/hooks/useClients.ts                                  | TypeScript         |        119 |          5 |         16 |        140 |
+| /home/salem/my-projects/mforu_app/src/app/salon/clients/hooks/useDebts.ts                                    | TypeScript         |        130 |          6 |         15 |        151 |
+| /home/salem/my-projects/mforu_app/src/app/salon/clients/model/clients.model.ts                               | TypeScript         |         46 |          0 |          7 |         53 |
+| /home/salem/my-projects/mforu_app/src/app/salon/clients/model/debts.model.ts                                 | TypeScript         |         44 |          0 |          5 |         49 |
+| /home/salem/my-projects/mforu_app/src/app/salon/clients/page.tsx                                             | TypeScript JSX     |        123 |          8 |         12 |        143 |
+| /home/salem/my-projects/mforu_app/src/app/salon/clients/types.ts                                             | TypeScript         |         32 |          0 |          5 |         37 |
+| /home/salem/my-projects/mforu_app/src/app/salon/debts/page.tsx                                               | TypeScript JSX     |        492 |         20 |         21 |        533 |
+| /home/salem/my-projects/mforu_app/src/app/salon/employees/components/AddEditEmployeeModal.tsx                | TypeScript JSX     |        107 |          0 |         10 |        117 |
+| /home/salem/my-projects/mforu_app/src/app/salon/employees/components/EmployeeGrid.tsx                        | TypeScript JSX     |         59 |          0 |          5 |         64 |
+| /home/salem/my-projects/mforu_app/src/app/salon/employees/hooks/useEmployees.ts                              | TypeScript         |         41 |          0 |          8 |         49 |
+| /home/salem/my-projects/mforu_app/src/app/salon/employees/model/Employees.ts                                 | TypeScript         |         49 |          0 |          6 |         55 |
+| /home/salem/my-projects/mforu_app/src/app/salon/employees/page.tsx                                           | TypeScript JSX     |         69 |          4 |         11 |         84 |
+| /home/salem/my-projects/mforu_app/src/app/salon/employees/types.ts                                           | TypeScript         |         10 |          0 |          2 |         12 |
+| /home/salem/my-projects/mforu_app/src/app/salon/expenses/components/AddEditExpenseModal.tsx                  | TypeScript JSX     |        210 |          7 |         13 |        230 |
+| /home/salem/my-projects/mforu_app/src/app/salon/expenses/components/DeleteExpenseModal.tsx                   | TypeScript JSX     |         48 |          0 |          4 |         52 |
+| /home/salem/my-projects/mforu_app/src/app/salon/expenses/components/ExpenseFiltersBar.tsx                    | TypeScript JSX     |         43 |          0 |          6 |         49 |
+| /home/salem/my-projects/mforu_app/src/app/salon/expenses/components/ExpenseStatsCards.tsx                    | TypeScript JSX     |         42 |          0 |          6 |         48 |
+| /home/salem/my-projects/mforu_app/src/app/salon/expenses/components/ExpenseTable.tsx                         | TypeScript JSX     |         90 |          0 |          3 |         93 |
+| /home/salem/my-projects/mforu_app/src/app/salon/expenses/constants.ts                                        | TypeScript         |         33 |          0 |          4 |         37 |
+| /home/salem/my-projects/mforu_app/src/app/salon/expenses/hooks/useExpenses.ts                                | TypeScript         |         45 |          0 |         11 |         56 |
+| /home/salem/my-projects/mforu_app/src/app/salon/expenses/model/Expenses.ts                                   | TypeScript         |         60 |          0 |         11 |         71 |
+| /home/salem/my-projects/mforu_app/src/app/salon/expenses/page.tsx                                            | TypeScript JSX     |         88 |          5 |         17 |        110 |
+| /home/salem/my-projects/mforu_app/src/app/salon/expenses/types.ts                                            | TypeScript         |         19 |          0 |          3 |         22 |
+| /home/salem/my-projects/mforu_app/src/app/salon/layout.tsx                                                   | TypeScript JSX     |         30 |          2 |          6 |         38 |
+| /home/salem/my-projects/mforu_app/src/app/salon/loading.tsx                                                  | TypeScript JSX     |         10 |          0 |          1 |         11 |
+| /home/salem/my-projects/mforu_app/src/app/salon/page.tsx                                                     | TypeScript JSX     |        101 |          3 |          5 |        109 |
+| /home/salem/my-projects/mforu_app/src/app/salon/reservation/components/AddClientModal.tsx                    | TypeScript JSX     |         83 |          0 |          7 |         90 |
+| /home/salem/my-projects/mforu_app/src/app/salon/reservation/components/AddEditReservationModal.tsx           | TypeScript JSX     |        269 |          7 |         25 |        301 |
+| /home/salem/my-projects/mforu_app/src/app/salon/reservation/components/DeleteReservationModal.tsx            | TypeScript JSX     |         38 |          0 |          4 |         42 |
+| /home/salem/my-projects/mforu_app/src/app/salon/reservation/components/ReservationFiltersBar.tsx             | TypeScript JSX     |         31 |          0 |          3 |         34 |
+| /home/salem/my-projects/mforu_app/src/app/salon/reservation/components/ReservationStatsCards.tsx             | TypeScript JSX     |         25 |          0 |          4 |         29 |
+| /home/salem/my-projects/mforu_app/src/app/salon/reservation/components/ReservationTable.tsx                  | TypeScript JSX     |         93 |          0 |          3 |         96 |
+| /home/salem/my-projects/mforu_app/src/app/salon/reservation/constants.ts                                     | TypeScript         |         27 |          0 |          5 |         32 |
+| /home/salem/my-projects/mforu_app/src/app/salon/reservation/hooks/useClients.ts                              | TypeScript         |         29 |          0 |          6 |         35 |
+| /home/salem/my-projects/mforu_app/src/app/salon/reservation/hooks/useReservations.ts                         | TypeScript         |         47 |          0 |          9 |         56 |
+| /home/salem/my-projects/mforu_app/src/app/salon/reservation/model/Clients.ts                                 | TypeScript         |         32 |          0 |          6 |         38 |
+| /home/salem/my-projects/mforu_app/src/app/salon/reservation/model/Reservations.ts                            | TypeScript         |         74 |          0 |         11 |         85 |
+| /home/salem/my-projects/mforu_app/src/app/salon/reservation/page.tsx                                         | TypeScript JSX     |         88 |          8 |         17 |        113 |
+| /home/salem/my-projects/mforu_app/src/app/salon/reservation/types.ts                                         | TypeScript         |         26 |          0 |          4 |         30 |
+| /home/salem/my-projects/mforu_app/src/app/salon/settings/page.tsx                                            | TypeScript JSX     |          8 |          0 |          2 |         10 |
+| /home/salem/my-projects/mforu_app/src/app/salon/withdrawals/components/AddWithdrawalModal.tsx                | TypeScript JSX     |        163 |          4 |         16 |        183 |
+| /home/salem/my-projects/mforu_app/src/app/salon/withdrawals/components/DeleteWithdrawalModal.tsx             | TypeScript JSX     |         42 |          0 |          4 |         46 |
+| /home/salem/my-projects/mforu_app/src/app/salon/withdrawals/components/WithdrawalFilters.tsx                 | TypeScript JSX     |         65 |          0 |          7 |         72 |
+| /home/salem/my-projects/mforu_app/src/app/salon/withdrawals/components/WithdrawalStatsCards.tsx              | TypeScript JSX     |         64 |          0 |          7 |         71 |
+| /home/salem/my-projects/mforu_app/src/app/salon/withdrawals/components/WithdrawalTable.tsx                   | TypeScript JSX     |         75 |          0 |          3 |         78 |
+| /home/salem/my-projects/mforu_app/src/app/salon/withdrawals/hooks/useEmployees.ts                            | TypeScript         |         25 |          0 |          7 |         32 |
+| /home/salem/my-projects/mforu_app/src/app/salon/withdrawals/hooks/useWithdrawals.ts                          | TypeScript         |         38 |          0 |          7 |         45 |
+| /home/salem/my-projects/mforu_app/src/app/salon/withdrawals/model/Employees.ts                               | TypeScript         |          9 |          0 |          2 |         11 |
+| /home/salem/my-projects/mforu_app/src/app/salon/withdrawals/model/Withdrawals.ts                             | TypeScript         |         54 |          0 |         11 |         65 |
+| /home/salem/my-projects/mforu_app/src/app/salon/withdrawals/page.tsx                                         | TypeScript JSX     |         90 |          6 |         14 |        110 |
+| /home/salem/my-projects/mforu_app/src/app/salon/withdrawals/types.ts                                         | TypeScript         |         25 |          0 |          4 |         29 |
+| /home/salem/my-projects/mforu_app/src/app/style/hero.ts                                                      | TypeScript         |          2 |          1 |          0 |          3 |
+| /home/salem/my-projects/mforu_app/src/app/unauthorized/page.tsx                                              | TypeScript JSX     |         29 |          0 |          4 |         33 |
+| /home/salem/my-projects/mforu_app/src/components/Navbar.tsx                                                  | TypeScript JSX     |         55 |          4 |          7 |         66 |
+| /home/salem/my-projects/mforu_app/src/components/Providers.tsx                                               | TypeScript JSX     |          9 |          0 |          4 |         13 |
+| /home/salem/my-projects/mforu_app/src/components/Sidebar.tsx                                                 | TypeScript JSX     |        183 |         16 |         18 |        217 |
+| /home/salem/my-projects/mforu_app/src/components/common/DashCard.tsx                                         | TypeScript JSX     |         19 |          0 |          3 |         22 |
+| /home/salem/my-projects/mforu_app/src/hooks/useAuth.ts                                                       | TypeScript         |         47 |          1 |         12 |         60 |
+| /home/salem/my-projects/mforu_app/src/hooks/useSalonId.ts                                                    | TypeScript         |         16 |          0 |          4 |         20 |
+| /home/salem/my-projects/mforu_app/src/hooks/useUsers.ts                                                      | TypeScript         |         12 |          0 |          3 |         15 |
+| /home/salem/my-projects/mforu_app/src/lib/auth.ts                                                            | TypeScript         |         83 |          6 |         11 |        100 |
+| /home/salem/my-projects/mforu_app/src/lib/math.ts                                                            | TypeScript         |         38 |         15 |         11 |         64 |
+| /home/salem/my-projects/mforu_app/src/lib/password.ts                                                        | TypeScript         |         11 |          0 |          3 |         14 |
+| /home/salem/my-projects/mforu_app/src/lib/prisma.ts                                                          | TypeScript         |         19 |          0 |          6 |         25 |
+| /home/salem/my-projects/mforu_app/src/lib/rbac.ts                                                            | TypeScript         |         11 |          1 |          3 |         15 |
+| /home/salem/my-projects/mforu_app/src/modules/tasks/task.repository.ts                                       | TypeScript         |         15 |          2 |          4 |         21 |
+| /home/salem/my-projects/mforu_app/src/modules/tasks/task.service.ts                                          | TypeScript         |         22 |          4 |          7 |         33 |
+| /home/salem/my-projects/mforu_app/src/modules/visits/visit.repository.ts                                     | TypeScript         |         13 |          2 |          3 |         18 |
+| /home/salem/my-projects/mforu_app/src/modules/visits/visit.service.ts                                        | TypeScript         |         18 |          3 |          5 |         26 |
+| /home/salem/my-projects/mforu_app/tsconfig.json                                                              | JSON with Comments |         34 |          0 |          1 |         35 |
+| Total                                                                                                        |                    |     36,007 |      7,112 |      3,193 |     46,312 |
++--------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
