@@ -24,6 +24,5 @@ export interface WithdrawalFormData {
 
 export interface WithdrawalFilters {
   emp_id: string;
-  startDate: string;
-  endDate: string;
+  month: string;
 }

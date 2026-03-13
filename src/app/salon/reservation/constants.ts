@@ -24,6 +24,7 @@ export const getStatusColor = (status: string) =>
 
 export const BLANK_RESERVATION_FORM = () => ({
   client_id: "",
+  client_phone: "",
   date_exploit: "",
   deposit: "",
   status: "pending",

@@ -11,7 +11,6 @@ import { ReservationStatsCards } from "./components/ReservationStatsCards";
 import { ReservationFiltersBar } from "./components/ReservationFiltersBar";
 import { ReservationTable } from "./components/ReservationTable";
 import { AddEditReservationModal } from "./components/AddEditReservationModal";
-import { AddClientModal } from "./components/AddClientModal";
 import { DeleteReservationModal } from "./components/DeleteReservationModal";
 
 export default function ReservationsPage() {
@@ -29,7 +28,6 @@ export default function ReservationsPage() {
   const [editingReservation, setEditingReservation] = useState<Reservation | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
-  const [showClientModal, setShowClientModal] = useState(false);
 
   const openAdd = () => {
     setEditingReservation(null);
@@ -99,16 +97,9 @@ export default function ReservationsPage() {
           onClose={() => setShowReservationModal(false)}
           onAdd={addReservation}
           onEdit={editReservation}
-          onOpenAddClient={() => setShowClientModal(true)}
+          onCreateClient={addClient}
         />
       )}
-
-      {/* Add Client Modal */}
-      <AddClientModal
-        isOpen={showClientModal}
-        onClose={() => setShowClientModal(false)}
-        onAdd={addClient}
-      />
 
       {/* Delete Modal */}
       <DeleteReservationModal

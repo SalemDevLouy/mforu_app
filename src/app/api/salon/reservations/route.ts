@@ -70,23 +70,28 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { salon_id, client_id, date_exploit, deposit, status } = body;
+    const { salon_id, client_id, client_phone, date_exploit, deposit, status } = body;
 
-    if (!salon_id || !client_id || !date_exploit) {
+    if (!salon_id || !date_exploit || (!client_id && !client_phone)) {
       return NextResponse.json(
-        { error: "جميع الحقول المطلوبة يجب ملؤها" },
+        { error: "الصالون، تاريخ الحجز، والعميل (برقم الهاتف أو المعرف) مطلوبة" },
         { status: 400 }
       );
     }
 
-    // Check if client exists
-    const client = await prisma.client.findUnique({
-      where: { client_id },
+    const normalizedPhone = String(client_phone || "").trim();
+
+    const client = await prisma.client.findFirst({
+      where: {
+        salon_id,
+        ...(client_id ? { client_id } : {}),
+        ...(!client_id && normalizedPhone ? { phone: normalizedPhone } : {}),
+      },
     });
 
     if (!client) {
       return NextResponse.json(
-        { error: "العميل غير موجود" },
+        { success: false, exists: false, error: "العميل غير موجود" },
         { status: 404 }
       );
     }
@@ -94,7 +99,7 @@ export async function POST(request: NextRequest) {
     const reservation = await prisma.reservation.create({
       data: {
         salon_id,
-        client_id,
+        client_id: client.client_id,
         date_exploit: new Date(date_exploit),
         deposit: deposit ? Number(deposit) : 0,
         status: status || "pending",

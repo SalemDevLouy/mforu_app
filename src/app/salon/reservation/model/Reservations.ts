@@ -3,6 +3,7 @@ import { Reservation } from "../types";
 export interface ReservationCreatePayload {
   salon_id: string;
   client_id: string;
+  client_phone?: string;
   date_exploit: string;
   deposit: string;
   status: string;

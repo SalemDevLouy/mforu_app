@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import { Button } from "@heroui/button";
-import { WithdrawalFilters } from "./types";
+import { WithdrawalFilters, WithdrawalFormData } from "./types";
 import { parseAmount } from "@/lib/math";
 import { useWithdrawals } from "./hooks/useWithdrawals";
 import { useEmployees } from "./hooks/useEmployees";
@@ -11,9 +11,8 @@ import { WithdrawalFilters as WithdrawalFiltersCard } from "./components/Withdra
 import { WithdrawalTable } from "./components/WithdrawalTable";
 import { AddWithdrawalModal } from "./components/AddWithdrawalModal";
 import { DeleteWithdrawalModal } from "./components/DeleteWithdrawalModal";
-import { WithdrawalFormData } from "./types";
 
-const EMPTY_FILTERS: WithdrawalFilters = { emp_id: "", startDate: "", endDate: "" };
+const EMPTY_FILTERS: WithdrawalFilters = { emp_id: "", month: new Date().toISOString().slice(0, 7) };
 
 export default function WithdrawalsPage() {
   const [salonId, setSalonId] = useState<string>("");

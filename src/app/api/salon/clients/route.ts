@@ -47,10 +47,12 @@ export async function GET(request: NextRequest) {
     // Calculate total debt for each client
     const clientsWithDebts = clients.map((client) => {
       const pendingDebts = client.debts.filter((d) => d.status === "pending");
-      const creditDebts  = client.debts.filter((d) => d.status === "credit");
+      const creditDebts  = client.debts.filter(
+        (d) => d.status === "credit" || (d.status === "paid" && d.debt_val < 0)
+      );
 
       const totalDebt   = sum(pendingDebts.map((d) => d.debt_val));
-      const totalCredit = sum(creditDebts.map((d) => d.debt_val));
+      const totalCredit = sum(creditDebts.map((d) => Math.abs(d.debt_val)));
       const lastVisit   = client.services[0]?.date || null;
 
       return {

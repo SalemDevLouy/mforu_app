@@ -25,8 +25,7 @@ export async function fetchWithdrawals(
   const params = new URLSearchParams();
   params.append("salon_id", salonId);
   if (filters.emp_id) params.append("emp_id", filters.emp_id);
-  if (filters.startDate) params.append("startDate", filters.startDate);
-  if (filters.endDate) params.append("endDate", filters.endDate);
+  if (filters.month) params.append("month", filters.month);
 
   const response = await fetch(`/api/salon/withdrawals?${params.toString()}`);
   const data: WithdrawalsResponse = await response.json();

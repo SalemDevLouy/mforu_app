@@ -19,7 +19,7 @@ export function WithdrawalFilters({
   return (
     <Card className="p-4">
       <h3 className="text-lg font-semibold mb-3">تصفية السحوبات</h3>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <label
             htmlFor="filter-emp"
@@ -44,35 +44,17 @@ export function WithdrawalFilters({
 
         <div>
           <label
-            htmlFor="filter-date-from"
+            htmlFor="filter-month"
             className="block text-sm font-medium mb-2"
           >
-            من تاريخ
+            الشهر
           </label>
           <input
-            id="filter-date-from"
-            type="date"
+            id="filter-month"
+            type="month"
             className="w-full px-3 py-2 border border-default-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-            value={filters.startDate}
-            onChange={(e) =>
-              onChange({ ...filters, startDate: e.target.value })
-            }
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="filter-date-to"
-            className="block text-sm font-medium mb-2"
-          >
-            إلى تاريخ
-          </label>
-          <input
-            id="filter-date-to"
-            type="date"
-            className="w-full px-3 py-2 border border-default-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-            value={filters.endDate}
-            onChange={(e) => onChange({ ...filters, endDate: e.target.value })}
+            value={filters.month}
+            onChange={(e) => onChange({ ...filters, month: e.target.value })}
           />
         </div>
 
@@ -85,3 +67,5 @@ export function WithdrawalFilters({
     </Card>
   );
 }
+
+

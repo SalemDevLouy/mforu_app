@@ -98,8 +98,25 @@ export function useAddService() {
 
       const remaining = sub(total, paid);
       let msg = `✓ تم تسجيل الخدمة بنجاح\n\nالعميل: ${data.client_name}\nالإجمالي: ${total.toFixed(2)} دج\nالمدفوع: ${paid.toFixed(2)} دج`;
-      if (remaining > 0) msg += `\n\n⚠️ دين مُسجَّل على العميل: ${remaining.toFixed(2)} دج`;
-      else if (remaining < 0) msg += `\n\n💰 فائض مدفوع: ${Math.abs(remaining).toFixed(2)} دج\nالصالون مدين بإرجاع هذا المبلغ للعميل وقد تم تسجيله كرصيد دائن للعميل.`;
+      const appliedExistingCreditToOldDebts = Number(data.applied_existing_credit_to_old_debts || 0);
+      const appliedExistingCreditToCurrentService = Number(data.applied_existing_credit_to_current_service || 0);
+      const appliedSurplusToOldDebts = Number(data.applied_surplus_to_old_debts || 0);
+      const newPendingDebt = Number(data.new_pending_debt || 0);
+      const newCreditBalance = Number(data.new_credit_balance || 0);
+
+      if (appliedExistingCreditToOldDebts > 0) {
+        msg += `\n\n💳 تم استخدام فكة سابقة لتخفيض ديون قديمة: ${appliedExistingCreditToOldDebts.toFixed(2)} دج`;
+      }
+      if (appliedExistingCreditToCurrentService > 0) {
+        msg += `\n\n💳 تم استخدام فكة سابقة لتغطية جزء من الخدمة الحالية: ${appliedExistingCreditToCurrentService.toFixed(2)} دج`;
+      }
+      if (appliedSurplusToOldDebts > 0) {
+        msg += `\n\n📉 فائض الدفع خُصم من ديون سابقة: ${appliedSurplusToOldDebts.toFixed(2)} دج`;
+      }
+
+      if (newPendingDebt > 0) msg += `\n\n⚠️ دين مُسجَّل على العميل: ${newPendingDebt.toFixed(2)} دج`;
+      else if (newCreditBalance > 0) msg += `\n\n💰 فكة متبقية للعميل: ${newCreditBalance.toFixed(2)} دج`;
+      else if (remaining === 0 || appliedExistingCreditToCurrentService > 0 || appliedSurplusToOldDebts > 0) msg += "\n\n✓ تمت التسوية بدون رصيد متبقٍ";
       else msg += "\n\n✓ تم الدفع الكامل";
 
       alert(msg);

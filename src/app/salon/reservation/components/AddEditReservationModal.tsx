@@ -16,7 +16,31 @@ interface AddEditReservationModalProps {
   readonly onClose: () => void;
   readonly onAdd: (data: ReservationFormData) => Promise<void>;
   readonly onEdit: (data: ReservationFormData, reservationId: string) => Promise<void>;
-  readonly onOpenAddClient: () => void;
+  readonly onCreateClient: (data: { name: string; phone: string }) => Promise<Client>;
+}
+
+const normalizePhone = (value?: string) => (value || "").replaceAll(" ", "").trim();
+const normalizeName = (value?: string) => (value || "").trim().toLowerCase();
+
+function findClientBySearch(clients: Client[], nameValue: string, phoneValue: string) {
+  const normalizedName = normalizeName(nameValue);
+  const normalizedPhone = normalizePhone(phoneValue);
+
+  const filtered = clients.filter((client) => {
+    const phoneMatches = normalizedPhone
+      ? normalizePhone(client.phone) === normalizedPhone
+      : true;
+    const nameMatches = normalizedName
+      ? normalizeName(client.name).includes(normalizedName)
+      : true;
+    return phoneMatches && nameMatches;
+  });
+
+  if (filtered.length === 1) return filtered[0];
+  return (
+    filtered.find((client) => normalizeName(client.name) === normalizedName) ||
+    null
+  );
 }
 
 export function AddEditReservationModal({
@@ -26,39 +50,76 @@ export function AddEditReservationModal({
   onClose,
   onAdd,
   onEdit,
-  onOpenAddClient,
+  onCreateClient,
 }: AddEditReservationModalProps) {
   const [formData, setFormData] = useState<ReservationFormData>(BLANK_RESERVATION_FORM());
+  const [clientNameQuery, setClientNameQuery] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
+  const matchedClient = findClientBySearch(clients, clientNameQuery, formData.client_phone);
+  const clientExists = Boolean(matchedClient);
+  const shouldShowClientStatus =
+    Boolean(normalizeName(clientNameQuery)) || Boolean(normalizePhone(formData.client_phone));
+  const clientPhoneSuffix = matchedClient?.phone ? " · " + matchedClient.phone : "";
+  const clientStatusText = clientExists
+    ? `✅ العميل موجود: ${matchedClient?.name || ""}${clientPhoneSuffix}`
+    : "❌ العميل غير موجود";
 
   useEffect(() => {
     if (editingReservation) {
       setFormData({
         client_id: editingReservation.client_id,
+        client_phone: editingReservation.client_phone || "",
         date_exploit: new Date(editingReservation.date_exploit).toISOString().slice(0, 10),
         deposit: String(editingReservation.deposit ?? 0),
         status: editingReservation.status,
       });
+      setClientNameQuery(editingReservation.client_name || "");
     } else {
       setFormData(BLANK_RESERVATION_FORM());
+      setClientNameQuery("");
     }
   }, [editingReservation]);
 
   const handleClose = () => {
     setFormData(BLANK_RESERVATION_FORM());
+    setClientNameQuery("");
     onClose();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!salonId) { alert("لم يتم تحديد الصالون."); return; }
+    if (!editingReservation && !normalizeName(clientNameQuery)) {
+      alert("اسم العميل مطلوب.");
+      return;
+    }
+    if (!editingReservation && !normalizePhone(formData.client_phone)) {
+      alert("رقم هاتف العميل مطلوب.");
+      return;
+    }
+
+    let resolvedClient = matchedClient;
+
+    if (!editingReservation && !resolvedClient) {
+      resolvedClient = await onCreateClient({
+        name: clientNameQuery.trim(),
+        phone: formData.client_phone.trim(),
+      });
+    }
+
+    const payload: ReservationFormData = {
+      ...formData,
+      client_id: resolvedClient?.client_id || formData.client_id,
+    };
+
     try {
       setSubmitting(true);
       if (editingReservation) {
-        await onEdit(formData, editingReservation.reservation_id);
+        await onEdit(payload, editingReservation.reservation_id);
         alert("تم تحديث الحجز بنجاح");
       } else {
-        await onAdd(formData);
+        await onAdd(payload);
         alert("تم إضافة الحجز بنجاح");
       }
       handleClose();
@@ -70,6 +131,28 @@ export function AddEditReservationModal({
   };
 
   const isEdit = !!editingReservation;
+
+  const handleClientNameChange = (value: string) => {
+    const foundClient = findClientBySearch(clients, value, formData.client_phone);
+    setClientNameQuery(value);
+    setFormData((prev) => ({
+      ...prev,
+      client_id: foundClient?.client_id || "",
+      client_phone: foundClient?.phone || prev.client_phone,
+    }));
+  };
+
+  const handleClientPhoneChange = (value: string) => {
+    const foundClient = findClientBySearch(clients, clientNameQuery, value);
+    if (foundClient?.name) {
+      setClientNameQuery(foundClient.name);
+    }
+    setFormData((prev) => ({
+      ...prev,
+      client_phone: value,
+      client_id: foundClient?.client_id || "",
+    }));
+  };
 
   return (
     <div
@@ -103,34 +186,45 @@ export function AddEditReservationModal({
 
         {/* Body */}
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
-          {/* Client */}
+          
+
+          {/* Client Phone */}
           <div>
-            <label htmlFor="client-select" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-              👤 العميل <span className="text-red-500">*</span>
+            <label htmlFor="client-phone" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
+              📞 رقم الهاتف <span className="text-red-500">*</span>
             </label>
-            <div className="flex gap-2">
-              <select
-                id="client-select"
-                className="flex-1 px-3 py-2.5 border border-gray-200 dark:border-zinc-700 rounded-xl bg-gray-50 dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm transition"
-                value={formData.client_id}
-                onChange={(e) => setFormData({ ...formData, client_id: e.target.value })}
-                required
-              >
-                <option value="">— اختر عميل —</option>
-                {clients.map((c) => (
-                  <option key={c.client_id} value={c.client_id}>
-                    {c.name}{c.phone ? ` · ${c.phone}` : ""}
-                  </option>
-                ))}
-              </select>
-              <button
-                type="button"
-                onClick={onOpenAddClient}
-                className="px-4 py-2.5 bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold rounded-xl transition-colors text-sm whitespace-nowrap border border-blue-200"
-              >+ جديد</button>
-            </div>
+            <input
+              id="client-phone"
+              type="tel"
+              className="w-full px-3 py-2.5 border text-right border-gray-200 dark:border-zinc-700 rounded-xl bg-gray-50 dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm transition"
+              value={formData.client_phone}
+              onChange={(e) => handleClientPhoneChange(e.target.value)}
+              placeholder="مثال: 0550123456"
+              required={!isEdit}
+            />
+            {shouldShowClientStatus ? (
+              <p className={`mt-1.5 text-xs ${clientExists ? "text-green-600" : "text-red-500"}`}>
+                {clientStatusText}
+              </p>
+            ) : null}
+            {!clientExists && !isEdit ? <p className="mt-1 text-xs text-amber-600">سيتم إنشاء العميل تلقائيًا عند تأكيد الحجز</p> : null}
           </div>
 
+          {/* Client Name Search */}
+                    <div>
+                      <label htmlFor="client-name-search" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
+                        👤 اسم العميل <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        id="client-name-search"
+                        type="text"
+                        className="w-full px-3 py-2.5 border border-gray-200 dark:border-zinc-700 rounded-xl bg-gray-50 dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm transition"
+                        value={clientNameQuery}
+                        onChange={(e) => handleClientNameChange(e.target.value)}
+                        placeholder="ابحث بالاسم"
+                        required={!isEdit}
+                      />
+                    </div>
           {/* Date + Deposit */}
           <div className="grid grid-cols-2 gap-4">
             <div>

@@ -17,6 +17,7 @@ export interface Client {
 
 export interface ReservationFormData {
   client_id: string;
+  client_phone: string;
   date_exploit: string;
   deposit: string;
   status: string;
