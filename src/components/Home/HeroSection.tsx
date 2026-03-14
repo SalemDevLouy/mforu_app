@@ -66,7 +66,7 @@ export function HeroSection() {
               { label: "إجمالي الزيارات", value: "1,248", color: "bg-violet-500" },
               { label: "الموظفون", value: "12", color: "bg-indigo-500" },
               { label: "العملاء", value: "340", color: "bg-emerald-500" },
-              { label: "الإيرادات", value: "52,000 ر.س", color: "bg-amber-500" },
+              { label: "الإيرادات", value: "52,000 دج", color: "bg-amber-500" },
             ].map((stat) => (
               <div key={stat.label} className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
                 <div className={`w-8 h-1.5 rounded-full ${stat.color} mb-3`} />
