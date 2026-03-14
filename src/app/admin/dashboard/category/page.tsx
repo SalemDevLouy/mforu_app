@@ -8,10 +8,13 @@ import { Select, SelectItem } from "@heroui/select";
 import { Category, CategoryRate, Salon } from "./types";
 import AddCatDialog from "../components/Dialoges/Category/AddCatDialog";
 import CategoryCard from "@/app/admin/dashboard/components/Dialoges/Category/CategoryCard";
+import { useAppDialog } from "@/components/dialogs/AppDialogProvider";
 import { parseAmount } from "@/lib/math";
 import { DashCard } from "@/components/common/DashCard";
+import { HiBuildingStorefront, HiFolder, HiCheckCircle } from "react-icons/hi2";
 
 export default function CategoryPage() {
+  const { showConfirm } = useAppDialog();
   const [categories, setCategories] = useState<Category[]>([]);
   const [salons, setSalons] = useState<Salon[]>([]);
   const [selectedSalon, setSelectedSalon] = useState<string>("");
@@ -109,7 +112,12 @@ export default function CategoryPage() {
 
   // ── Delete category ───────────────────────────────────────
   const handleDeleteCat = async (catId: string) => {
-    if (!confirm("هل أنت متأكد من حذف هذه الفئة؟")) return;
+    const confirmed = await showConfirm("هل أنت متأكد من حذف هذه الفئة؟", {
+      title: "تأكيد الحذف",
+      confirmText: "حذف",
+    });
+    if (!confirmed) return;
+
     try {
       const res = await fetch("/api/admin/categories", {
         method: "DELETE",
@@ -164,7 +172,14 @@ export default function CategoryPage() {
 
   const deleteRate = async (catId: string) => {
     const existing = getRateForCat(catId);
-    if (!existing || !confirm("هل تريد حذف نسبة هذه الفئة؟")) return;
+    if (!existing) return;
+
+    const confirmed = await showConfirm("هل تريد حذف نسبة هذه الفئة؟", {
+      title: "تأكيد حذف النسبة",
+      confirmText: "حذف النسبة",
+    });
+    if (!confirmed) return;
+
     try {
       await fetch(`/api/admin/category-rates?rate_id=${existing.rate_id}`, { method: "DELETE" });
       fetchRates(selectedSalon);
@@ -188,9 +203,9 @@ export default function CategoryPage() {
 
       {/* Stats bar */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-        <DashCard title="إجمالي الفئات" value={categories.length} icon="📂" />
-        <DashCard title="الصالونات" value={salons.length} icon="🏪" />
-        <DashCard title="فئات لها نسبة" value={rates.length} icon="✅" />
+        <DashCard title="إجمالي الفئات" value={categories.length} icon={<HiFolder className="text-blue-500" />} />
+        <DashCard title="الصالونات" value={salons.length} icon={<HiBuildingStorefront className="text-blue-500" />} />
+        <DashCard title="فئات لها نسبة" value={rates.length} icon={<HiCheckCircle className="text-blue-500" />} />
       </div>
 
       {/* Salon selector */}
@@ -202,7 +217,7 @@ export default function CategoryPage() {
                 placeholder="اختر الصالون"
                 variant="bordered"
                 size="sm"
-                startContent={<span className="text-default-400">🏪</span>}
+                startContent={<HiBuildingStorefront className="text-default-400" />}
                 selectedKeys={selectedSalon ? new Set([selectedSalon]) : new Set()}
                 onSelectionChange={(keys) => {
                   const val = Array.from(keys)[0] as string;
@@ -240,7 +255,7 @@ export default function CategoryPage() {
       {!isLoading && categories.length === 0 && (
         <Card>
           <CardBody className="py-16 flex flex-col items-center gap-3 text-default-400">
-            <span className="text-5xl">📂</span>
+            <HiFolder className="text-5xl" />
             <p className="font-medium">لا توجد فئات</p>
             <p className="text-sm">أضف فئة جديدة بالضغط على الزر أعلاه</p>
           </CardBody>

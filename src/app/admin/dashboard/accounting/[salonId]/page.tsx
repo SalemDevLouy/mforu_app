@@ -12,6 +12,7 @@ import SummaryCards from "../../components/Cards/SummaryCards";
 import GlobalTab from "../../components/Common/GlobalTab";
 import EmployeesTab from "../../components/Common/EmployeesTab";
 import { formatCurrency } from "./utils";
+import { HiChartBar, HiUsers } from "react-icons/hi2";
 
 export default function SalonReportPage({ params }: Readonly<{ params: Promise<{ salonId: string }> }>) {
   // Protect this page - only admin of system and accounting man can access
@@ -118,7 +119,7 @@ export default function SalonReportPage({ params }: Readonly<{ params: Promise<{
           key="global"
           title={
             <div className="flex items-center gap-2">
-              <span>📊</span>
+              <HiChartBar />
               <span>التقرير الشامل</span>
             </div>
           }
@@ -135,7 +136,7 @@ export default function SalonReportPage({ params }: Readonly<{ params: Promise<{
           key="employees"
           title={
             <div className="flex items-center gap-2">
-              <span>👥</span>
+              <HiUsers />
               <span>دخل الموظفين</span>
             </div>
           }

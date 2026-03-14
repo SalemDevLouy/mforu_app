@@ -1,6 +1,7 @@
 "use client";
-import { Card } from "@heroui/card";
+import { DashCard } from "@/components/common/DashCard";
 import { Withdrawal } from "../types";
+import { HiBanknotes, HiCalendarDays, HiChartBar } from "react-icons/hi2";
 
 interface WithdrawalStatsCardsProps {
   readonly withdrawals: Withdrawal[];
@@ -24,47 +25,21 @@ export function WithdrawalStatsCards({
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <Card className="p-4">
-        <div className="flex justify-between items-center">
-          <div>
-            <p className="text-sm text-default-500">إجمالي السحوبات</p>
-            <p className="text-2xl font-bold text-danger">
-              {totalWithdrawals.toFixed(2)} دج
-            </p>
-          </div>
-          <div className="w-12 h-12 rounded-full bg-danger/10 flex items-center justify-center">
-            <span className="text-2xl">💸</span>
-          </div>
-        </div>
-      </Card>
-
-      <Card className="p-4">
-        <div className="flex justify-between items-center">
-          <div>
-            <p className="text-sm text-default-500">سحوبات هذا الشهر</p>
-            <p className="text-2xl font-bold text-warning">
-              {thisMonthWithdrawals.toFixed(2)} دج
-            </p>
-          </div>
-          <div className="w-12 h-12 rounded-full bg-warning/10 flex items-center justify-center">
-            <span className="text-2xl">📅</span>
-          </div>
-        </div>
-      </Card>
-
-      <Card className="p-4">
-        <div className="flex justify-between items-center">
-          <div>
-            <p className="text-sm text-default-500">عدد السحوبات</p>
-            <p className="text-2xl font-bold text-primary">
-              {withdrawals.length}
-            </p>
-          </div>
-          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-            <span className="text-2xl">📊</span>
-          </div>
-        </div>
-      </Card>
+      <DashCard
+        title="إجمالي السحوبات"
+        value={`${totalWithdrawals.toFixed(2)} دج`}
+        icon={<HiBanknotes className="text-blue-500" />}
+      />
+      <DashCard
+        title="سحوبات هذا الشهر"
+        value={`${thisMonthWithdrawals.toFixed(2)} دج`}
+        icon={<HiCalendarDays className="text-blue-500" />}
+      />
+      <DashCard
+        title="عدد السحوبات"
+        value={withdrawals.length}
+        icon={<HiChartBar className="text-blue-500" />}
+      />
     </div>
   );
 }

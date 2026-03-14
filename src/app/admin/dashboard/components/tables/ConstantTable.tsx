@@ -12,6 +12,7 @@ import {
 } from "@heroui/table";
 import { Constant, Salon } from "../../constants/types";
 import { getTypeIcon, getRepLabel, getRepBadge } from "../../constants/data";
+import { HiBuildingStorefront, HiCheckCircle } from "react-icons/hi2";
 
 interface SalonSummaryRow extends Salon {
   monthly: number;
@@ -66,7 +67,7 @@ export default function ConstantTable({
                         className="text-blue-600 hover:underline text-sm font-medium"
                         onClick={() => setFilterSalon(s.salon_id)}
                       >
-                        🏪 {s.name}
+                        <span className="inline-flex items-center gap-1"><HiBuildingStorefront /> {s.name}</span>
                       </button>
                     </TableCell>
                     <TableCell className="text-green-700 font-semibold">{s.monthly.toFixed(2)} دج</TableCell>
@@ -89,7 +90,7 @@ export default function ConstantTable({
             value={filterSalon}
             onChange={(e) => setFilterSalon(e.target.value)}
           >
-            <option value="">🏪 كل الصالونات</option>
+            <option value="">كل الصالونات</option>
             {salons.map((s) => (
               <option key={s.salon_id} value={s.salon_id}>{s.name}</option>
             ))}
@@ -99,9 +100,9 @@ export default function ConstantTable({
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
           >
-            <option value="">📌 كل الحالات</option>
-            <option value="active">✅ نشط</option>
-            <option value="inactive">⏸ غير نشط</option>
+            <option value="">كل الحالات</option>
+            <option value="active">نشط</option>
+            <option value="inactive">غير نشط</option>
           </select>
           {(filterSalon || filterStatus) && (
             <button
@@ -130,7 +131,10 @@ export default function ConstantTable({
                   </TableCell>
                   <TableCell>
                     <span className="flex items-center gap-1.5 font-medium">
-                      <span>{getTypeIcon(c.const_name)}</span>
+                      {(() => {
+                        const TypeIcon = getTypeIcon(c.const_name);
+                        return <TypeIcon />;
+                      })()}
                       <span>{c.const_name}</span>
                     </span>
                   </TableCell>
@@ -151,7 +155,8 @@ export default function ConstantTable({
                         ? "bg-green-100 text-green-700"
                         : "bg-gray-100 text-gray-500"
                     }`}>
-                      {c.status === "active" ? "✅ نشط" : "⏸ غير نشط"}
+                      {c.status === "active" ? <HiCheckCircle /> : null}
+                      {c.status === "active" ? "نشط" : "غير نشط"}
                     </span>
                   </TableCell>
                   <TableCell>

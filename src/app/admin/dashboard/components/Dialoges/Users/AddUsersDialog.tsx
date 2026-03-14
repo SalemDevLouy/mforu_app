@@ -3,6 +3,7 @@
 import React from "react";
 import { Button } from "@heroui/button";
 import { Role, Salon } from "../../../users/types";
+import { HiXMark } from "react-icons/hi2";
 
 export interface FormData {
   name: string;
@@ -66,7 +67,7 @@ export default function AddUsersDialog({
             disabled={isSubmitting}
             className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-default-200 transition-colors text-default-500 text-lg leading-none"
           >
-            ✕
+            <HiXMark />
           </button>
         </div>
 

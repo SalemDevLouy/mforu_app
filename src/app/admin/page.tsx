@@ -1,9 +1,10 @@
 import Link from 'next/link';
+import { HiHome, HiUser, HiTag, HiCog6Tooth, HiBanknotes, HiChartBar, HiShieldCheck } from 'react-icons/hi2';
 
 const adminLinks = [
   {
     href: '/admin/dashboard',
-    icon: '🏠',
+    icon: HiHome,
     title: 'لوحة التحكم',
     desc: 'نظرة عامة على النظام والإحصائيات الرئيسية',
     color: 'from-violet-500 to-indigo-500',
@@ -12,7 +13,7 @@ const adminLinks = [
   },
   {
     href: '/admin/dashboard/users',
-    icon: '👤',
+    icon: HiUser,
     title: 'إدارة المستخدمين',
     desc: 'إضافة وتعديل وحذف مستخدمي النظام',
     color: 'from-sky-500 to-blue-500',
@@ -21,7 +22,7 @@ const adminLinks = [
   },
   {
     href: '/admin/dashboard/category',
-    icon: '🏷️',
+    icon: HiTag,
     title: 'إدارة الفئات',
     desc: 'إدارة فئات الخدمات وأسعارها',
     color: 'from-emerald-500 to-teal-500',
@@ -30,7 +31,7 @@ const adminLinks = [
   },
   {
     href: '/admin/dashboard/constants',
-    icon: '⚙️',
+    icon: HiCog6Tooth,
     title: 'الثوابت والإعدادات',
     desc: 'ضبط الثوابت والقيم الافتراضية للنظام',
     color: 'from-amber-500 to-orange-500',
@@ -39,7 +40,7 @@ const adminLinks = [
   },
   {
     href: '/admin/dashboard/accounting',
-    icon: '💰',
+    icon: HiBanknotes,
     title: 'الحسابات',
     desc: 'متابعة الإيرادات والمصاريف والتقارير المالية',
     color: 'from-rose-500 to-pink-500',
@@ -48,7 +49,7 @@ const adminLinks = [
   },
   {
     href: '/admin/dashboard/reports',
-    icon: '📊',
+    icon: HiChartBar,
     title: 'التقارير',
     desc: 'تقارير تفصيلية حول أداء الصالونات والموظفين',
     color: 'from-fuchsia-500 to-purple-500',
@@ -63,7 +64,7 @@ export default function AdminPage() {
       {/* Welcome Banner */}
       <div className="rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 p-8 text-white">
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-xl">🛡️</div>
+          <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-xl"><HiShieldCheck /></div>
           <span className="text-violet-200 text-sm font-medium">لوحة الإدارة</span>
         </div>
         <h1 className="text-2xl md:text-3xl font-bold mb-1">مرحباً، المدير</h1>
@@ -83,7 +84,7 @@ export default function AdminPage() {
               className="group bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5"
             >
               <div className={`w-11 h-11 rounded-xl ${link.bg} flex items-center justify-center text-2xl mb-4`}>
-                {link.icon}
+                <link.icon className={link.text} />
               </div>
               <h3 className={`font-bold text-sm ${link.text} mb-1 group-hover:underline`}>
                 {link.title}

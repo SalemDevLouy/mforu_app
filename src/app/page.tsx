@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { HiCalendarDays, HiUsers, HiBriefcase, HiBanknotes, HiChartBar, HiLockClosed } from 'react-icons/hi2';
 
 export default function Home() {
   return (
@@ -51,15 +52,15 @@ export default function Home() {
       {/* Features */}
       <section className="max-w-5xl mx-auto px-4 pb-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {[
-          { icon: '📅', title: 'إدارة الحجوزات', desc: 'جدولة المواعيد وتتبع الحجوزات بكل سهولة ويسر.' },
-          { icon: '👥', title: 'إدارة العملاء', desc: 'سجل بيانات عملائك وتاريخ زياراتهم وديونهم.' },
-          { icon: '💼', title: 'إدارة الموظفين', desc: 'تتبع أداء الموظفين وتوزيع المهام والرواتب.' },
-          { icon: '💰', title: 'المحاسبة والمصاريف', desc: 'راقب إيرادات ومصاريف صالونك في الوقت الحقيقي.' },
-          { icon: '📊', title: 'التقارير والإحصائيات', desc: 'احصل على تقارير تفصيلية لدعم قرارات أعمالك.' },
-          { icon: '🔐', title: 'إدارة الصلاحيات', desc: 'تحكم في صلاحيات كل مستخدم بدقة وأمان.' },
+          { icon: HiCalendarDays, title: 'إدارة الحجوزات', desc: 'جدولة المواعيد وتتبع الحجوزات بكل سهولة ويسر.' },
+          { icon: HiUsers, title: 'إدارة العملاء', desc: 'سجل بيانات عملائك وتاريخ زياراتهم وديونهم.' },
+          { icon: HiBriefcase, title: 'إدارة الموظفين', desc: 'تتبع أداء الموظفين وتوزيع المهام والرواتب.' },
+          { icon: HiBanknotes, title: 'المحاسبة والمصاريف', desc: 'راقب إيرادات ومصاريف صالونك في الوقت الحقيقي.' },
+          { icon: HiChartBar, title: 'التقارير والإحصائيات', desc: 'احصل على تقارير تفصيلية لدعم قرارات أعمالك.' },
+          { icon: HiLockClosed, title: 'إدارة الصلاحيات', desc: 'تحكم في صلاحيات كل مستخدم بدقة وأمان.' },
         ].map((f) => (
           <div key={f.title} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-            <div className="text-3xl mb-3">{f.icon}</div>
+            <div className="text-3xl mb-3 text-violet-600"><f.icon /></div>
             <h3 className="text-base font-bold text-gray-800 mb-2">{f.title}</h3>
             <p className="text-sm text-gray-500 leading-relaxed">{f.desc}</p>
           </div>

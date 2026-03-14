@@ -5,6 +5,7 @@ import { Button } from '@heroui/button'
 import { Chip } from '@heroui/chip'
 import { Divider } from '@heroui/divider'
 import { ApiSalon } from '../../types'
+import { HiMapPin, HiUser, HiPhone, HiIdentification } from 'react-icons/hi2'
 
 function getStatusColor(status?: string | null): "success" | "warning" | "danger" | "default" {
   switch (status?.toLowerCase()) {
@@ -22,7 +23,7 @@ function getStatusColor(status?: string | null): "success" | "warning" | "danger
   }
 }
 
-export default function SalonCard({ salon }: { salon: ApiSalon }) {
+export default function SalonCard({ salon }: Readonly<{ salon: ApiSalon }>) {
   const initials = salon.name
     ? salon.name.split(' ').map((w) => w[0]).slice(0, 2).join('')
     : '?'
@@ -35,7 +36,7 @@ export default function SalonCard({ salon }: { salon: ApiSalon }) {
       <CardBody className="p-5 space-y-4">
         {/* Header: avatar + name + status */}
         <div className="flex items-start gap-3">
-          <div className="flex-shrink-0 w-11 h-11 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-base">
+          <div className="shrink-0 w-11 h-11 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-base">
             {initials}
           </div>
           <div className="flex-1 min-w-0">
@@ -43,7 +44,7 @@ export default function SalonCard({ salon }: { salon: ApiSalon }) {
               {salon.name}
             </h3>
             <p className="text-xs text-default-400 mt-0.5 flex items-center gap-1">
-              <span>📍</span>
+              <HiMapPin />
               <span className="truncate">{salon.site ?? '—'}</span>
             </p>
           </div>
@@ -51,7 +52,7 @@ export default function SalonCard({ salon }: { salon: ApiSalon }) {
             size="sm"
             variant="flat"
             color={getStatusColor(salon.owner?.status)}
-            className="flex-shrink-0"
+            className="shrink-0"
           >
             {salon.owner?.status ?? '—'}
           </Chip>
@@ -62,17 +63,17 @@ export default function SalonCard({ salon }: { salon: ApiSalon }) {
         {/* Info rows */}
         <div className="space-y-2 text-sm">
           <div className="flex items-center gap-2">
-            <span className="text-default-400 w-5 text-center">�</span>
+            <span className="text-default-400 w-5 text-center"><HiUser className="inline" /></span>
             <span className="text-default-500">المالك:</span>
             <span className="text-default-700 font-medium">{salon.owner?.name ?? '—'}</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-default-400 w-5 text-center">�📞</span>
+            <span className="text-default-400 w-5 text-center"><HiPhone className="inline" /></span>
             <span className="text-default-500">الهاتف:</span>
             <span className="text-default-700 font-medium">{salon.owner?.phone ?? '—'}</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-default-400 w-5 text-center">🆔</span>
+            <span className="text-default-400 w-5 text-center"><HiIdentification className="inline" /></span>
             <span className="text-default-500">المعرّف:</span>
             <span className="text-default-400 font-mono text-xs">{salon.salon_id}</span>
           </div>

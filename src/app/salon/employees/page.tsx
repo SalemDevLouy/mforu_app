@@ -1,16 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
 import { useSalonId } from "@/hooks/useSalonId";
+import { useAppDialog } from "@/components/dialogs/AppDialogProvider";
+import { DashCard } from "@/components/common/DashCard";
 import { useEmployees } from "./hooks/useEmployees";
 import { Employee } from "./types";
 import { EmployeeGrid } from "./components/EmployeeGrid";
 import { AddEditEmployeeModal } from "./components/AddEditEmployeeModal";
+import { HiUsers } from "react-icons/hi2";
 
 export default function EmployeesPage() {
   const salonId = useSalonId();
+  const { showConfirm } = useAppDialog();
   const { employees, loadingEmployees, addEmployee, editEmployee, removeEmployee } =
     useEmployees(salonId);
 
@@ -28,7 +31,12 @@ export default function EmployeesPage() {
   };
 
   const handleDelete = async (empId: string) => {
-    if (!confirm("هل أنت متأكد من حذف هذا الموظف؟")) return;
+    const confirmed = await showConfirm("هل أنت متأكد من حذف هذا الموظف؟", {
+      title: "تأكيد الحذف",
+      confirmText: "حذف",
+    });
+    if (!confirmed) return;
+
     try {
       await removeEmployee(empId);
     } catch (err) {
@@ -49,17 +57,11 @@ export default function EmployeesPage() {
       </div>
 
       {/* Summary */}
-      <Card className="p-4">
-        <div className="flex justify-between items-center">
-          <div>
-            <p className="text-sm text-default-500">إجمالي الموظفين</p>
-            <p className="text-2xl font-bold text-primary">{employees.length}</p>
-          </div>
-          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-            <span className="text-2xl">👥</span>
-          </div>
-        </div>
-      </Card>
+      <DashCard
+        title="إجمالي الموظفين"
+        value={employees.length}
+        icon={<HiUsers className="text-blue-500" />}
+      />
 
       {/* Grid */}
       <EmployeeGrid

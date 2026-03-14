@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
 import { useAuth } from "@/hooks/useAuth";
+import { HiChartBar, HiPrinter } from "react-icons/hi2";
 
 interface Salon {
   salon_id: string;
@@ -230,11 +231,11 @@ export default function MonthlyReportsPage() {
         <div className="space-y-6 print:space-y-4">
           {/* Export Buttons */}
           <div className="flex gap-3 print:hidden">
-            <Button color="default" variant="bordered" onPress={handlePrint}>
-              🖨️ طباعة
+            <Button color="default" variant="bordered" onPress={handlePrint} startContent={<HiPrinter />}>
+              طباعة
             </Button>
-            <Button color="default" variant="bordered" onPress={handleExportCSV}>
-              📊 تصدير CSV
+            <Button color="default" variant="bordered" onPress={handleExportCSV} startContent={<HiChartBar />}>
+              تصدير CSV
             </Button>
           </div>
 

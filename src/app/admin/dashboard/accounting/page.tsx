@@ -6,6 +6,7 @@ import { Button } from "@heroui/button";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
 import { Salon } from "../types";
+import { HiBuildingStorefront, HiChartBar, HiMagnifyingGlass, HiMapPin, HiPhone } from "react-icons/hi2";
 
 
 export default function ReportPage() {
@@ -59,7 +60,7 @@ export default function ReportPage() {
       <Card className="p-4">
         <input
           type="text"
-          placeholder="🔍 البحث باسم المالك أو الموقع أو المعرف..."
+          placeholder="البحث باسم المالك أو الموقع أو المعرف..."
           className="w-full px-4 py-2 border border-default-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -85,7 +86,7 @@ export default function ReportPage() {
         <Card className="p-12">
           <div className="text-center space-y-4">
             <div className="w-20 h-20 mx-auto rounded-full bg-default-100 flex items-center justify-center">
-              <span className="text-4xl">🔍</span>
+              <HiMagnifyingGlass className="text-4xl text-default-500" />
             </div>
             <div>
               <h3 className="text-xl font-semibold">لا توجد صالونات</h3>
@@ -109,11 +110,11 @@ export default function ReportPage() {
                     <h3 className="text-xl font-semibold text-default-900">
                       {salon.owner?.name ?? "صالون غير معروف"}
                     </h3>
-                    <span className="text-2xl">🏪</span>
+                    <HiBuildingStorefront className="text-2xl text-default-500" />
                   </div>
-                  <p className="text-sm text-default-500">📍 {salon.site ?? "—"}</p>
+                  <p className="text-sm text-default-500 inline-flex items-center gap-1"><HiMapPin /> {salon.site ?? "—"}</p>
                   {salon.owner?.phone && (
-                    <p className="text-sm text-default-500 mt-1">📞 {salon.owner.phone}</p>
+                    <p className="text-sm text-default-500 mt-1 inline-flex items-center gap-1"><HiPhone /> {salon.owner.phone}</p>
                   )}
                   <p className="text-xs text-default-400 mt-2">ID: {salon.salon_id}</p>
                 </div>
@@ -122,8 +123,8 @@ export default function ReportPage() {
 
                 {/* Action Button */}
                 <Link href={`/admin/dashboard/accounting/${salon.salon_id}`} className="block">
-                  <Button color="primary" className="w-full" size="lg">
-                    📊 عرض التقرير
+                  <Button color="primary" className="w-full" size="lg" startContent={<HiChartBar />}>
+                    عرض التقرير
                   </Button>
                 </Link>
               </div>

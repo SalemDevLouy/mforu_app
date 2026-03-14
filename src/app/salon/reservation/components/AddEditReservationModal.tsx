@@ -8,6 +8,7 @@ import {
   STATUS_INACTIVE,
   BLANK_RESERVATION_FORM,
 } from "../constants";
+import { HiCalendarDays, HiPencilSquare, HiPhone, HiUser, HiCurrencyDollar, HiTag, HiCheckCircle, HiXCircle } from "react-icons/hi2";
 
 interface AddEditReservationModalProps {
   readonly editingReservation: Reservation | null;
@@ -62,8 +63,8 @@ export function AddEditReservationModal({
     Boolean(normalizeName(clientNameQuery)) || Boolean(normalizePhone(formData.client_phone));
   const clientPhoneSuffix = matchedClient?.phone ? " · " + matchedClient.phone : "";
   const clientStatusText = clientExists
-    ? `✅ العميل موجود: ${matchedClient?.name || ""}${clientPhoneSuffix}`
-    : "❌ العميل غير موجود";
+    ? `العميل موجود: ${matchedClient?.name || ""}${clientPhoneSuffix}`
+    : "العميل غير موجود";
 
   useEffect(() => {
     if (editingReservation) {
@@ -166,7 +167,7 @@ export function AddEditReservationModal({
         <div className={`px-6 py-4 flex items-center justify-between border-b border-gray-100 dark:border-zinc-800 ${isEdit ? "bg-amber-50 dark:bg-amber-900/20" : "bg-blue-50 dark:bg-blue-900/20"}`}>
           <div className="flex items-center gap-3">
             <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xl ${isEdit ? "bg-amber-100" : "bg-blue-100"}`}>
-              {isEdit ? "✏️" : "📅"}
+              {isEdit ? <HiPencilSquare className="text-amber-700" /> : <HiCalendarDays className="text-blue-700" />}
             </div>
             <div>
               <h2 className="text-base font-bold text-gray-800 dark:text-white">
@@ -191,7 +192,7 @@ export function AddEditReservationModal({
           {/* Client Phone */}
           <div>
             <label htmlFor="client-phone" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-              📞 رقم الهاتف <span className="text-red-500">*</span>
+              <span className="inline-flex items-center gap-1"><HiPhone className="text-gray-500" /> رقم الهاتف <span className="text-red-500">*</span></span>
             </label>
             <input
               id="client-phone"
@@ -204,7 +205,10 @@ export function AddEditReservationModal({
             />
             {shouldShowClientStatus ? (
               <p className={`mt-1.5 text-xs ${clientExists ? "text-green-600" : "text-red-500"}`}>
-                {clientStatusText}
+                <span className="inline-flex items-center gap-1">
+                  {clientExists ? <HiCheckCircle /> : <HiXCircle />}
+                  {clientStatusText}
+                </span>
               </p>
             ) : null}
             {!clientExists && !isEdit ? <p className="mt-1 text-xs text-amber-600">سيتم إنشاء العميل تلقائيًا عند تأكيد الحجز</p> : null}
@@ -213,7 +217,7 @@ export function AddEditReservationModal({
           {/* Client Name Search */}
                     <div>
                       <label htmlFor="client-name-search" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                        👤 اسم العميل <span className="text-red-500">*</span>
+                        <span className="inline-flex items-center gap-1"><HiUser className="text-gray-500" /> اسم العميل <span className="text-red-500">*</span></span>
                       </label>
                       <input
                         id="client-name-search"
@@ -229,7 +233,7 @@ export function AddEditReservationModal({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="res-date" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                🗓 موعد الحجز <span className="text-red-500">*</span>
+                <span className="inline-flex items-center gap-1"><HiCalendarDays className="text-gray-500" /> موعد الحجز <span className="text-red-500">*</span></span>
               </label>
               <input
                 id="res-date"
@@ -242,7 +246,7 @@ export function AddEditReservationModal({
             </div>
             <div>
               <label htmlFor="res-deposit" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                💵 العربون (دج)
+                <span className="inline-flex items-center gap-1"><HiCurrencyDollar className="text-gray-500" /> العربون (دج)</span>
               </label>
               <input
                 id="res-deposit"
@@ -259,7 +263,7 @@ export function AddEditReservationModal({
 
           {/* Status */}
           <div>
-            <span className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">🏷 الحالة</span>
+            <span className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5 inline-flex items-center gap-1"><HiTag className="text-gray-500" /> الحالة</span>
             <div className="grid grid-cols-2 gap-2">
               {RESERVATION_STATUSES.map((s) => {
                 const isActive = formData.status === s.value;
@@ -290,7 +294,7 @@ export function AddEditReservationModal({
               className="px-8 rounded-xl font-semibold mt-4"
               isLoading={submitting}
             >
-              {isEdit ? "💾 حفظ التعديلات" : "✅ تأكيد الحجز"}
+              {isEdit ? "حفظ التعديلات" : "تأكيد الحجز"}
             </Button>
           </div>
         </form>

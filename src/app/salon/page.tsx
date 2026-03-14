@@ -1,9 +1,10 @@
 import Link from 'next/link';
+import { HiScissors, HiCalendarDays, HiUsers, HiBriefcase, HiBanknotes, HiBuildingLibrary, HiClipboardDocumentList } from 'react-icons/hi2';
 
 const salonLinks = [
   {
     href: '/salon/addservice',
-    icon: '✂️',
+    icon: HiScissors,
     title: 'تسجيل خدمة',
     desc: 'تسجيل الخدمات المقدمة للعملاء وربطها بالموظفين',
     bg: 'bg-violet-50',
@@ -11,7 +12,7 @@ const salonLinks = [
   },
   {
     href: '/salon/reservation',
-    icon: '📅',
+    icon: HiCalendarDays,
     title: 'حجز موعد',
     desc: 'إدارة جدول المواعيد والحجوزات بشكل مرتب',
     bg: 'bg-sky-50',
@@ -19,7 +20,7 @@ const salonLinks = [
   },
   {
     href: '/salon/clients',
-    icon: '👥',
+    icon: HiUsers,
     title: 'العملاء',
     desc: 'عرض وإدارة بيانات العملاء وسجل زياراتهم',
     bg: 'bg-emerald-50',
@@ -27,7 +28,7 @@ const salonLinks = [
   },
   {
     href: '/salon/employees',
-    icon: '💼',
+    icon: HiBriefcase,
     title: 'الموظفون',
     desc: 'إدارة بيانات الموظفين وأدوارهم ومهامهم',
     bg: 'bg-amber-50',
@@ -35,7 +36,7 @@ const salonLinks = [
   },
   {
     href: '/salon/expenses',
-    icon: '💸',
+    icon: HiBanknotes,
     title: 'المصاريف',
     desc: 'تتبع نفقات الصالون اليومية والشهرية',
     bg: 'bg-rose-50',
@@ -43,7 +44,7 @@ const salonLinks = [
   },
   {
     href: '/salon/withdrawals',
-    icon: '🏦',
+    icon: HiBuildingLibrary,
     title: 'عمليات السحب',
     desc: 'تسجيل ومتابعة عمليات سحب الأموال',
     bg: 'bg-fuchsia-50',
@@ -57,7 +58,7 @@ export default function SalonPage() {
       {/* Welcome Banner */}
       <div className="rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 p-8 text-white">
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-xl">✂️</div>
+          <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-xl"><HiScissors /></div>
           <span className="text-emerald-100 text-sm font-medium">لوحة الصالون</span>
         </div>
         <h1 className="text-2xl md:text-3xl font-bold mb-1">مرحباً بك</h1>
@@ -69,13 +70,13 @@ export default function SalonPage() {
       {/* Quick Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
-          { label: 'زيارات اليوم', value: '—', icon: '📋' },
-          { label: 'عملاء نشطون', value: '—', icon: '👥' },
-          { label: 'مواعيد اليوم', value: '—', icon: '📅' },
-          { label: 'إيراد اليوم', value: '—', icon: '💰' },
+          { label: 'زيارات اليوم', value: '—', icon: HiClipboardDocumentList },
+          { label: 'عملاء نشطون', value: '—', icon: HiUsers },
+          { label: 'مواعيد اليوم', value: '—', icon: HiCalendarDays },
+          { label: 'إيراد اليوم', value: '—', icon: HiBanknotes },
         ].map((stat) => (
           <div key={stat.label} className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm text-center">
-            <div className="text-2xl mb-1">{stat.icon}</div>
+            <div className="text-2xl mb-1 flex justify-center text-gray-500"><stat.icon /></div>
             <div className="text-lg font-bold text-gray-700">{stat.value}</div>
             <div className="text-xs text-gray-400 mt-0.5">{stat.label}</div>
           </div>
@@ -93,7 +94,7 @@ export default function SalonPage() {
               className="group bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5"
             >
               <div className={`w-11 h-11 rounded-xl ${link.bg} flex items-center justify-center text-2xl mb-4`}>
-                {link.icon}
+                <link.icon className={link.text} />
               </div>
               <h3 className={`font-bold text-sm ${link.text} mb-1 group-hover:underline`}>
                 {link.title}

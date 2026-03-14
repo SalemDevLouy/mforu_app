@@ -6,6 +6,7 @@ import { Select, SelectItem } from "@heroui/select";
 import { Input } from "@heroui/input";
 import { Chip } from "@heroui/chip";
 import { Category, Employee, TaskItem } from "../types";
+import { HiMagnifyingGlass, HiScissors, HiPlus } from "react-icons/hi2";
 
 interface ServiceTasksCardProps {
   tasks: TaskItem[];
@@ -43,7 +44,7 @@ function EmployeeMultiSelect({
         value={search}
         onValueChange={setSearch}
         variant="bordered"
-        startContent={<span className="text-default-400 text-sm">🔍</span>}
+        startContent={<HiMagnifyingGlass className="text-default-400 text-sm" />}
         classNames={{ input: "text-sm" }}
         aria-label="بحث عن موظف"
       />
@@ -107,7 +108,7 @@ export default function ServiceTasksCard({
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-base">✂️</span>
+            <HiScissors className="text-base text-default-500" />
             <h2 className="text-sm font-semibold text-default-700">تفاصيل الخدمات</h2>
           </div>
           <Button
@@ -116,7 +117,7 @@ export default function ServiceTasksCard({
             variant="flat"
             color="primary"
             onPress={addTask}
-            startContent={<span>+</span>}
+            startContent={<HiPlus />}
           >
             خدمة جديدة
           </Button>

@@ -1,23 +1,54 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { jwtVerify } from "jose";
 
-export function middleware(req: NextRequest) {
+const JWT_SECRET = new TextEncoder().encode(
+  process.env.NEXTAUTH_SECRET || "fallback-secret-change-me"
+);
+
+// Route → required roles mapping
+const ROUTE_ROLES: { prefix: string; roles: string[] }[] = [
+  { prefix: "/admin", roles: ["admin of system", "accounting man"] },
+  { prefix: "/salon",  roles: ["salon owner", "reception"] },
+];
+
+export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
 
-  // Public routes that don't require authentication
-  const publicRoutes = ["/auth/signin", "/auth/signup", "/auth/error", "/unauthorized"];
-  
-  if (publicRoutes.includes(pathname)) {
-    return NextResponse.next();
+  // Determine if this route has a role requirement
+  const routeRule = ROUTE_ROLES.find((r) => pathname.startsWith(r.prefix));
+  if (!routeRule) return NextResponse.next();
+
+  const token = req.cookies.get("auth-token")?.value;
+
+  // ── No token → not authenticated ──────────────────────────────────────────
+  if (!token) {
+    const signInUrl = new URL("/auth/signin", req.url);
+    signInUrl.searchParams.set("callbackUrl", pathname);
+    return NextResponse.redirect(signInUrl);
   }
 
-  // For API routes, skip middleware (client will handle auth)
-  if (pathname.startsWith("/api/")) {
-    return NextResponse.next();
-  }
+  // ── Verify token ───────────────────────────────────────────────────────────
+  try {
+    const { payload } = await jwtVerify(token, JWT_SECRET);
+    const role = payload.role as string | undefined;
 
-  // For protected routes, the client-side will handle redirect
-  return NextResponse.next();
+    if (!role || !routeRule.roles.includes(role)) {
+      // Authenticated but wrong role → unauthorized
+      return NextResponse.redirect(new URL("/unauthorized", req.url));
+    }
+
+    // All good – pass through
+    return NextResponse.next();
+  } catch {
+    // Token invalid / expired → force re-login
+    const signInUrl = new URL("/auth/signin", req.url);
+    signInUrl.searchParams.set("callbackUrl", pathname);
+    const response = NextResponse.redirect(signInUrl);
+    // Clear the bad cookie
+    response.cookies.set("auth-token", "", { maxAge: 0, path: "/" });
+    return response;
+  }
 }
 
 export const config = {

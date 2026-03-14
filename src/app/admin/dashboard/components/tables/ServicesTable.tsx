@@ -1,5 +1,6 @@
 import { Card } from "@heroui/card";
 import { MonthlyReport } from "../../types";
+import { HiScissors } from "react-icons/hi2";
 
 interface ServicesTableProps {
   services: MonthlyReport["services"];
@@ -8,11 +9,11 @@ interface ServicesTableProps {
   formatDate: (date: string) => string;
 }
 
-export default function ServicesTable({ services, totalIncome, formatCurrency, formatDate }: ServicesTableProps) {
+export default function ServicesTable({ services, totalIncome, formatCurrency, formatDate }: Readonly<ServicesTableProps>) {
   return (
     <Card className="p-6">
       <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-        <span>✂️</span>
+        <HiScissors className="text-default-500" />
         <span>الخدمات ({services.length})</span>
       </h2>
       {services.length > 0 ? (

@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
 import { useAuth } from "@/hooks/useAuth";
+import { HiChartBar, HiPrinter } from "react-icons/hi2";
 
 interface EmployeeIncomeReport {
   employee: {
@@ -180,11 +181,11 @@ export default function EmployeeIncomePage() {
           <p className="text-default-500">التفاصيل الكاملة لدخل الموظف</p>
         </div>
         <div className="flex gap-3">
-          <Button color="default" variant="bordered" onPress={handlePrint}>
-            🖨️ طباعة
+          <Button color="default" variant="bordered" onPress={handlePrint} startContent={<HiPrinter />}>
+            طباعة
           </Button>
-          <Button color="default" variant="bordered" onPress={handleExportCSV}>
-            📊 تصدير CSV
+          <Button color="default" variant="bordered" onPress={handleExportCSV} startContent={<HiChartBar />}>
+            تصدير CSV
           </Button>
         </div>
       </div>

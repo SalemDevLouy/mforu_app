@@ -1,7 +1,8 @@
 "use client";
-import { Card } from "@heroui/card";
+import { DashCard } from "@/components/common/DashCard";
 import { Reservation } from "../types";
 import { RESERVATION_STATUSES } from "../constants";
+import { HiCalendarDays } from "react-icons/hi2";
 
 interface ReservationStatsCardsProps {
   readonly reservations: Reservation[];
@@ -16,12 +17,12 @@ export function ReservationStatsCards({ reservations }: ReservationStatsCardsPro
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
       {counts.map((s) => (
-        <Card key={s.value} className="p-4">
-          <div className="text-center">
-            <p className="text-sm text-default-500">{s.label}</p>
-            <p className={`text-2xl font-bold text-${s.color}`}>{s.count}</p>
-          </div>
-        </Card>
+        <DashCard
+          key={s.value}
+          title={s.label}
+          value={s.count}
+          icon={<HiCalendarDays className="text-blue-500" />}
+        />
       ))}
     </div>
   );

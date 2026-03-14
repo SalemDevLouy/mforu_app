@@ -1,6 +1,7 @@
 "use client";
-import { Card } from "@heroui/card";
+import { DashCard } from "@/components/common/DashCard";
 import { Expense } from "../types";
+import { HiBanknotes, HiCheckCircle, HiClock } from "react-icons/hi2";
 
 interface ExpenseStatsCardsProps {
   readonly expenses: Expense[];
@@ -13,35 +14,21 @@ export function ExpenseStatsCards({ expenses }: ExpenseStatsCardsProps) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <Card className="p-4 border-r-4 border-red-400">
-        <div className="flex justify-between items-center">
-          <div>
-            <p className="text-xs text-gray-500 uppercase tracking-wide">إجمالي المصروفات</p>
-            <p className="text-2xl font-bold text-red-600">{total.toFixed(2)} دج</p>
-          </div>
-          <span className="text-3xl">💸</span>
-        </div>
-      </Card>
-
-      <Card className="p-4 border-r-4 border-green-400">
-        <div className="flex justify-between items-center">
-          <div>
-            <p className="text-xs text-gray-500 uppercase tracking-wide">مدفوع</p>
-            <p className="text-2xl font-bold text-green-600">{paid.toFixed(2)} دج</p>
-          </div>
-          <span className="text-3xl">✅</span>
-        </div>
-      </Card>
-
-      <Card className="p-4 border-r-4 border-amber-400">
-        <div className="flex justify-between items-center">
-          <div>
-            <p className="text-xs text-gray-500 uppercase tracking-wide">معلّق</p>
-            <p className="text-2xl font-bold text-amber-600">{pending.toFixed(2)} دج</p>
-          </div>
-          <span className="text-3xl">⏳</span>
-        </div>
-      </Card>
+      <DashCard
+        title="إجمالي المصروفات"
+        value={`${total.toFixed(2)} دج`}
+        icon={<HiBanknotes className="text-blue-500" />}
+      />
+      <DashCard
+        title="مدفوع"
+        value={`${paid.toFixed(2)} دج`}
+        icon={<HiCheckCircle className="text-blue-500" />}
+      />
+      <DashCard
+        title="معلّق"
+        value={`${pending.toFixed(2)} دج`}
+        icon={<HiClock className="text-blue-500" />}
+      />
     </div>
   );
 }

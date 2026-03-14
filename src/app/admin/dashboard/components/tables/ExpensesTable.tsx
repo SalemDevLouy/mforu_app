@@ -1,5 +1,6 @@
 import { Card } from "@heroui/card";
 import { MonthlyReport } from "../../types";
+import { HiBanknotes } from "react-icons/hi2";
 
 interface ExpensesTableProps {
   expenses: MonthlyReport["expenses"];
@@ -8,13 +9,13 @@ interface ExpensesTableProps {
   formatDate: (date: string) => string;
 }
 
-export default function ExpensesTable({ expenses, totalExpenses, formatCurrency, formatDate }: ExpensesTableProps) {
+export default function ExpensesTable({ expenses, totalExpenses, formatCurrency, formatDate }: Readonly<ExpensesTableProps>) {
   if (expenses.length === 0) return null;
 
   return (
     <Card className="p-6">
       <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-        <span>💸</span>
+        <HiBanknotes className="text-default-500" />
         <span>المصروفات ({expenses.length})</span>
       </h2>
       <div className="overflow-x-auto">

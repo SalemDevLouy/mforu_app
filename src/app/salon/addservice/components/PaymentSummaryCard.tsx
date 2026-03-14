@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
 import { Card } from "@heroui/card";
-import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
 import { Chip } from "@heroui/chip";
 import { Divider } from "@heroui/divider";
 import { toFixed2 } from "@/lib/math";
 import { ServiceFormData } from "../types";
+import { HiBanknotes } from "react-icons/hi2";
 
 interface PaymentSummaryCardProps {
   formData: ServiceFormData;
@@ -26,8 +26,6 @@ export default function PaymentSummaryCard({
   handleChange,
   getTotalPrice,
   getRemainingAmount,
-  onReset,
-  submitting,
 }: Readonly<PaymentSummaryCardProps>) {
   const total = getTotalPrice();
   const remaining = getRemainingAmount();
@@ -47,7 +45,7 @@ export default function PaymentSummaryCard({
       <div className="p-3 sm:p-4 space-y-3">
         {/* Section label */}
         <div className="flex items-center gap-2">
-          <span className="text-base">💵</span>
+          <HiBanknotes className="text-base text-default-500" />
           <h2 className="text-sm font-semibold text-default-700">الدفع</h2>
         </div>
 
@@ -97,28 +95,7 @@ export default function PaymentSummaryCard({
           placeholder="أي ملاحظات..."
         />
 
-        {/* Actions */}
-        <div className="flex gap-2 pt-1">
-          <Button
-            type="button"
-            size="sm"
-            variant="flat"
-            color="default"
-            className="flex-1"
-            onPress={onReset}
-          >
-            إعادة تعيين
-          </Button>
-          <Button
-            type="submit"
-            size="sm"
-            color="primary"
-            className="flex-1 font-semibold"
-            isLoading={submitting}
-          >
-            {submitting ? "جاري التسجيل..." : "✅ تسجيل الخدمة"}
-          </Button>
-        </div>
+      
       </div>
     </Card>
   );

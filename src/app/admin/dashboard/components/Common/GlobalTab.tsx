@@ -5,6 +5,7 @@ import ServicesTable from "../tables/ServicesTable";
 import ExpensesTable from "../tables/ExpensesTable";
 import ConstantsTable from "../tables/ConstantsTable";
 import { formatCurrency, formatDate, formatRepetation } from "../../accounting/[salonId]/utils";
+import { HiArrowDownTray, HiPrinter } from "react-icons/hi2";
 
 interface GlobalTabProps {
   report: MonthlyReport;
@@ -13,7 +14,7 @@ interface GlobalTabProps {
   onPrint: () => void;
 }
 
-export default function GlobalTab({ report, selectedMonth, onMonthChange, onPrint }: GlobalTabProps) {
+export default function GlobalTab({ report, selectedMonth, onMonthChange, onPrint }: Readonly<GlobalTabProps>) {
   const handleExportCsv = () => {
     let csv = `تقرير الصالون - ${report.salon.name}\n\n`;
     csv += `الفترة,${formatDate(report.period.start)} - ${formatDate(report.period.end)}\n\n`;
@@ -44,11 +45,11 @@ export default function GlobalTab({ report, selectedMonth, onMonthChange, onPrin
           />
         </div>
         <div className="flex gap-2">
-          <Button size="sm" color="primary" onPress={onPrint}>
-            🖨️ طباعة
+          <Button size="sm" color="primary" onPress={onPrint} startContent={<HiPrinter />}>
+            طباعة
           </Button>
-          <Button size="sm" color="default" variant="bordered" onPress={handleExportCsv}>
-            📥 تصدير CSV
+          <Button size="sm" color="default" variant="bordered" onPress={handleExportCsv} startContent={<HiArrowDownTray />}>
+            تصدير CSV
           </Button>
         </div>
       </div>

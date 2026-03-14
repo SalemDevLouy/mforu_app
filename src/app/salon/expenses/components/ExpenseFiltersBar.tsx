@@ -17,10 +17,10 @@ export function ExpenseFiltersBar({ filters, onChange }: ExpenseFiltersBarProps)
         value={filters.exp_type}
         onChange={(e) => onChange({ ...filters, exp_type: e.target.value })}
       >
-        <option value="">🗂 كل الأنواع</option>
+        <option value="">كل الأنواع</option>
         {EXPENSE_CATEGORIES.map((c) => (
           <option key={c.value} value={c.value}>
-            {c.icon} {c.value}
+            {c.value}
           </option>
         ))}
       </select>
@@ -30,9 +30,9 @@ export function ExpenseFiltersBar({ filters, onChange }: ExpenseFiltersBarProps)
         value={filters.status}
         onChange={(e) => onChange({ ...filters, status: e.target.value })}
       >
-        <option value="">📌 كل الحالات</option>
-        <option value="paid">✅ مدفوع</option>
-        <option value="pending">⏳ معلّق</option>
+        <option value="">كل الحالات</option>
+        <option value="paid">مدفوع</option>
+        <option value="pending">معلّق</option>
       </select>
 
       {hasFilters && (

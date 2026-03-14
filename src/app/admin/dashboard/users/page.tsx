@@ -14,6 +14,7 @@ import { DashCard } from "@/components/common/DashCard";
 import AddUsersDialog from "../components/Dialoges/Users/AddUsersDialog";
 import UpdateUserDialog from "../components/Dialoges/Users/UpdateUserDialog";
 import DeleteUserDialoge from "../components/Dialoges/Users/DeleteUserDialoge";
+import { HiBuildingStorefront, HiUsers, HiUserGroup } from "react-icons/hi2";
 
 
 export default function Page() {
@@ -222,10 +223,10 @@ export default function Page() {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <DashCard title="إجمالي المستخدمين" value={users.length} icon="👥" />
+        <DashCard title="إجمالي المستخدمين" value={users.length} icon={<HiUsers className="text-blue-500" />} />
           
-          <DashCard title="إجمالي الصالونات" value={salons.length} icon="🏪" />
-          <DashCard title="إجمالي الأدوار" value={roles.length} icon="🎭" />
+          <DashCard title="إجمالي الصالونات" value={salons.length} icon={<HiBuildingStorefront className="text-blue-500" />} />
+          <DashCard title="إجمالي الأدوار" value={roles.length} icon={<HiUserGroup className="text-blue-500" />} />
       </div>
 
       {/* List Users */}
@@ -256,7 +257,7 @@ export default function Page() {
                     const val = Array.from(keys)[0] as string;
                     setFilterSalon(val ?? "all");
                   }}
-                  startContent={<span className="text-default-400 text-sm">🏪</span>}
+                  startContent={<HiBuildingStorefront className="text-default-400 text-sm" />}
                   items={[{ key: "all", label: "جميع الصالونات" }, ...salons.map((s) => ({ key: s.salon_id, label: s.site }))]}
                 >
                   {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
@@ -272,7 +273,7 @@ export default function Page() {
                     const val = Array.from(keys)[0] as string;
                     setFilterRole(val ?? "all");
                   }}
-                  startContent={<span className="text-default-400 text-sm">🎭</span>}
+                  startContent={<HiUserGroup className="text-default-400 text-sm" />}
                   items={[{ key: "all", label: "جميع الأدوار" }, ...roles.map((r) => ({ key: r.role_id, label: r.role_name }))]}
                 >
                   {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}

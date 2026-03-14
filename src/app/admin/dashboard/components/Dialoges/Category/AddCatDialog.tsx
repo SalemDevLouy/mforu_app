@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Button } from "@heroui/button";
+import { HiXMark } from "react-icons/hi2";
 
 interface AddCatDialogProps {
   isOpen: boolean;
@@ -67,7 +68,7 @@ export default function AddCatDialog({ isOpen, onClose, onSuccess }: Readonly<Ad
             disabled={isSubmitting}
             className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-default-200 transition-colors text-default-500 text-lg"
           >
-            ✕
+            <HiXMark />
           </button>
         </div>
 

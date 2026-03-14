@@ -7,6 +7,7 @@ import { Category, Employee, ClientData, TaskItem, ServiceFormData } from "../ty
 import ClientInfoCard from "./ClientInfoCard";
 import ServiceTasksCard from "./ServiceTasksCard";
 import PaymentSummaryCard from "./PaymentSummaryCard";
+import { HiScissors } from "react-icons/hi2";
 
 interface AddServiceDialogProps {
   readonly onClose: () => void;
@@ -71,7 +72,7 @@ export default function AddServiceDialog({
         {/* ── Header ── */}
         <ModalHeader className="flex items-center gap-3 py-3 border-b border-default-100">
           <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-lg shrink-0">
-            ✂️
+            <HiScissors className="text-primary" />
           </div>
           <div className="flex-1 min-w-0">
             <h2 className="text-sm font-bold text-default-900">إضافة خدمة جديدة</h2>

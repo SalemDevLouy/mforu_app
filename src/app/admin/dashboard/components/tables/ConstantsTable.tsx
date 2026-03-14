@@ -1,5 +1,6 @@
 import { Card } from "@heroui/card";
 import { MonthlyReport } from "../../types";
+import { HiClipboardDocumentList } from "react-icons/hi2";
 
 interface ConstantsTableProps {
   constants: MonthlyReport["constants"];
@@ -8,13 +9,13 @@ interface ConstantsTableProps {
   formatRepetation: (rep: string) => string;
 }
 
-export default function ConstantsTable({ constants, constantsTotal, formatCurrency, formatRepetation }: ConstantsTableProps) {
+export default function ConstantsTable({ constants, constantsTotal, formatCurrency, formatRepetation }: Readonly<ConstantsTableProps>) {
   if (constants.length === 0) return null;
 
   return (
     <Card className="p-6">
       <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-        <span>📋</span>
+        <HiClipboardDocumentList className="text-default-500" />
         <span>المصروفات الثابتة</span>
       </h2>
       <div className="overflow-x-auto">

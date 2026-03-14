@@ -1,14 +1,16 @@
+import { HiArchiveBox, HiBuildingLibrary, HiGlobeAlt, HiHome, HiLightBulb, HiShieldCheck, HiUser, HiWrenchScrewdriver, HiClipboardDocumentList, HiBeaker } from "react-icons/hi2";
+
 export const CONSTANT_TYPES = [
-  { value: "إيجار",           icon: "🏠", color: "indigo" },
-  { value: "راتب ثابت موظف", icon: "👤", color: "green"  },
-  { value: "اشتراك كهرباء",   icon: "💡", color: "yellow" },
-  { value: "اشتراك مياه",     icon: "💧", color: "sky"    },
-  { value: "اشتراك إنترنت",   icon: "🌐", color: "blue"   },
-  { value: "تأمين",           icon: "🛡", color: "purple" },
-  { value: "صيانة دورية",     icon: "🔧", color: "orange" },
-  { value: "قرض / قسط",      icon: "🏦", color: "red"    },
-  { value: "اشتراك خدمة",    icon: "📋", color: "gray"   },
-  { value: "أخرى",            icon: "📦", color: "slate"  },
+  { value: "إيجار",           icon: HiHome, color: "indigo" },
+  { value: "راتب ثابت موظف", icon: HiUser, color: "green"  },
+  { value: "اشتراك كهرباء",   icon: HiLightBulb, color: "yellow" },
+  { value: "اشتراك مياه",     icon: HiBeaker, color: "sky"    },
+  { value: "اشتراك إنترنت",   icon: HiGlobeAlt, color: "blue"   },
+  { value: "تأمين",           icon: HiShieldCheck, color: "purple" },
+  { value: "صيانة دورية",     icon: HiWrenchScrewdriver, color: "orange" },
+  { value: "قرض / قسط",      icon: HiBuildingLibrary, color: "red"    },
+  { value: "اشتراك خدمة",    icon: HiClipboardDocumentList, color: "gray"   },
+  { value: "أخرى",            icon: HiArchiveBox, color: "slate"  },
 ];
 
 export const REPETATION_OPTIONS = [
@@ -41,7 +43,7 @@ export const REP_ACTIVE: Record<string, string> = {
 };
 
 export function getTypeIcon(name: string) {
-  return CONSTANT_TYPES.find((t) => t.value === name)?.icon ?? "📦";
+  return CONSTANT_TYPES.find((t) => t.value === name)?.icon ?? HiArchiveBox;
 }
 
 export function getRepLabel(rep: string) {

@@ -1,14 +1,16 @@
+import { HiBeaker, HiUser, HiHome, HiLightBulb, HiWrenchScrewdriver, HiClipboardDocumentList, HiArchiveBox, HiSparkles } from "react-icons/hi2";
+
 export const EXPENSE_CATEGORIES = [
-  { value: "منتجات وأدوات",  icon: "🧴", color: "purple" },
-  { value: "مواد خام",       icon: "🪣", color: "blue"   },
-  { value: "مواد تنظيف",    icon: "🧹", color: "cyan"   },
-  { value: "رواتب",          icon: "👤", color: "green"  },
-  { value: "إيجار",          icon: "🏠", color: "indigo" },
-  { value: "كهرباء",         icon: "💡", color: "yellow" },
-  { value: "مياه",           icon: "💧", color: "sky"    },
-  { value: "صيانة",          icon: "🔧", color: "orange" },
-  { value: "مستلزمات مكتبية",icon: "📋", color: "gray"   },
-  { value: "أخرى",           icon: "📦", color: "slate"  },
+  { value: "منتجات وأدوات",  icon: HiSparkles, color: "purple" },
+  { value: "مواد خام",       icon: HiBeaker, color: "blue"   },
+  { value: "مواد تنظيف",     icon: HiBeaker, color: "cyan"   },
+  { value: "رواتب",          icon: HiUser, color: "green"  },
+  { value: "إيجار",          icon: HiHome, color: "indigo" },
+  { value: "كهرباء",         icon: HiLightBulb, color: "yellow" },
+  { value: "مياه",           icon: HiBeaker, color: "sky"    },
+  { value: "صيانة",          icon: HiWrenchScrewdriver, color: "orange" },
+  { value: "مستلزمات مكتبية",icon: HiClipboardDocumentList, color: "gray"   },
+  { value: "أخرى",           icon: HiArchiveBox, color: "slate"  },
 ] as const;
 
 export const CATEGORY_ACTIVE: Record<string, string> = {
@@ -25,7 +27,7 @@ export const CATEGORY_ACTIVE: Record<string, string> = {
 };
 
 export const getCategoryIcon = (type: string) =>
-  EXPENSE_CATEGORIES.find((c) => c.value === type)?.icon ?? "📦";
+  EXPENSE_CATEGORIES.find((c) => c.value === type)?.icon ?? HiArchiveBox;
 
 export const BLANK_FORM = () => ({
   exp_type: "",

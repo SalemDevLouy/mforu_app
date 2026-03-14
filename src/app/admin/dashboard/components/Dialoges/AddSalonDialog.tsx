@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Button } from "@heroui/button";
+import { HiXMark } from "react-icons/hi2";
 
 interface AddSalonDialogProps {
   isOpen: boolean;
@@ -60,12 +61,15 @@ export default function AddSalonDialog({ isOpen, onClose, onSuccess }: Readonly<
   };
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      onClick={(e) => { if (e.target === e.currentTarget) handleClose(); }}
-    >
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/50" />
+      <button
+        type="button"
+        aria-label="إغلاق"
+        className="absolute inset-0 bg-black/50 cursor-default"
+        onClick={handleClose}
+        tabIndex={-1}
+      />
 
       {/* Dialog */}
       <div className="relative z-10 w-full max-w-lg bg-white dark:bg-default-100 rounded-2xl shadow-2xl flex flex-col max-h-[90vh]">
@@ -80,7 +84,7 @@ export default function AddSalonDialog({ isOpen, onClose, onSuccess }: Readonly<
             disabled={loading}
             className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-default-200 transition-colors text-default-500 text-lg leading-none"
           >
-            ✕
+            <HiXMark />
           </button>
         </div>
 

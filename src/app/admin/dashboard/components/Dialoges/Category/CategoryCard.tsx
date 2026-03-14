@@ -6,6 +6,7 @@ import { Button } from "@heroui/button";
 import { Chip } from "@heroui/chip";
 import { Divider } from "@heroui/divider";
 import { Category, CategoryRate } from "../../../category/types";
+import { HiPencilSquare, HiTag, HiTrash } from "react-icons/hi2";
 
 interface CategoryCardProps {
   cat: Category;
@@ -71,7 +72,7 @@ export default function CategoryCard({
               existingRate ? "bg-success/10" : "bg-default-100"
             }`}
           >
-            🏷️
+            <HiTag className="text-default-500" />
           </div>
           <div className="flex-1 min-w-0">
             {isEditingName ? (
@@ -141,13 +142,13 @@ export default function CategoryCard({
         )}
         {!isEditingName && !isEditingRate && (
           <>
-            <Button size="sm" color="primary" variant="flat" className="text-xs h-7 min-w-0 px-3" onPress={onStartEditName}>✏️ تعديل</Button>
+            <Button size="sm" color="primary" variant="flat" className="text-xs h-7 min-w-0 px-3" onPress={onStartEditName} startContent={<HiPencilSquare />}>تعديل</Button>
             {selectedSalon && (
               <Button size="sm" color="warning" variant="flat" className="text-xs h-7 min-w-0 px-3" onPress={onStartEditRate}>
                 {existingRate ? "تعديل النسبة" : "تعيين النسبة"}
               </Button>
             )}
-            <Button size="sm" color="danger" variant="flat" className="text-xs h-7 min-w-0 px-3" onPress={onDelete}>🗑️</Button>
+            <Button size="sm" color="danger" variant="flat" className="text-xs h-7 min-w-0 px-3" onPress={onDelete} isIconOnly><HiTrash /></Button>
           </>
         )}
       </CardFooter>

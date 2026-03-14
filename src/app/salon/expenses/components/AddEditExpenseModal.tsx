@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@heroui/button";
 import { Expense, ExpenseFormData } from "../types";
 import { EXPENSE_CATEGORIES, CATEGORY_ACTIVE, BLANK_FORM } from "../constants";
+import { HiBanknotes, HiCalendarDays, HiCheckCircle, HiClock, HiPencilSquare, HiTag, HiDocumentText, HiCreditCard } from "react-icons/hi2";
 
 interface AddEditExpenseModalProps {
   readonly editingExpense: Expense | null;
@@ -73,7 +74,7 @@ export function AddEditExpenseModal({
         <div className={`px-6 py-4 flex items-center justify-between border-b border-gray-100 ${isEdit ? "bg-amber-50" : "bg-red-50"}`}>
           <div className="flex items-center gap-3">
             <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xl ${isEdit ? "bg-amber-100" : "bg-red-100"}`}>
-              {isEdit ? "✏️" : "💸"}
+              {isEdit ? <HiPencilSquare className="text-amber-700" /> : <HiBanknotes className="text-red-700" />}
             </div>
             <div>
               <h2 className="text-base font-bold text-gray-800">
@@ -98,7 +99,7 @@ export function AddEditExpenseModal({
           {/* Category grid */}
           <div>
             <span className="block text-sm font-semibold text-gray-700 mb-2">
-              🏷 نوع المصروف <span className="text-red-500">*</span>
+              <span className="inline-flex items-center gap-1"><HiTag className="text-gray-500" /> نوع المصروف <span className="text-red-500">*</span></span>
             </span>
             <div className="grid grid-cols-5 gap-2">
               {EXPENSE_CATEGORIES.map((cat) => {
@@ -115,7 +116,7 @@ export function AddEditExpenseModal({
                         : "border-gray-200 bg-white hover:bg-gray-50 text-gray-500"
                     }`}
                   >
-                    <span className="text-xl">{cat.icon}</span>
+                    <cat.icon className="text-xl" />
                     <span className="text-xs leading-tight">{cat.value}</span>
                   </button>
                 );
@@ -126,7 +127,7 @@ export function AddEditExpenseModal({
           {/* Description */}
           <div>
             <label htmlFor="exp-desc" className="block text-sm font-semibold text-gray-700 mb-1.5">
-              📝 الوصف / البيان
+              <span className="inline-flex items-center gap-1"><HiDocumentText className="text-gray-500" /> الوصف / البيان</span>
             </label>
             <input
               id="exp-desc"
@@ -142,7 +143,7 @@ export function AddEditExpenseModal({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="exp-val" className="block text-sm font-semibold text-gray-700 mb-1.5">
-                💰 المبلغ (دج) <span className="text-red-500">*</span>
+                <span className="inline-flex items-center gap-1"><HiBanknotes className="text-gray-500" /> المبلغ (دج) <span className="text-red-500">*</span></span>
               </label>
               <input
                 id="exp-val"
@@ -158,7 +159,7 @@ export function AddEditExpenseModal({
             </div>
             <div>
               <label htmlFor="exp-date" className="block text-sm font-semibold text-gray-700 mb-1.5">
-                📅 التاريخ <span className="text-red-500">*</span>
+                <span className="inline-flex items-center gap-1"><HiCalendarDays className="text-gray-500" /> التاريخ <span className="text-red-500">*</span></span>
               </label>
               <input
                 id="exp-date"
@@ -173,18 +174,20 @@ export function AddEditExpenseModal({
 
           {/* Status toggle */}
           <div>
-            <span className="block text-sm font-semibold text-gray-700 mb-1.5">💳 حالة الدفع</span>
+            <span className="block text-sm font-semibold text-gray-700 mb-1.5 inline-flex items-center gap-1"><HiCreditCard className="text-gray-500" /> حالة الدفع</span>
             <div className="grid grid-cols-2 gap-3">
               {[
                 {
                   value: "paid",
-                  label: "✅ مدفوع",
+                  label: "مدفوع",
+                  icon: HiCheckCircle,
                   active: "border-green-400 bg-green-50 text-green-700 ring-2 ring-green-300 ring-offset-1",
                   inactive: "border-gray-200 bg-white hover:bg-green-50 hover:border-green-200 text-gray-500",
                 },
                 {
                   value: "pending",
-                  label: "⏳ معلّق",
+                  label: "معلّق",
+                  icon: HiClock,
                   active: "border-amber-400 bg-amber-50 text-amber-700 ring-2 ring-amber-300 ring-offset-1",
                   inactive: "border-gray-200 bg-white hover:bg-amber-50 hover:border-amber-200 text-gray-500",
                 },
@@ -197,7 +200,7 @@ export function AddEditExpenseModal({
                     formData.status === s.value ? s.active : s.inactive
                   }`}
                 >
-                  {s.label}
+                  <span className="inline-flex items-center gap-1"><s.icon /> {s.label}</span>
                 </button>
               ))}
             </div>
@@ -219,7 +222,7 @@ export function AddEditExpenseModal({
               className="px-8 rounded-xl font-semibold mt-3"
               isDisabled={!formData.exp_type || !formData.exp_val}
             >
-              {isEdit ? "💾 حفظ التعديلات" : "✅ تسجيل المصروف"}
+              {isEdit ? "حفظ التعديلات" : "تسجيل المصروف"}
             </Button>
           </div>
         </form>

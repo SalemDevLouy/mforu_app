@@ -5,6 +5,7 @@ import { Input } from "@heroui/input";
 import { Chip } from "@heroui/chip";
 import { toFixed2 } from "@/lib/math";
 import { ClientData, ServiceFormData } from "../types";
+import { HiUser, HiCalendarDays, HiInformationCircle } from "react-icons/hi2";
 
 interface ClientInfoCardProps {
   formData: ServiceFormData;
@@ -36,7 +37,7 @@ export default function ClientInfoCard({
       <div className="p-3 sm:p-4 space-y-3">
         {/* Section label */}
         <div className="flex items-center gap-2">
-          <span className="text-base">👤</span>
+          <HiUser className="text-base text-default-500" />
           <h2 className="text-sm font-semibold text-default-700">معلومات العميل</h2>
         </div>
 
@@ -97,7 +98,7 @@ export default function ClientInfoCard({
             {/* Reservations */}
             {clientData.hasReservation && clientData.reservations.length > 0 && (
               <div className="text-xs text-primary space-y-0.5">
-                <span className="font-semibold">📅 حجوزات نشطة:</span>
+                <span className="font-semibold inline-flex items-center gap-1"><HiCalendarDays /> حجوزات نشطة:</span>
                 {clientData.reservations.map((r) => (
                   <div key={r.reservation_id} className="flex justify-between">
                     <span>{new Date(r.date).toLocaleDateString("ar-DZ")}</span>
@@ -112,7 +113,7 @@ export default function ClientInfoCard({
 
             {clientData.totalDebt > 0 && (
               <p className="text-xs text-warning-700 bg-warning-50 rounded-lg px-2 py-1">
-                💡 الفائض عن السعر سيُطبَّق تلقائياً على الديون السابقة
+                <span className="inline-flex items-center gap-1"><HiInformationCircle /> الفائض عن السعر سيُطبَّق تلقائياً على الديون السابقة</span>
               </p>
             )}
           </div>

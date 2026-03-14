@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
 import { useSalonId } from "@/hooks/useSalonId";
+import { DashCard } from "@/components/common/DashCard";
 import { useReservations } from "./hooks/useReservations";
 import { useClients } from "./hooks/useClients";
 import { Reservation } from "./types";
@@ -12,6 +12,7 @@ import { ReservationFiltersBar } from "./components/ReservationFiltersBar";
 import { ReservationTable } from "./components/ReservationTable";
 import { AddEditReservationModal } from "./components/AddEditReservationModal";
 import { DeleteReservationModal } from "./components/DeleteReservationModal";
+import { HiCalendarDays, HiPlus } from "react-icons/hi2";
 
 export default function ReservationsPage() {
   const salonId = useSalonId();
@@ -59,22 +60,18 @@ export default function ReservationsPage() {
           <h1 className="text-2xl md:text-3xl font-bold">إدارة الحجوزات</h1>
           <p className="text-default-500 text-sm mt-1">تسجيل ومتابعة مواعيد العملاء</p>
         </div>
-        <Button color="primary" onPress={openAdd}>+ حجز جديد</Button>
+        <Button color="primary" onPress={openAdd} startContent={<HiPlus />}>حجز جديد</Button>
       </div>
 
       {/* Stats */}
       <ReservationStatsCards reservations={reservations} />
 
       {/* Summary card */}
-      <Card className="p-4">
-        <div className="flex justify-between items-center">
-          <div>
-            <p className="text-sm text-default-500">إجمالي الحجوزات</p>
-            <p className="text-2xl font-bold text-primary">{reservations.length}</p>
-          </div>
-          <span className="text-3xl">📅</span>
-        </div>
-      </Card>
+      <DashCard
+        title="إجمالي الحجوزات"
+        value={reservations.length}
+        icon={<HiCalendarDays className="text-blue-500" />}
+      />
 
       {/* Filters */}
       <ReservationFiltersBar filterStatus={filterStatus} onChange={setFilterStatus} />

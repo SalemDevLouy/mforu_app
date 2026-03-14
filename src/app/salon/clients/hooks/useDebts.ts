@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useAppDialog } from "@/components/dialogs/AppDialogProvider";
 import { Client, Debt, DebtFormData, BalanceFormData } from "../types";
 import {
   fetchDebts as fetchDebtsApi,
@@ -10,6 +11,7 @@ import {
 } from "../model/debts.model";
 
 export function useDebts(onRefreshClients: () => void) {
+  const { showConfirm } = useAppDialog();
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [clientDebts, setClientDebts] = useState<Debt[]>([]);
 
@@ -68,7 +70,12 @@ export function useDebts(onRefreshClients: () => void) {
   };
 
   const handleMarkDebtPaid = async (debtId: string) => {
-    if (!confirm("هل تريد تحديد هذا الدين كمدفوع؟")) return;
+    const confirmed = await showConfirm("هل تريد تحديد هذا الدين كمدفوع؟", {
+      title: "تأكيد تحديث الحالة",
+      confirmText: "تأكيد",
+    });
+    if (!confirmed) return;
+
     try {
       await updateDebtStatus(debtId, "paid");
       alert("تم تحديث حالة الدين بنجاح");
@@ -81,7 +88,12 @@ export function useDebts(onRefreshClients: () => void) {
   };
 
   const handleMarkCreditReturned = async (debtId: string) => {
-    if (!confirm("هل تم إرجاع الفكة للعميل؟")) return;
+    const confirmed = await showConfirm("هل تم إرجاع الفكة للعميل؟", {
+      title: "تأكيد الإرجاع",
+      confirmText: "نعم، تم الإرجاع",
+    });
+    if (!confirmed) return;
+
     try {
       await updateDebtStatus(debtId, "credit_returned");
       alert("تم تسجيل إرجاع الفكة بنجاح");

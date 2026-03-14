@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Button } from "@heroui/button";
+import { HiTrash } from "react-icons/hi2";
 
 interface DeleteUserDialogeProps {
   readonly isOpen: boolean;
@@ -35,7 +36,7 @@ export default function DeleteUserDialoge({
       <div className="relative z-10 w-full max-w-md bg-white dark:bg-default-100 rounded-2xl shadow-2xl p-6">
         {/* Icon */}
         <div className="flex items-center justify-center w-14 h-14 rounded-full bg-danger/10 mx-auto mb-4">
-          <span className="text-2xl text-danger">🗑️</span>
+          <HiTrash className="text-2xl text-danger" />
         </div>
 
         {/* Content */}

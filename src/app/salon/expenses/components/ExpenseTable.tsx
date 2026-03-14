@@ -9,6 +9,7 @@ import {
 } from "@heroui/table";
 import { Expense } from "../types";
 import { getCategoryIcon } from "../constants";
+import { HiCheckCircle, HiClock } from "react-icons/hi2";
 
 interface ExpenseTableProps {
   readonly expenses: Expense[];
@@ -42,11 +43,14 @@ export function ExpenseTable({
               </TableCell>
               <TableCell>
                 <span className="flex items-center gap-1.5 font-medium">
-                  <span>{getCategoryIcon(expense.exp_type)}</span>
+                  {(() => {
+                    const CategoryIcon = getCategoryIcon(expense.exp_type);
+                    return <CategoryIcon />;
+                  })()}
                   <span>{expense.exp_type}</span>
                 </span>
               </TableCell>
-              <TableCell className="max-w-[200px]">
+              <TableCell className="max-w-50">
                 <span className="text-sm text-gray-600 truncate block">
                   {expense.description || "—"}
                 </span>
@@ -64,7 +68,8 @@ export function ExpenseTable({
                       : "bg-amber-100 text-amber-700"
                   }`}
                 >
-                  {expense.status === "paid" ? "✅ مدفوع" : "⏳ معلّق"}
+                  {expense.status === "paid" ? <HiCheckCircle /> : <HiClock />}
+                  {expense.status === "paid" ? "مدفوع" : "معلّق"}
                 </span>
               </TableCell>
               <TableCell>

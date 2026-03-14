@@ -10,6 +10,7 @@ import {
   REP_ACTIVE,
   ConstantFormData,
 } from "../../../constants/data";
+import { HiArrowPath, HiBanknotes, HiCalendarDays, HiCheckCircle, HiClipboardDocumentList, HiCog6Tooth, HiPencilSquare, HiTag, HiBuildingStorefront } from "react-icons/hi2";
 
 interface AddConstantModalProps {
   isOpen:          boolean;
@@ -50,7 +51,7 @@ export default function AddConstantModal({
         <div className={`px-6 py-4 flex items-center justify-between border-b border-gray-100 ${editingConstant ? "bg-amber-50" : "bg-blue-50"}`}>
           <div className="flex items-center gap-3">
             <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xl ${editingConstant ? "bg-amber-100" : "bg-blue-100"}`}>
-              {editingConstant ? "✏️" : "📋"}
+              {editingConstant ? <HiPencilSquare className="text-amber-700" /> : <HiClipboardDocumentList className="text-blue-700" />}
             </div>
             <div>
               <h2 className="text-base font-bold text-gray-800">
@@ -74,7 +75,7 @@ export default function AddConstantModal({
           {/* Salon */}
           <div>
             <label htmlFor="modal-salon" className="block text-sm font-semibold text-gray-700 mb-1.5">
-              🏪 الصالون <span className="text-red-500">*</span>
+              <span className="inline-flex items-center gap-1"><HiBuildingStorefront className="text-gray-500" /> الصالون <span className="text-red-500">*</span></span>
             </label>
             <select
               id="modal-salon"
@@ -93,7 +94,7 @@ export default function AddConstantModal({
           {/* Type grid */}
           <div>
             <span className="block text-sm font-semibold text-gray-700 mb-2">
-              🏷 نوع الثابت <span className="text-red-500">*</span>
+              <span className="inline-flex items-center gap-1"><HiTag className="text-gray-500" /> نوع الثابت <span className="text-red-500">*</span></span>
             </span>
             <div className="grid grid-cols-5 gap-2">
               {CONSTANT_TYPES.map((t) => {
@@ -110,7 +111,7 @@ export default function AddConstantModal({
                         : "border-gray-200 bg-white hover:bg-gray-50 text-gray-500"
                     }`}
                   >
-                    <span className="text-xl">{t.icon}</span>
+                    <t.icon className="text-xl" />
                     <span className="text-[10px] leading-tight">{t.value}</span>
                   </button>
                 );
@@ -129,7 +130,7 @@ export default function AddConstantModal({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="c-val" className="block text-sm font-semibold text-gray-700 mb-1.5">
-                💰 القيمة (دج) <span className="text-red-500">*</span>
+                <span className="inline-flex items-center gap-1"><HiBanknotes className="text-gray-500" /> القيمة (دج) <span className="text-red-500">*</span></span>
               </label>
               <input
                 id="c-val"
@@ -145,7 +146,7 @@ export default function AddConstantModal({
             </div>
             <div>
               <label htmlFor="c-date" className="block text-sm font-semibold text-gray-700 mb-1.5">
-                📅 تاريخ البدء <span className="text-red-500">*</span>
+                <span className="inline-flex items-center gap-1"><HiCalendarDays className="text-gray-500" /> تاريخ البدء <span className="text-red-500">*</span></span>
               </label>
               <input
                 id="c-date"
@@ -161,7 +162,7 @@ export default function AddConstantModal({
           {/* Repetation */}
           <div>
             <span className="block text-sm font-semibold text-gray-700 mb-1.5">
-              🔁 التكرار <span className="text-red-500">*</span>
+              <span className="inline-flex items-center gap-1"><HiArrowPath className="text-gray-500" /> التكرار <span className="text-red-500">*</span></span>
             </span>
             <div className="grid grid-cols-5 gap-2">
               {REPETATION_OPTIONS.map((r) => (
@@ -183,18 +184,20 @@ export default function AddConstantModal({
 
           {/* Status */}
           <div>
-            <span className="block text-sm font-semibold text-gray-700 mb-1.5">⚙️ الحالة</span>
+            <span className="block text-sm font-semibold text-gray-700 mb-1.5"><span className="inline-flex items-center gap-1"><HiCog6Tooth className="text-gray-500" /> الحالة</span></span>
             <div className="grid grid-cols-2 gap-3">
               {[
                 {
                   value:    "active",
-                  label:    "✅ نشط",
+                  label:    "نشط",
+                  icon: HiCheckCircle,
                   active:   "border-green-400 bg-green-50 text-green-700 ring-2 ring-green-300 ring-offset-1",
                   inactive: "border-gray-200 bg-white hover:bg-green-50 text-gray-500",
                 },
                 {
                   value:    "inactive",
-                  label:    "⏸ غير نشط",
+                  label:    "غير نشط",
+                  icon: undefined,
                   active:   "border-gray-400 bg-gray-100 text-gray-700 ring-2 ring-gray-300 ring-offset-1",
                   inactive: "border-gray-200 bg-white hover:bg-gray-50 text-gray-500",
                 },
@@ -207,7 +210,7 @@ export default function AddConstantModal({
                     formData.status === s.value ? s.active : s.inactive
                   }`}
                 >
-                  {s.label}
+                  <span className="inline-flex items-center gap-1">{s.icon ? <s.icon /> : null}{s.label}</span>
                 </button>
               ))}
             </div>
@@ -227,7 +230,7 @@ export default function AddConstantModal({
               className="px-8 rounded-xl font-semibold mt-3"
               isDisabled={!formData.salon_id || !formData.const_name || !formData.const_value}
             >
-              {editingConstant ? "💾 حفظ التعديلات" : "✅ إضافة الثابت"}
+              {editingConstant ? "حفظ التعديلات" : "إضافة الثابت"}
             </Button>
           </div>
         </form>
