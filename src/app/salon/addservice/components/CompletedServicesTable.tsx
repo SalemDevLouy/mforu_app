@@ -8,12 +8,17 @@ import { Button } from "@heroui/button";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/modal";
 import { Input, Textarea } from "@heroui/input";
 import { Chip } from "@heroui/chip";
-import { CompletedService } from "../types";
+import { Select, SelectItem } from "@heroui/select";
+import { Category, CompletedService, Employee, TaskItem } from "../types";
 import { updateService, deleteService } from "../model/Services";
-import { toFixed2 } from "@/lib/math";
+import { parseAmount, sum, toFixed2 } from "@/lib/math";
 
 interface CompletedServicesTableProps {
   readonly completedServices: CompletedService[];
+  readonly categories: Category[];
+  readonly employees: Employee[];
+  readonly loadingCategories: boolean;
+  readonly loadingEmployees: boolean;
   readonly loadingCompleted: boolean;
   readonly todayTotal: number;
   readonly selectedDate: string;
@@ -23,6 +28,10 @@ interface CompletedServicesTableProps {
 
 export default function CompletedServicesTable({
   completedServices,
+  categories,
+  employees,
+  loadingCategories,
+  loadingEmployees,
   loadingCompleted,
   todayTotal,
   selectedDate,
@@ -31,33 +40,79 @@ export default function CompletedServicesTable({
 }: CompletedServicesTableProps) {
   // ── Edit state ─────────────────────────────────────────────────────────────
   const [editTarget, setEditTarget] = useState<CompletedService | null>(null);
-  const [editPrice, setEditPrice] = useState("");
+  const [editTasks, setEditTasks] = useState<TaskItem[]>([]);
   const [editNotes, setEditNotes] = useState("");
   const [saving, setSaving] = useState(false);
   const [editError, setEditError] = useState<string | null>(null);
 
+  const createTaskId = () => Date.now() + Math.floor(Math.random() * 10000);
+
+  const addEditTask = () => {
+    setEditTasks((prev) => [...prev, {
+      id: createTaskId(),
+      catId: "",
+      price: "",
+      employeeIds: [],
+    }]);
+  };
+
+  const removeEditTask = (taskId: number) => {
+    setEditTasks((prev) => (prev.length > 1 ? prev.filter((task) => task.id !== taskId) : prev));
+  };
+
+  const handleEditTaskChange = (taskId: number, field: "catId" | "price" | "employeeIds", value: string | string[]) => {
+    setEditTasks((prev) => prev.map((task) => (
+      task.id === taskId ? { ...task, [field]: value } : task
+    )));
+  };
+
+  const getEditTotal = () => sum(editTasks.map((task) => parseAmount(task.price)));
+
   const openEdit = (service: CompletedService) => {
+    const taskSeed = service.task_details.length > 0
+      ? service.task_details.map((task) => ({
+          id: createTaskId(),
+          catId: task.cat_id,
+          price: String(task.price),
+          employeeIds: task.employeeIds,
+        }))
+      : [{ id: createTaskId(), catId: "", price: "", employeeIds: [] }];
+
     setEditTarget(service);
-    setEditPrice(String(service.price_total));
+    setEditTasks(taskSeed);
     setEditNotes(service.notes ?? "");
     setEditError(null);
   };
 
-  const closeEdit = () => { setEditTarget(null); setEditError(null); };
+  const closeEdit = () => {
+    setEditTarget(null);
+    setEditTasks([]);
+    setEditError(null);
+  };
 
   const handleSave = async () => {
     if (!editTarget) return;
-    const price = Number.parseFloat(editPrice);
-    if (Number.isNaN(price) || price <= 0) {
-      setEditError("يجب إدخال سعر صحيح وأكبر من صفر");
+
+    if (editTasks.length === 0) {
+      setEditError("يجب إضافة خدمة واحدة على الأقل");
       return;
     }
+
+    if (editTasks.some((task) => !task.catId || task.employeeIds.length === 0 || parseAmount(task.price) <= 0)) {
+      setEditError("يجب اختيار نوع الخدمة وموظف واحد على الأقل وإدخال سعر صحيح لكل خدمة");
+      return;
+    }
+
     setSaving(true);
     setEditError(null);
     try {
       await updateService(editTarget.service_id, {
-        price_total: price,
         notes: editNotes.trim() || null,
+        tasks: editTasks.map((task) => ({
+          cat_id: task.catId,
+          price: parseAmount(task.price),
+          employeeIds: task.employeeIds,
+        })),
       });
       closeEdit();
       onRefresh();
@@ -217,23 +272,108 @@ export default function CompletedServicesTable({
       </Card>
 
       {/* ── Edit Modal ──────────────────────────────────────────────────────── */}
-      <Modal isOpen={!!editTarget} onOpenChange={(open) => { if (!open) closeEdit(); }} size="sm">
+      <Modal isOpen={!!editTarget} onOpenChange={(open) => { if (!open) closeEdit(); }} size="3xl">
         <ModalContent>
           <ModalHeader className="text-sm font-bold">
             تعديل الخدمة — {editTarget?.client_name}
           </ModalHeader>
           <ModalBody className="gap-3 pb-2">
-            <Input
-              label="السعر الإجمالي"
-              type="number"
-              size="sm"
-              variant="bordered"
-              value={editPrice}
-              onValueChange={setEditPrice}
-              endContent={<span className="text-default-400 text-xs">دج</span>}
-              min={0}
-              step={5}
-            />
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-sm font-semibold text-default-700">تفاصيل الخدمات</p>
+              <Button size="sm" color="primary" variant="flat" onPress={addEditTask}>
+                + خدمة
+              </Button>
+            </div>
+
+            <div className="space-y-3 max-h-[40vh] overflow-y-auto pr-1">
+              {editTasks.map((task, index) => (
+                <div key={task.id} className="rounded-xl border border-default-200 bg-default-50 p-3 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold text-default-500">الخدمة {index + 1}</span>
+                    {editTasks.length > 1 && (
+                      <Button
+                        size="sm"
+                        variant="light"
+                        color="danger"
+                        onPress={() => removeEditTask(task.id)}
+                      >
+                        حذف
+                      </Button>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <Select
+                      label="نوع الخدمة"
+                      placeholder="اختر..."
+                      size="sm"
+                      variant="bordered"
+                      isLoading={loadingCategories}
+                      selectedKeys={task.catId ? new Set([task.catId]) : new Set()}
+                      onSelectionChange={(keys) => {
+                        const value = Array.from(keys as Set<string>)[0] ?? "";
+                        handleEditTaskChange(task.id, "catId", value);
+                      }}
+                    >
+                      {categories.map((cat) => (
+                        <SelectItem key={cat.cat_id} textValue={cat.cat_name}>
+                          {cat.cat_name}
+                        </SelectItem>
+                      ))}
+                    </Select>
+
+                    <Input
+                      label="السعر (دج)"
+                      type="number"
+                      size="sm"
+                      variant="bordered"
+                      value={task.price}
+                      onValueChange={(value) => handleEditTaskChange(task.id, "price", value)}
+                      min={0}
+                      step={5}
+                    />
+
+                    <div className="sm:col-span-2">
+                      <Select
+                        label="الموظفون"
+                        placeholder={loadingEmployees ? "جاري تحميل الموظفين..." : "اختر الموظفين..."}
+                        selectionMode="multiple"
+                        size="sm"
+                        variant="bordered"
+                        isLoading={loadingEmployees}
+                        selectedKeys={new Set(task.employeeIds)}
+                        onSelectionChange={(keys) => {
+                          if (keys !== "all") {
+                            handleEditTaskChange(task.id, "employeeIds", Array.from(keys as Set<string>));
+                          }
+                        }}
+                        renderValue={(items) => (
+                          <div className="flex flex-wrap gap-1">
+                            {items.map((item) => (
+                              <Chip key={item.key} size="sm" color="primary" variant="flat">
+                                {item.textValue}
+                              </Chip>
+                            ))}
+                          </div>
+                        )}
+                      >
+                        {employees.map((emp) => (
+                          <SelectItem key={emp.emp_id} textValue={emp.emp_name}>
+                            {emp.emp_name}
+                          </SelectItem>
+                        ))}
+                      </Select>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="rounded-lg border border-success-200 bg-success-50/50 p-3 flex items-center justify-between">
+              <span className="text-sm text-default-600">الإجمالي الجديد</span>
+              <span className="font-bold text-success">{toFixed2(getEditTotal())} دج</span>
+            </div>
+
             <Textarea
               label="ملاحظات"
               size="sm"

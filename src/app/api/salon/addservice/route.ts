@@ -21,6 +21,13 @@ type ServiceRequestBody = {
   tasks: TaskInput[];
 };
 
+type UpdateServiceRequestBody = {
+  service_id: string;
+  notes?: string | null;
+  price_total?: number;
+  tasks?: TaskInput[];
+};
+
 type ClientRecord = {
   client_id: string;
   name: string;
@@ -124,10 +131,43 @@ export async function GET(request: NextRequest) {
       },
     });
 
+    const catIds = [...new Set(services.flatMap((s) => s.tasks.map((t) => t.cat_id)))];
+    const categoryRates = catIds.length > 0
+      ? await prisma.categoryRate.findMany({
+          where: { salon_id, cat_id: { in: catIds } },
+          select: { cat_id: true, rate: true },
+        })
+      : [];
+    const categoryRateMap = new Map(categoryRates.map((cr) => [cr.cat_id, cr.rate]));
+
     const result = services.map((s) => {
-      // Deduplicate category names and employee names across subtasks
-      const categoryNames = [...new Set(s.tasks.map((t) => t.category.cat_name))];
-      const employeeNames = [...new Set(s.tasks.map((t) => t.employee.emp_name))];
+      const groupedByCategory = new Map<string, typeof s.tasks>();
+
+      for (const task of s.tasks) {
+        const group = groupedByCategory.get(task.cat_id) ?? [];
+        group.push(task);
+        groupedByCategory.set(task.cat_id, group);
+      }
+
+      const taskDetails = Array.from(groupedByCategory.entries()).map(([cat_id, subTasks]) => {
+        const categoryName = subTasks[0]?.category.cat_name ?? "";
+        const employeeIds = [...new Set(subTasks.map((task) => task.emp_id))];
+        const employeeNames = [...new Set(subTasks.map((task) => task.employee.emp_name))];
+        const subTotal = sum(subTasks.map((task) => task.sub_price));
+        const rate = categoryRateMap.get(cat_id) ?? 1;
+        const reconstructedPrice = rate > 0 ? div(subTotal, rate) : subTotal;
+
+        return {
+          cat_id,
+          cat_name: categoryName,
+          employeeIds,
+          employeeNames,
+          price: reconstructedPrice,
+        };
+      });
+
+      const categoryNames = taskDetails.map((t) => t.cat_name);
+      const employeeNames = [...new Set(taskDetails.flatMap((t) => t.employeeNames))];
 
       return {
         service_id: s.service_id,
@@ -135,6 +175,7 @@ export async function GET(request: NextRequest) {
         client_phone: s.client.phone,
         categories: categoryNames,
         employees: employeeNames,
+        task_details: taskDetails,
         price_total: s.price_total,
         date: s.date,
         notes: s.notes,
@@ -169,6 +210,57 @@ function validateServicePayload(payload: ServiceRequestBody) {
   }
 
   return null;
+}
+
+function validateUpdateTasks(tasks?: TaskInput[]) {
+  if (tasks === undefined) return null;
+  if (!Array.isArray(tasks) || tasks.length === 0) return "يجب إضافة خدمة واحدة على الأقل";
+
+  for (const task of tasks) {
+    if (!task.cat_id) return "يجب اختيار نوع الخدمة لكل مهمة";
+    if (!task.employeeIds || task.employeeIds.length === 0) return "يجب اختيار موظف واحد على الأقل لكل خدمة";
+    if (!task.price || task.price <= 0) return "سعر الخدمة يجب أن يكون أكبر من صفر";
+  }
+
+  return null;
+}
+
+async function getServiceForUpdate(service_id: string) {
+  return prisma.serviceAction.findUnique({
+    where: { service_id },
+    select: { service_id: true, salon_id: true },
+  });
+}
+
+async function replaceServiceTasksAndPrice(
+  serviceId: string,
+  salonId: string,
+  notes: string | null | undefined,
+  tasks: TaskInput[]
+) {
+  const catIds = [...new Set(tasks.map((task) => task.cat_id))];
+  const categoryRates = await prisma.categoryRate.findMany({
+    where: { salon_id: salonId, cat_id: { in: catIds } },
+    select: { cat_id: true, rate: true },
+  });
+  const categoryRateMap = new Map(categoryRates.map((cr) => [cr.cat_id, cr.rate]));
+  const priceTotal = sum(tasks.map((task) => task.price));
+
+  return prisma.$transaction(async (tx) => {
+    const service = await tx.serviceAction.update({
+      where: { service_id: serviceId },
+      data: {
+        notes: notes === undefined ? undefined : (notes?.trim() || null),
+        price_total: priceTotal,
+      },
+    });
+
+    await tx.subTask.deleteMany({ where: { service_id: serviceId } });
+    const subTaskData = buildSubTaskData(serviceId, tasks, categoryRateMap);
+    await tx.subTask.createMany({ data: subTaskData });
+
+    return service;
+  });
 }
 
 async function findOrCreateClient(payload: ServiceRequestBody): Promise<ClientRecord> {
@@ -421,14 +513,36 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// PUT /api/salon/addservice — update notes and/or price_total of an existing service
+// PUT /api/salon/addservice — update notes/price and optionally replace tasks
 export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
-    const { service_id, notes, price_total }: { service_id: string; notes?: string | null; price_total?: number } = body;
+    const { service_id, notes, price_total, tasks }: UpdateServiceRequestBody = body;
 
     if (!service_id) {
       return NextResponse.json({ error: "service_id مطلوب" }, { status: 400 });
+    }
+
+    const taskValidationError = validateUpdateTasks(tasks);
+    if (taskValidationError) {
+      return NextResponse.json({ error: taskValidationError }, { status: 400 });
+    }
+
+    const existingService = await getServiceForUpdate(service_id);
+
+    if (!existingService) {
+      return NextResponse.json({ error: "الخدمة غير موجودة" }, { status: 404 });
+    }
+
+    if (tasks && tasks.length > 0) {
+      const updated = await replaceServiceTasksAndPrice(
+        service_id,
+        existingService.salon_id,
+        notes,
+        tasks
+      );
+
+      return NextResponse.json({ success: true, service: updated });
     }
 
     const updated = await prisma.serviceAction.update({

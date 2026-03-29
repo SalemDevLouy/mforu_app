@@ -73,6 +73,10 @@ export default function Page() {
 
       <CompletedServicesTable
         completedServices={completedServices}
+        categories={categories}
+        employees={employees}
+        loadingCategories={loadingCategories}
+        loadingEmployees={loadingEmployees}
         loadingCompleted={loadingCompleted}
         todayTotal={todayTotal}
         selectedDate={selectedDate}

@@ -56,9 +56,19 @@ export interface SubmitServiceResult {
   [key: string]: unknown;
 }
 
+export interface UpdateServicePayload {
+  notes?: string | null;
+  price_total?: number;
+  tasks?: Array<{
+    cat_id: string;
+    price: number;
+    employeeIds: string[];
+  }>;
+}
+
 export async function updateService(
   service_id: string,
-  data: { notes?: string | null; price_total?: number }
+  data: UpdateServicePayload
 ): Promise<void> {
   const res = await fetch("/api/salon/addservice", {
     method: "PUT",

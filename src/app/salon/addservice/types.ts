@@ -41,9 +41,18 @@ interface CompletedService {
   client_phone: string | null;
   categories: string[];
   employees: string[];
+  task_details: CompletedServiceTask[];
   price_total: number;
   date: string;
   notes: string | null;
+}
+
+interface CompletedServiceTask {
+  cat_id: string;
+  cat_name: string;
+  price: number;
+  employeeIds: string[];
+  employeeNames: string[];
 }
 
 interface TaskItem {
@@ -60,4 +69,4 @@ interface ServiceFormData {
   notes: string;
 }
 
-export type { Category, Employee, ClientData, CompletedService, TaskItem, ServiceFormData };
+export type { Category, Employee, ClientData, CompletedService, CompletedServiceTask, TaskItem, ServiceFormData };
