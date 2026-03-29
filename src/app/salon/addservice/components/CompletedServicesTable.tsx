@@ -21,6 +21,8 @@ interface CompletedServicesTableProps {
   readonly loadingEmployees: boolean;
   readonly loadingCompleted: boolean;
   readonly todayTotal: number;
+  readonly todayTotalDebt: number;
+  readonly todayTotalCredit: number;
   readonly selectedDate: string;
   readonly setSelectedDate: (date: string) => void;
   readonly onRefresh: () => void;
@@ -34,6 +36,8 @@ export default function CompletedServicesTable({
   loadingEmployees,
   loadingCompleted,
   todayTotal,
+  todayTotalDebt,
+  todayTotalCredit,
   selectedDate,
   setSelectedDate,
   onRefresh,
@@ -172,9 +176,21 @@ export default function CompletedServicesTable({
                 className="px-3 py-2 rounded-lg border border-default-300 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
               />
               <div className="text-right">
-                <p className="text-xs text-default-400">إجمالي اليوم</p>
+                <p className="text-xs text-default-400">إجمالي الخدمات</p>
                 <p className="text-xl font-bold text-success">
                   {toFixed2(todayTotal)} دج
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="text-xs text-default-400">الديون</p>
+                <p className="text-xl font-bold text-danger">
+                  {toFixed2(todayTotalDebt)} دج
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="text-xs text-default-400">الفكة</p>
+                <p className="text-xl font-bold text-warning">
+                  {toFixed2(todayTotalCredit)} دج
                 </p>
               </div>
             </div>

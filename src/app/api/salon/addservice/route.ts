@@ -184,7 +184,18 @@ export async function GET(request: NextRequest) {
 
     const todayTotal = sum(result.map((s) => s.price_total));
 
-    return NextResponse.json({ success: true, services: result, todayTotal });
+    // ── Fetch debts created on that date ──────────────────────────────────────
+    const debts = await prisma.debt.findMany({
+      where: {
+        date_reg: { gte: dayStart, lte: dayEnd },
+        client: { salon_id },
+      },
+    });
+
+    const todayTotalDebt = sum(debts.filter((d) => d.status === "pending").map((d) => d.debt_val));
+    const todayTotalCredit = sum(debts.filter((d) => d.status === "credit").map((d) => d.debt_val));
+
+    return NextResponse.json({ success: true, services: result, todayTotal, todayTotalDebt, todayTotalCredit });
   } catch (error) {
     console.error("Error fetching services:", error);
     return NextResponse.json({ error: "حدث خطأ أثناء جلب الخدمات" }, { status: 500 });

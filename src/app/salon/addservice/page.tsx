@@ -30,6 +30,8 @@ export default function Page() {
     completedServices,
     loadingCompleted,
     todayTotal,
+    todayTotalDebt,
+    todayTotalCredit,
     selectedDate,
     setSelectedDate,
     refresh,
@@ -79,6 +81,8 @@ export default function Page() {
         loadingEmployees={loadingEmployees}
         loadingCompleted={loadingCompleted}
         todayTotal={todayTotal}
+        todayTotalDebt={todayTotalDebt}
+        todayTotalCredit={todayTotalCredit}
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
         onRefresh={refresh}

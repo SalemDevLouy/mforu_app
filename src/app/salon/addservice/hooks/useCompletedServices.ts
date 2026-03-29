@@ -7,6 +7,8 @@ export function useCompletedServices(salonId: string, refreshKey: number) {
   const [completedServices, setCompletedServices] = useState<CompletedService[]>([]);
   const [loadingCompleted, setLoadingCompleted] = useState(false);
   const [todayTotal, setTodayTotal] = useState(0);
+  const [todayTotalDebt, setTodayTotalDebt] = useState(0);
+  const [todayTotalCredit, setTodayTotalCredit] = useState(0);
   const [localKey, setLocalKey] = useState(0);
   const [selectedDate, setSelectedDate] = useState<string>(
     new Date().toISOString().split("T")[0]
@@ -22,6 +24,8 @@ export function useCompletedServices(salonId: string, refreshKey: number) {
         .then((data) => {
           setCompletedServices(data.services);
           setTodayTotal(data.todayTotal);
+          setTodayTotalDebt(data.todayTotalDebt);
+          setTodayTotalCredit(data.todayTotalCredit);
         })
         .catch((err) => console.error("Error fetching completed services:", err))
         .finally(() => setLoadingCompleted(false));
@@ -30,5 +34,5 @@ export function useCompletedServices(salonId: string, refreshKey: number) {
     load();
   }, [salonId, selectedDate, refreshKey, localKey]);
 
-  return { completedServices, loadingCompleted, todayTotal, selectedDate, setSelectedDate, refresh };
+  return { completedServices, loadingCompleted, todayTotal, todayTotalDebt, todayTotalCredit, selectedDate, setSelectedDate, refresh };
 }

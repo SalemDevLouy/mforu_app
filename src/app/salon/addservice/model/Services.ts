@@ -5,6 +5,8 @@ import { ClientData, CompletedService } from "../types";
 export interface CompletedServicesResult {
   services: CompletedService[];
   todayTotal: number;
+  todayTotalDebt: number;
+  todayTotalCredit: number;
 }
 
 export async function fetchCompletedServices(
