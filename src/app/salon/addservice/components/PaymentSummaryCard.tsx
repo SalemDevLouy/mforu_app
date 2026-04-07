@@ -4,7 +4,7 @@ import { Card } from "@heroui/card";
 import { Input } from "@heroui/input";
 import { Chip } from "@heroui/chip";
 import { Divider } from "@heroui/divider";
-import { toFixed2 } from "@/lib/math";
+import { parseAmount, toFixed2 } from "@/lib/math";
 import { ServiceFormData } from "../types";
 import { HiBanknotes } from "react-icons/hi2";
 
@@ -25,20 +25,21 @@ export default function PaymentSummaryCard({
   formData,
   handleChange,
   getTotalPrice,
-  getRemainingAmount,
 }: Readonly<PaymentSummaryCardProps>) {
   const total = getTotalPrice();
-  const remaining = getRemainingAmount();
+  const discount = parseAmount(formData.discountAmount);
+  const discountedTotal = total - discount;
+  const paidAmount = parseAmount(formData.paidAmount);
 
   let remainingColor: "success" | "danger" | "warning";
-  if (remaining > 0) remainingColor = "danger";
-  else if (remaining < 0) remainingColor = "warning";
+  if (paidAmount < discountedTotal) remainingColor = "danger";
+  else if (paidAmount > discountedTotal) remainingColor = "warning";
   else remainingColor = "success";
 
   let remainingLabel: string;
-  if (remaining > 0) remainingLabel = `${toFixed2(remaining)} دج — دين على العميل`;
-  else if (remaining < 0) remainingLabel = `${toFixed2(Math.abs(remaining))} دج — الصالون مدين بالفكة`;
-  else remainingLabel = "دفع كامل ✓";
+  if (paidAmount < discountedTotal) remainingLabel = `${toFixed2(discountedTotal - paidAmount)} دج — دين على العميل`;
+  else if (paidAmount > discountedTotal) remainingLabel = `${toFixed2(paidAmount - discountedTotal)} دج — فكة للعميل`;
+  else remainingLabel = "تم الدفع بعد الخصم ✓";
 
   return (
     <Card className="shadow-none border border-default-200">
@@ -70,6 +71,25 @@ export default function PaymentSummaryCard({
           min="0"
           endContent={<span className="text-default-400 text-xs">دج</span>}
         />
+
+        <Input
+          label="الخصم"
+          name="discountAmount"
+          type="number"
+          size="sm"
+          variant="bordered"
+          value={formData.discountAmount}
+          onChange={handleChange}
+          placeholder="0.00"
+          step="5"
+          min="0"
+          endContent={<span className="text-default-400 text-xs">دج</span>}
+        />
+
+        <div className="flex items-center justify-between px-3 py-2 bg-primary/5 rounded-xl border border-primary/10">
+          <span className="text-xs text-default-500">المبلغ بعد الخصم</span>
+          <span className="text-lg font-bold text-default-800">{toFixed2(discountedTotal)} دج</span>
+        </div>
 
         {/* Remaining status */}
         {formData.paidAmount !== "" && (

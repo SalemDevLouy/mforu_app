@@ -8,7 +8,7 @@ interface ExpenseFiltersBarProps {
 }
 
 export function ExpenseFiltersBar({ filters, onChange }: ExpenseFiltersBarProps) {
-  const hasFilters = !!(filters.exp_type || filters.status);
+  const hasFilters = !!(filters.exp_type || filters.status || filters.month);
 
   return (
     <div className="flex flex-wrap gap-3 mb-5">
@@ -35,10 +35,17 @@ export function ExpenseFiltersBar({ filters, onChange }: ExpenseFiltersBarProps)
         <option value="pending">معلّق</option>
       </select>
 
+      <input
+        type="month"
+        className="px-3 py-2 border border-gray-200 rounded-xl bg-gray-50 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+        value={filters.month}
+        onChange={(e) => onChange({ ...filters, month: e.target.value })}
+      />
+
       {hasFilters && (
         <button
           className="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 border border-gray-200 rounded-xl bg-white hover:bg-gray-50 transition-colors"
-          onClick={() => onChange({ exp_type: "", status: "" })}
+          onClick={() => onChange({ exp_type: "", status: "", month: "" })}
         >
           × مسح الفلاتر
         </button>

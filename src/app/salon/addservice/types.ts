@@ -66,6 +66,7 @@ interface ServiceFormData {
   clientName: string;
   clientPhone: string;
   paidAmount: string;
+  discountAmount: string;
   notes: string;
 }
 

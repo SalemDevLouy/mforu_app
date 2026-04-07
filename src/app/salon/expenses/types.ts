@@ -18,4 +18,5 @@ export interface ExpenseFormData {
 export interface ExpenseFilters {
   exp_type: string;
   status: string;
+  month: string;
 }

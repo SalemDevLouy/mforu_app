@@ -31,6 +31,7 @@ export function useAddService() {
     clientName: "",
     clientPhone: "",
     paidAmount: "",
+    discountAmount: "",
     notes: "",
   });
 
@@ -59,11 +60,20 @@ export function useAddService() {
     else if (phone.length < 10) clearClient();
   };
 
+  const getDiscountedTotal = () =>
+    sub(getTotalPrice(), parseAmount(formData.discountAmount));
+
   const getRemainingAmount = () =>
-    sub(getTotalPrice(), parseAmount(formData.paidAmount));
+    sub(getDiscountedTotal(), parseAmount(formData.paidAmount));
 
   const resetForm = () => {
-    setFormData({ clientName: "", clientPhone: "", paidAmount: "", notes: "" });
+    setFormData({
+      clientName: "",
+      clientPhone: "",
+      paidAmount: "",
+      discountAmount: "",
+      notes: "",
+    });
     resetTasks();
     clearClient();
   };
@@ -77,7 +87,11 @@ export function useAddService() {
       return;
     }
     const total = getTotalPrice();
+    const discount = parseAmount(formData.discountAmount);
     const paid = parseAmount(formData.paidAmount);
+    const discountedTotal = sub(total, discount);
+    if (discount < 0) { alert("الخصم لا يمكن أن يكون سالباً"); return; }
+    if (discount > total) { alert("الخصم لا يمكن أن يكون أكبر من الإجمالي"); return; }
     if (paid < 0) { alert("المبلغ المدفوع لا يمكن أن يكون سالباً"); return; }
 
     setSubmitting(true);
@@ -88,6 +102,7 @@ export function useAddService() {
         clientPhone: formData.clientPhone.trim() || undefined,
         clientId: clientData?.client?.client_id || undefined,
         paidAmount: paid,
+        discountAmount: discount,
         notes: formData.notes.trim() || undefined,
         tasks: tasks.map((t) => ({
           cat_id: t.catId,
@@ -96,8 +111,8 @@ export function useAddService() {
         })),
       });
 
-      const remaining = sub(total, paid);
-      let msg = `تم تسجيل الخدمة بنجاح\n\nالعميل: ${data.client_name}\nالإجمالي: ${total.toFixed(2)} دج\nالمدفوع: ${paid.toFixed(2)} دج`;
+      const remaining = sub(discountedTotal, paid);
+      let msg = `تم تسجيل الخدمة بنجاح\n\nالعميل: ${data.client_name}\nالإجمالي قبل الخصم: ${total.toFixed(2)} دج\nالخصم: ${discount.toFixed(2)} دج\nالمبلغ بعد الخصم: ${discountedTotal.toFixed(2)} دج\nالمدفوع: ${paid.toFixed(2)} دج`;
       const appliedExistingCreditToOldDebts = Number(data.applied_existing_credit_to_old_debts || 0);
       const appliedExistingCreditToCurrentService = Number(data.applied_existing_credit_to_current_service || 0);
       const appliedSurplusToOldDebts = Number(data.applied_surplus_to_old_debts || 0);

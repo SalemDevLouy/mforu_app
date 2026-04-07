@@ -11,7 +11,7 @@ import { ExpenseTable } from "./components/ExpenseTable";
 import { AddEditExpenseModal } from "./components/AddEditExpenseModal";
 import { DeleteExpenseModal } from "./components/DeleteExpenseModal";
 
-const EMPTY_FILTERS: ExpenseFilters = { exp_type: "", status: "" };
+const EMPTY_FILTERS: ExpenseFilters = { exp_type: "", status: "", month: "" };
 
 export default function ExpensesPage() {
   const [salonId, setSalonId] = useState<string>("");

@@ -17,6 +17,7 @@ type ServiceRequestBody = {
   clientId?: string;
   salon_id: string;
   paidAmount: number;
+  discountAmount: number;
   notes?: string;
   tasks: TaskInput[];
 };
@@ -213,6 +214,7 @@ function validateServicePayload(payload: ServiceRequestBody) {
   if (!payload.clientName || payload.clientName.trim() === "") return "اسم العميل مطلوب";
   if (!payload.tasks || payload.tasks.length === 0) return "يجب إضافة خدمة واحدة على الأقل";
   if (payload.paidAmount == null || payload.paidAmount < 0) return "المبلغ المدفوع غير صالح";
+  if (payload.discountAmount == null || payload.discountAmount < 0) return "الخصم غير صالح";
 
   for (const task of payload.tasks) {
     if (!task.cat_id) return "يجب اختيار نوع الخدمة لكل مهمة";
@@ -321,7 +323,8 @@ function buildSubTaskData(
 async function settleServiceBalance(
   tx: TransactionClient,
   clientId: string,
-  serviceRemaining: number
+  serviceRemaining: number,
+  paymentSurplus: number
 ) {
   const oldBalances = await reconcileOldBalances(tx, clientId);
   const refreshedDebts = await tx.debt.findMany({
@@ -336,6 +339,7 @@ async function settleServiceBalance(
     tx,
     clientId,
     serviceRemaining,
+    paymentSurplus,
     refreshedDebts
   );
 
@@ -383,6 +387,7 @@ async function resolveCurrentServiceBalance(
   tx: TransactionClient,
   clientId: string,
   serviceRemaining: number,
+  paymentSurplus: number,
   refreshedDebts: DebtEntry[]
 ) {
   let appliedExistingCreditToCurrentService = 0;
@@ -409,8 +414,8 @@ async function resolveCurrentServiceBalance(
         debt_val: netAfterExistingCredit,
       },
     });
-  } else if (netAfterExistingCredit < 0) {
-    const surplus = Math.abs(netAfterExistingCredit);
+  } else if (paymentSurplus > 0) {
+    const surplus = paymentSurplus;
 
     if (remainingPendingDebts.length > 0) {
       const pendingResult = await applyAmountToPendingDebts(tx, remainingPendingDebts, surplus);
@@ -449,7 +454,7 @@ async function resolveCurrentServiceBalance(
 //  2. Creates a ServiceAction record
 //  3. Creates SubTask rows (one per employee per task):
 //     sub_price = (task.price × CategoryRate.rate) / employeeIds.length
-//  4. Creates a Debt record if total > paidAmount
+//  4. Creates a Debt record if discounted total > paidAmount
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -471,7 +476,12 @@ export async function POST(request: NextRequest) {
 
     // --- Compute price total ---
     const priceTotal = sum(payload.tasks.map((t) => t.price || 0));
-    const serviceRemaining = sub(priceTotal, payload.paidAmount);
+    if (payload.discountAmount > priceTotal) {
+      return NextResponse.json({ error: "الخصم لا يمكن أن يكون أكبر من الإجمالي" }, { status: 400 });
+    }
+    const discountedTotal = sub(priceTotal, payload.discountAmount);
+    const serviceRemaining = sub(discountedTotal, payload.paidAmount);
+    const paymentSurplus = Math.max(0, sub(payload.paidAmount, discountedTotal));
 
     // --- Create ServiceAction + SubTasks + optional Debt in one transaction ---
     const result = await prisma.$transaction(async (tx) => {
@@ -479,7 +489,7 @@ export async function POST(request: NextRequest) {
         data: {
           salon_id: payload.salon_id,
           client_id: client.client_id,
-          price_total: priceTotal,
+          price_total: discountedTotal,
           date: new Date(),
           notes: payload.notes?.trim() || null,
         },
@@ -488,7 +498,12 @@ export async function POST(request: NextRequest) {
       const subTaskData = buildSubTaskData(service.service_id, payload.tasks, categoryRateMap);
 
       await tx.subTask.createMany({ data: subTaskData });
-      const settlement = await settleServiceBalance(tx, client.client_id, serviceRemaining);
+      const settlement = await settleServiceBalance(
+        tx,
+        client.client_id,
+        serviceRemaining,
+        paymentSurplus
+      );
 
       return {
         service,
@@ -502,7 +517,10 @@ export async function POST(request: NextRequest) {
       service_id: result.service.service_id,
       client_id: client.client_id,
       client_name: client.name,
-      price_total: priceTotal,
+      price_total: discountedTotal,
+      original_total: priceTotal,
+      discounted_total: discountedTotal,
+      discount_amount: payload.discountAmount,
       paid_amount: payload.paidAmount,
       remaining: serviceRemaining,
       debt_created: result.debt !== null && result.debt.status === "pending",
@@ -581,12 +599,35 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "service_id مطلوب" }, { status: 400 });
     }
 
-    await prisma.$transaction([
-      prisma.subTask.deleteMany({ where: { service_id } }),
-      prisma.serviceAction.delete({ where: { service_id } }),
-    ]);
+    const service = await prisma.serviceAction.findUnique({
+      where: { service_id },
+      select: { service_id: true, client_id: true, date: true },
+    });
 
-    return NextResponse.json({ success: true });
+    if (!service) {
+      return NextResponse.json({ error: "الخدمة غير موجودة" }, { status: 404 });
+    }
+
+    // Debt/credit rows created during service registration are created around the same timestamp.
+    const relatedWindowStart = new Date(service.date.getTime() - 5000);
+    const relatedWindowEnd = new Date(service.date.getTime() + 5000);
+
+    const result = await prisma.$transaction(async (tx) => {
+      const deletedRelatedDebts = await tx.debt.deleteMany({
+        where: {
+          client_id: service.client_id,
+          status: { in: ["pending", "credit"] },
+          date_reg: { gte: relatedWindowStart, lte: relatedWindowEnd },
+        },
+      });
+
+      await tx.subTask.deleteMany({ where: { service_id } });
+      await tx.serviceAction.delete({ where: { service_id } });
+
+      return { deleted_related_debts: deletedRelatedDebts.count };
+    });
+
+    return NextResponse.json({ success: true, ...result });
   } catch (error) {
     console.error("Error deleting service:", error);
     return NextResponse.json({ error: "حدث خطأ أثناء حذف الخدمة" }, { status: 500 });

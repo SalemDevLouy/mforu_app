@@ -45,6 +45,7 @@ export interface SubmitServicePayload {
   clientPhone?: string;
   clientId?: string;
   paidAmount: number;
+  discountAmount: number;
   notes?: string;
   tasks: Array<{
     cat_id: string;

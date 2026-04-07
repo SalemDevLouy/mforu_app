@@ -24,6 +24,23 @@ interface MutationResponse {
   error?: string;
 }
 
+function getMonthDateRange(month: string): { startDate: string; endDate: string } {
+  const [yearStr, monthStr] = month.split("-");
+  const year = Number(yearStr);
+  const monthIndex = Number(monthStr) - 1;
+
+  if (!Number.isInteger(year) || !Number.isInteger(monthIndex) || monthIndex < 0 || monthIndex > 11) {
+    return { startDate: "", endDate: "" };
+  }
+
+  const lastDay = new Date(year, monthIndex + 1, 0).getDate();
+  const paddedMonth = String(monthIndex + 1).padStart(2, "0");
+  return {
+    startDate: `${year}-${paddedMonth}-01`,
+    endDate: `${year}-${paddedMonth}-${String(lastDay).padStart(2, "0")}`,
+  };
+}
+
 export async function fetchExpenses(
   salonId: string,
   filters: ExpenseFilters
@@ -31,6 +48,12 @@ export async function fetchExpenses(
   let url = `/api/salon/expenses?salon_id=${salonId}`;
   if (filters.exp_type) url += `&exp_type=${encodeURIComponent(filters.exp_type)}`;
   if (filters.status) url += `&status=${filters.status}`;
+  if (filters.month) {
+    const { startDate, endDate } = getMonthDateRange(filters.month);
+    if (startDate && endDate) {
+      url += `&startDate=${startDate}&endDate=${endDate}`;
+    }
+  }
 
   const response = await fetch(url);
   const data: ExpensesResponse = await response.json();
