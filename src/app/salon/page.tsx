@@ -1,5 +1,41 @@
+"use client";
+
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { HiScissors, HiCalendarDays, HiUsers, HiBriefcase, HiBanknotes, HiBuildingLibrary, HiClipboardDocumentList } from 'react-icons/hi2';
+import { useSalonId } from '@/hooks/useSalonId';
+
+type SalonDashboardStats = {
+  todayNetWallet: number;
+  todayServicesIncome: number;
+  todayDepositIncome: number;
+  todayExpenses: number;
+  todayWithdrawals: number;
+  todayVisitsCount: number;
+  todayReservationsCount: number;
+  totalNetWallet: number;
+  totalServicesIncome: number;
+  totalDepositIncome: number;
+  totalExpenses: number;
+  totalWithdrawals: number;
+  activeClientsCount: number;
+};
+
+const DEFAULT_STATS: SalonDashboardStats = {
+  todayNetWallet: 0,
+  todayServicesIncome: 0,
+  todayDepositIncome: 0,
+  todayExpenses: 0,
+  todayWithdrawals: 0,
+  todayVisitsCount: 0,
+  todayReservationsCount: 0,
+  totalNetWallet: 0,
+  totalServicesIncome: 0,
+  totalDepositIncome: 0,
+  totalExpenses: 0,
+  totalWithdrawals: 0,
+  activeClientsCount: 0,
+};
 
 const salonLinks = [
   {
@@ -53,6 +89,71 @@ const salonLinks = [
 ];
 
 export default function SalonPage() {
+  const salonId = useSalonId();
+  const [stats, setStats] = useState<SalonDashboardStats>(DEFAULT_STATS);
+  const [loadingStats, setLoadingStats] = useState(false);
+
+  useEffect(() => {
+    if (!salonId) return;
+
+    const controller = new AbortController();
+
+    const loadStats = async () => {
+      setLoadingStats(true);
+      try {
+        const response = await fetch(`/api/salon/dashboard?salon_id=${salonId}`, {
+          signal: controller.signal,
+        });
+        const data = (await response.json()) as {
+          success?: boolean;
+          stats?: SalonDashboardStats;
+        };
+
+        if (response.ok && data.success && data.stats) {
+          setStats(data.stats);
+        }
+      } catch (error) {
+        if ((error as Error).name !== 'AbortError') {
+          console.error('Failed to load salon dashboard stats:', error);
+        }
+      } finally {
+        setLoadingStats(false);
+      }
+    };
+
+    void loadStats();
+
+    return () => controller.abort();
+  }, [salonId]);
+
+  const formatMoney = useMemo(
+    () =>
+      new Intl.NumberFormat('ar-DZ', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }),
+    []
+  );
+
+  const todayStats = [
+    { label: 'صافي مدخول اليوم (المحفظة)', value: `${formatMoney.format(stats.todayNetWallet)} دج`, icon: HiBanknotes },
+    { label: 'مدخول الخدمات اليوم', value: `${formatMoney.format(stats.todayServicesIncome)} دج`, icon: HiScissors },
+    { label: 'مدخول العربون اليوم', value: `${formatMoney.format(stats.todayDepositIncome)} دج`, icon: HiCalendarDays },
+    { label: 'مصاريف اليوم', value: `${formatMoney.format(stats.todayExpenses)} دج`, icon: HiClipboardDocumentList },
+    { label: 'سحوبات اليوم', value: `${formatMoney.format(stats.todayWithdrawals)} دج`, icon: HiBuildingLibrary },
+    { label: 'زيارات اليوم', value: stats.todayVisitsCount.toString(), icon: HiUsers },
+    { label: 'مواعيد اليوم', value: stats.todayReservationsCount.toString(), icon: HiCalendarDays },
+  ];
+
+  const overallStats = [
+    { label: 'إجمالي المحفظة', value: `${formatMoney.format(stats.totalNetWallet)} دج`, icon: HiBanknotes },
+    { label: 'إجمالي مدخول الخدمات', value: `${formatMoney.format(stats.totalServicesIncome)} دج`, icon: HiScissors },
+    { label: 'إجمالي مدخول العربون', value: `${formatMoney.format(stats.totalDepositIncome)} دج`, icon: HiCalendarDays },
+    { label: 'إجمالي المصاريف', value: `${formatMoney.format(stats.totalExpenses)} دج`, icon: HiClipboardDocumentList },
+    { label: 'إجمالي السحوبات', value: `${formatMoney.format(stats.totalWithdrawals)} دج`, icon: HiBuildingLibrary },
+    { label: 'عدد العملاء', value: stats.activeClientsCount.toString(), icon: HiUsers },
+  ];
+
   return (
     <div className="space-y-8" dir="rtl">
       {/* Welcome Banner */}
@@ -67,20 +168,32 @@ export default function SalonPage() {
         </p>
       </div>
 
-      {/* Quick Stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        {[
-          { label: 'زيارات اليوم', value: '—', icon: HiClipboardDocumentList },
-          { label: 'عملاء نشطون', value: '—', icon: HiUsers },
-          { label: 'مواعيد اليوم', value: '—', icon: HiCalendarDays },
-          { label: 'إيراد اليوم', value: '—', icon: HiBanknotes },
-        ].map((stat) => (
-          <div key={stat.label} className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm text-center">
-            <div className="text-2xl mb-1 flex justify-center text-gray-500"><stat.icon /></div>
-            <div className="text-lg font-bold text-gray-700">{stat.value}</div>
-            <div className="text-xs text-gray-400 mt-0.5">{stat.label}</div>
-          </div>
-        ))}
+      {/* Today Stats */}
+      <div>
+        <h2 className="text-base font-bold text-gray-700 mb-4">إحصائيات اليوم</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {todayStats.map((stat) => (
+            <div key={stat.label} className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm text-center">
+              <div className="text-2xl mb-1 flex justify-center text-gray-500"><stat.icon /></div>
+              <div className="text-lg font-bold text-gray-700">{loadingStats ? '...' : stat.value}</div>
+              <div className="text-xs text-gray-400 mt-0.5">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Overall Stats */}
+      <div>
+        <h2 className="text-base font-bold text-gray-700 mb-4">إحصائيات عامة</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {overallStats.map((stat) => (
+            <div key={stat.label} className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm text-center">
+              <div className="text-2xl mb-1 flex justify-center text-gray-500"><stat.icon /></div>
+              <div className="text-lg font-bold text-gray-700">{loadingStats ? '...' : stat.value}</div>
+              <div className="text-xs text-gray-400 mt-0.5">{stat.label}</div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Quick Navigation */}
