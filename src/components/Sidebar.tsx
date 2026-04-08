@@ -31,6 +31,7 @@ const defaultMenuItems: Record<string, MenuItem[]> = {
   
   ],
   salon: [
+    {label:"الرئيسية", href:"/salon"},
     { label: "تسجيل خدمة", href: "/salon/{salonid}/addservice" },
     { label: "حجز موعد", href: "/salon/{salonid}/reservation" },
     { label: "العملاء", href: "/salon/{salonid}/clients" },
@@ -64,6 +65,7 @@ export default function Sidebar({
 
   // Salon routes - for "salon owner" and "reception"
   const salonRoutes: MenuItem[] = [
+    {label:"الرئيسية", href:"/salon"},
     { label: "تسجيل خدمة", href: "/salon/addservice" },
     { label: "العملاء", href: "/salon/clients" },
     // { label: "الديون", href: "/salon/debts" },
