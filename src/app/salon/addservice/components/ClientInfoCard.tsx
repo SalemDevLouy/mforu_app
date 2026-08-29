@@ -74,13 +74,20 @@ export default function ClientInfoCard({
               <span className="text-xs font-semibold text-success">
                 ✓ عميل موجود — {clientData.client.name}
               </span>
-              {clientData.totalDebt > 0 ? (
-                <Chip size="sm" color="danger" variant="flat">
-                  دين: {toFixed2(clientData.totalDebt)} دج
-                </Chip>
-              ) : (
-                <Chip size="sm" color="success" variant="flat">لا ديون</Chip>
-              )}
+              <div className="flex items-center gap-1.5">
+                {clientData.totalDebt > 0 ? (
+                  <Chip size="sm" color="danger" variant="flat">
+                    دين: {toFixed2(clientData.totalDebt)} دج
+                  </Chip>
+                ) : (
+                  <Chip size="sm" color="success" variant="flat">لا ديون</Chip>
+                )}
+                {clientData.totalCredit > 0 && (
+                  <Chip size="sm" color="warning" variant="flat">
+                    فكة: {toFixed2(clientData.totalCredit)} دج
+                  </Chip>
+                )}
+              </div>
             </div>
 
             {/* Debt detail */}
@@ -92,6 +99,24 @@ export default function ClientInfoCard({
                     <span className="font-semibold">{toFixed2(debt.amount)} دج</span>
                   </div>
                 ))}
+              </div>
+            )}
+
+            {/* Credit (فكة) detail */}
+            {clientData.totalCredit > 0 && clientData.credits.length > 0 && (
+              <div className="text-xs text-warning-700 bg-warning-50 rounded-lg p-2 space-y-0.5">
+                <span className="font-semibold inline-flex items-center gap-1">
+                  <HiInformationCircle /> فكة مستحقة للعميل:
+                </span>
+                {clientData.credits.map((credit, i) => (
+                  <div key={credit.debt_id} className="flex justify-between">
+                    <span>فكة {i + 1} · {new Date(credit.date_reg).toLocaleDateString("ar-DZ")}</span>
+                    <span className="font-semibold">{toFixed2(credit.amount)} دج</span>
+                  </div>
+                ))}
+                <p className="text-warning-700">
+                  ستُخصم هذه الفكة تلقائياً من إجمالي الخدمة عند الدفع
+                </p>
               </div>
             )}
 

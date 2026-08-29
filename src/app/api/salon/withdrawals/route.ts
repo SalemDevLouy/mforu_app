@@ -47,6 +47,7 @@ export async function GET(request: NextRequest) {
         salon_name: w.salon.name,
         amount: w.amount,
         date: w.date,
+        notes: w.notes,
       })),
       summary: {
         total: totalWithdrawals,
@@ -66,7 +67,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { salon_id, emp_id, amount, date } = body;
+    const { salon_id, emp_id, amount, date, notes } = body;
 
     if (!salon_id || !emp_id || !amount) {
       return NextResponse.json(
@@ -100,6 +101,7 @@ export async function POST(request: NextRequest) {
         emp_id,
         amount: parseAmount(amount),
         date: date ? new Date(date) : new Date(),
+        ...(notes !== undefined && notes !== null && notes !== "" && { notes }),
       },
       include: {
         employee: {
@@ -117,6 +119,7 @@ export async function POST(request: NextRequest) {
         emp_name: withdrawal.employee.emp_name,
         amount: withdrawal.amount,
         date: withdrawal.date,
+        notes: withdrawal.notes,
       },
       message: "تم إضافة السحب بنجاح",
     }, { status: 201 });
@@ -133,7 +136,7 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
-    const { withdraw_id, amount, date } = body;
+    const { withdraw_id, amount, date, notes } = body;
 
     if (!withdraw_id) {
       return NextResponse.json(
@@ -158,6 +161,7 @@ export async function PUT(request: NextRequest) {
       data: {
         ...(amount && { amount: parseAmount(amount) }),
         ...(date && { date: new Date(date) }),
+        ...(notes !== undefined && { notes: notes === "" ? null : notes }),
       },
       include: {
         employee: {
@@ -175,6 +179,7 @@ export async function PUT(request: NextRequest) {
         emp_name: updatedWithdrawal.employee.emp_name,
         amount: updatedWithdrawal.amount,
         date: updatedWithdrawal.date,
+        notes: updatedWithdrawal.notes,
       },
       message: "تم تحديث السحب بنجاح",
     });

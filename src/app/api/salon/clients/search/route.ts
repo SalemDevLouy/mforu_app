@@ -27,10 +27,10 @@ export async function GET(request: NextRequest) {
         salon_id: salon_id,
       },
       include: {
-        // جلب الديون النشطة (غير المدفوعة)
+        // جلب الديون النشطة (غير المدفوعة) والفكة المستحقة للعميل
         debts: {
           where: {
-            status: "pending", // أو "active" حسب نظامك
+            status: { in: ["pending", "credit"] },
           },
           orderBy: {
             date_reg: "desc",
@@ -56,13 +56,20 @@ export async function GET(request: NextRequest) {
         found: false,
         client: null,
         totalDebt: 0,
+        totalCredit: 0,
         hasReservation: false,
         reservationAdvance: 0,
       });
     }
 
+    // فصل الديون عن الفكة (credit = فكة مستحقة للعميل)
+    const pendingDebts = client.debts.filter((debt) => debt.status === "pending");
+    const creditDebts = client.debts.filter((debt) => debt.status === "credit");
+
     // حساب إجمالي الديون
-    const totalDebt = sum(client.debts.map((debt) => debt.debt_val));
+    const totalDebt = sum(pendingDebts.map((debt) => debt.debt_val));
+    // حساب إجمالي الفكة المستحقة للعميل
+    const totalCredit = sum(creditDebts.map((debt) => debt.debt_val));
 
     // التحقق من وجود حجز بمقدم (يمكن تخزين المقدم في notes أو إضافة حقل advance_payment)
     const hasReservation = client.reservations.length > 0;
@@ -76,11 +83,18 @@ export async function GET(request: NextRequest) {
         notes: client.notes,
       },
       totalDebt,
-      debts: client.debts.map((debt) => ({
+      debts: pendingDebts.map((debt) => ({
         debt_id: debt.debt_id,
         amount: debt.debt_val,
         date_reg: debt.date_reg,
         date_exp: debt.date_exp,
+        status: debt.status,
+      })),
+      totalCredit,
+      credits: creditDebts.map((debt) => ({
+        debt_id: debt.debt_id,
+        amount: debt.debt_val,
+        date_reg: debt.date_reg,
         status: debt.status,
       })),
       hasReservation,
