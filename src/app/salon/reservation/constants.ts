@@ -28,4 +28,5 @@ export const BLANK_RESERVATION_FORM = () => ({
   date_exploit: "",
   deposit: "",
   status: "pending",
+  notes: "",
 });

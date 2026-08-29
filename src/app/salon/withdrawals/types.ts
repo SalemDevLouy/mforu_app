@@ -6,6 +6,7 @@ export interface Withdrawal {
   salon_name: string;
   amount: number;
   date: string;
+  notes?: string | null;
 }
 
 export interface Employee {

@@ -14,12 +14,14 @@ interface WithdrawalTableProps {
   readonly withdrawals: Withdrawal[];
   readonly loading: boolean;
   readonly onDelete: (id: string) => void;
+  readonly onEdit: (withdrawal: Withdrawal) => void;
 }
 
 export function WithdrawalTable({
   withdrawals,
   loading,
   onDelete,
+  onEdit,
 }: WithdrawalTableProps) {
   return (
     <Card className="p-4 md:p-6">
@@ -27,9 +29,9 @@ export function WithdrawalTable({
         <Table aria-label="جدول السحوبات">
           <TableHeader>
             <TableColumn>اسم الموظف</TableColumn>
-            <TableColumn>التخصص</TableColumn>
             <TableColumn>المبلغ</TableColumn>
             <TableColumn>التاريخ</TableColumn>
+            <TableColumn>الملاحظات</TableColumn>
             <TableColumn>تم بواسطة</TableColumn>
             <TableColumn>الإجراءات</TableColumn>
           </TableHeader>
@@ -46,7 +48,6 @@ export function WithdrawalTable({
                   <TableCell className="font-medium">
                     {withdrawal.emp_name}
                   </TableCell>
-                  <TableCell>{withdrawal.emp_role || "—"}</TableCell>
                   <TableCell className="text-danger font-semibold">
                     {withdrawal.amount.toFixed(2)} دج
                   </TableCell>
@@ -57,14 +58,23 @@ export function WithdrawalTable({
                       day: "numeric",
                     })}
                   </TableCell>
+                  <TableCell>{withdrawal.notes || "—"}</TableCell>
                   <TableCell>{withdrawal.salon_name}</TableCell>
                   <TableCell>
-                    <button
-                      className="text-danger hover:text-danger-600 text-sm font-medium"
-                      onClick={() => onDelete(withdrawal.withdraw_id)}
-                    >
-                      حذف
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        className="text-primary hover:text-primary-600 text-sm font-medium"
+                        onClick={() => onEdit(withdrawal)}
+                      >
+                        تعديل
+                      </button>
+                      <button
+                        className="text-danger hover:text-danger-600 text-sm font-medium"
+                        onClick={() => onDelete(withdrawal.withdraw_id)}
+                      >
+                        حذف
+                      </button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))

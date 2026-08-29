@@ -2,12 +2,13 @@
 
 import React, { useState } from "react";
 import { Button } from "@heroui/button";
-import { Employee, WithdrawalFormData } from "../types";
+import { Employee, Withdrawal, WithdrawalFormData } from "../types";
 
 interface AddWithdrawalModalProps {
   readonly employees: Employee[];
   readonly loadingEmployees: boolean;
   readonly salonId: string;
+  readonly editing?: Withdrawal | null;
   readonly onClose: () => void;
   readonly onSubmit: (data: WithdrawalFormData) => Promise<void>;
 }
@@ -23,10 +24,21 @@ export function AddWithdrawalModal({
   employees,
   loadingEmployees,
   salonId,
+  editing = null,
   onClose,
   onSubmit,
 }: AddWithdrawalModalProps) {
-  const [formData, setFormData] = useState<WithdrawalFormData>(defaultForm());
+  const [formData, setFormData] = useState<WithdrawalFormData>(() => {
+    if (editing) {
+      return {
+        emp_id: editing.emp_id,
+        amount: String(editing.amount),
+        date: new Date(editing.date).toISOString().split("T")[0],
+        notes: editing.notes ?? "",
+      };
+    }
+    return defaultForm();
+  });
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -44,7 +56,7 @@ export function AddWithdrawalModal({
     try {
       setSubmitting(true);
       await onSubmit(formData);
-      alert("تم إضافة السحب بنجاح");
+      alert(editing ? "تم تحديث السحب بنجاح" : "تم إضافة السحب بنجاح");
       setFormData(defaultForm());
       onClose();
     } catch (err) {
@@ -80,7 +92,9 @@ export function AddWithdrawalModal({
           ×
         </button>
 
-        <h2 className="text-xl font-semibold mb-4">إضافة سحب جديد</h2>
+        <h2 className="text-xl font-semibold mb-4">
+          {editing ? "تعديل سحب" : "إضافة سحب جديد"}
+        </h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -172,7 +186,7 @@ export function AddWithdrawalModal({
               isLoading={submitting}
               isDisabled={submitting || !salonId}
             >
-              {submitting ? "جاري الحفظ..." : "حفظ السحب"}
+              {submitting ? "جاري الحفظ..." : editing ? "حفظ التعديلات" : "حفظ السحب"}
             </Button>
           </div>
         </form>
