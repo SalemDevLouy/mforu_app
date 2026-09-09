@@ -5,6 +5,14 @@ export interface WithdrawalCreatePayload {
   emp_id: string;
   amount: number;
   date: string;
+  notes?: string;
+}
+
+export interface WithdrawalUpdatePayload {
+  withdraw_id: string;
+  amount: number;
+  date: string;
+  notes?: string;
 }
 
 interface WithdrawalsResponse {
@@ -48,6 +56,21 @@ export async function createWithdrawal(
   const data: MutationResponse = await response.json();
   if (!data.success) {
     throw new Error(data.error || "Failed to create withdrawal");
+  }
+}
+
+export async function updateWithdrawal(
+  payload: WithdrawalUpdatePayload
+): Promise<void> {
+  const response = await fetch("/api/salon/withdrawals", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  const data: MutationResponse = await response.json();
+  if (!data.success) {
+    throw new Error(data.error || "Failed to update withdrawal");
   }
 }
 

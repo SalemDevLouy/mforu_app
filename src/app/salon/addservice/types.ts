@@ -26,6 +26,13 @@ interface ClientData {
     date_exp: string | null;
     status: string;
   }>;
+  totalCredit: number;
+  credits: Array<{
+    debt_id: string;
+    amount: number;
+    date_reg: string;
+    status: string;
+  }>;
   hasReservation: boolean;
   reservations: Array<{
     reservation_id: string;

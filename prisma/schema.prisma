@@ -136,6 +136,7 @@ model Reservation {
   date_exploit   DateTime
   deposit        Float    @default(0)
   status         String
+  notes          String?
 
   client Client @relation(fields: [client_id], references: [client_id])
   salon  Salon  @relation(fields: [salon_id], references: [salon_id])
@@ -159,6 +160,7 @@ model withdrawal {
   emp_id      String
   date        DateTime
   amount      Float
+  notes       String?
 
   salon    Salon    @relation(fields: [salon_id], references: [salon_id])
   employee Employee @relation(fields: [emp_id], references: [emp_id])

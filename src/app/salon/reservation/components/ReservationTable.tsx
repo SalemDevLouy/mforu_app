@@ -34,6 +34,7 @@ export function ReservationTable({
           <TableColumn>تاريخ التسجيل</TableColumn>
           <TableColumn>موعد الحجز</TableColumn>
           <TableColumn>العربون</TableColumn>
+          <TableColumn>الملاحظات</TableColumn>
           <TableColumn>الحالة</TableColumn>
           <TableColumn>الإجراءات</TableColumn>
         </TableHeader>
@@ -54,6 +55,11 @@ export function ReservationTable({
               </TableCell>
               <TableCell>
                 {r.deposit > 0 ? `${r.deposit.toFixed(2)} دج` : "—"}
+              </TableCell>
+              <TableCell>
+                <span title={r.notes || ""} className="line-clamp-2 text-sm">
+                  {r.notes || "—"}
+                </span>
               </TableCell>
               <TableCell>
                 <select

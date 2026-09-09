@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/files
 /.pnp
 .pnp.*
 .yarn/*
@@ -32,6 +33,11 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+
+# prisma local config / seed / migrations
+prisma.config.ts
+prisma/seed.ts
+/prisma/migrations/
 
 # vercel
 .vercel

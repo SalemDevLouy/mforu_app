@@ -7,6 +7,7 @@ export interface ReservationCreatePayload {
   date_exploit: string;
   deposit: string;
   status: string;
+  notes?: string;
 }
 
 export interface ReservationUpdatePayload extends ReservationCreatePayload {
@@ -34,6 +35,18 @@ export async function fetchReservations(
   const response = await fetch(url);
   const data: ReservationsResponse = await response.json();
   if (!data.success) throw new Error(data.error || "Failed to fetch reservations");
+  return data.reservations;
+}
+
+export async function fetchReservationsByDate(
+  salonId: string,
+  date: string
+): Promise<Reservation[]> {
+  const response = await fetch(
+    `/api/salon/reservations?salon_id=${salonId}&date=${date}`
+  );
+  const data: ReservationsResponse = await response.json();
+  if (!data.success) throw new Error(data.error || "Failed to fetch day reservations");
   return data.reservations;
 }
 

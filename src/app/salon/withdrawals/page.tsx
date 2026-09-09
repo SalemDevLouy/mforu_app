@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import { Button } from "@heroui/button";
-import { WithdrawalFilters, WithdrawalFormData } from "./types";
+import { WithdrawalFilters, WithdrawalFormData, Withdrawal } from "./types";
 import { parseAmount } from "@/lib/math";
 import { useWithdrawals } from "./hooks/useWithdrawals";
 import { useEmployees } from "./hooks/useEmployees";
@@ -18,6 +18,7 @@ export default function WithdrawalsPage() {
   const [salonId, setSalonId] = useState<string>("");
   const [filters, setFilters] = useState<WithdrawalFilters>(EMPTY_FILTERS);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [editingWithdrawal, setEditingWithdrawal] = useState<Withdrawal | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   // Read salonId from localStorage once
@@ -31,7 +32,7 @@ export default function WithdrawalsPage() {
 
   const stableFilters = useMemo(() => filters, [filters]);
 
-  const { withdrawals, loading, addWithdrawal, removeWithdrawal } =
+  const { withdrawals, loading, addWithdrawal, editWithdrawal, removeWithdrawal } =
     useWithdrawals(salonId, stableFilters);
 
   const { employees, loadingEmployees } = useEmployees(salonId);
@@ -42,6 +43,17 @@ export default function WithdrawalsPage() {
       emp_id: formData.emp_id,
       amount: parseAmount(formData.amount),
       date: formData.date,
+      notes: formData.notes,
+    });
+  };
+
+  const handleEditSubmit = async (formData: WithdrawalFormData) => {
+    if (!editingWithdrawal) return;
+    await editWithdrawal({
+      withdraw_id: editingWithdrawal.withdraw_id,
+      amount: parseAmount(formData.amount),
+      date: formData.date,
+      notes: formData.notes,
     });
   };
 
@@ -85,6 +97,7 @@ export default function WithdrawalsPage() {
           withdrawals={withdrawals}
           loading={loading}
           onDelete={(id) => setDeleteId(id)}
+          onEdit={(withdrawal) => setEditingWithdrawal(withdrawal)}
         />
       </div>
 
@@ -96,6 +109,18 @@ export default function WithdrawalsPage() {
           salonId={salonId}
           onClose={() => setShowAddModal(false)}
           onSubmit={handleAddSubmit}
+        />
+      )}
+
+      {/* Edit Modal */}
+      {editingWithdrawal && (
+        <AddWithdrawalModal
+          employees={employees}
+          loadingEmployees={loadingEmployees}
+          salonId={salonId}
+          editing={editingWithdrawal}
+          onClose={() => setEditingWithdrawal(null)}
+          onSubmit={handleEditSubmit}
         />
       )}
 

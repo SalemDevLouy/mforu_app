@@ -7,6 +7,7 @@ export interface Reservation {
   date_exploit: string;
   deposit: number;
   status: string;
+  notes?: string | null;
 }
 
 export interface Client {
@@ -21,6 +22,7 @@ export interface ReservationFormData {
   date_exploit: string;
   deposit: string;
   status: string;
+  notes: string;
 }
 
 export interface NewClientFormData {

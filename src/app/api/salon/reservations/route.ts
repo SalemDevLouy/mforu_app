@@ -10,12 +10,24 @@ export async function GET(request: NextRequest) {
     const client_id = searchParams.get("client_id");
     const startDate = searchParams.get("startDate");
     const endDate = searchParams.get("endDate");
+    // date: YYYY-MM-DD — fetch a single day's reservations (full-day range)
+    const date = searchParams.get("date");
 
     if (!salon_id) {
       return NextResponse.json(
         { error: "معرف الصالون مطلوب" },
         { status: 400 }
       );
+    }
+
+    // Build a full-day range when `date` is provided
+    let dayFilter = {};
+    if (date) {
+      const dayStart = new Date(date);
+      dayStart.setHours(0, 0, 0, 0);
+      const dayEnd = new Date(date);
+      dayEnd.setHours(23, 59, 59, 999);
+      dayFilter = { date_exploit: { gte: dayStart, lte: dayEnd } };
     }
 
     const reservations = await prisma.reservation.findMany({
@@ -29,6 +41,7 @@ export async function GET(request: NextRequest) {
             lte: new Date(endDate),
           },
         }),
+        ...dayFilter,
       },
       include: {
         client: {
@@ -54,6 +67,7 @@ export async function GET(request: NextRequest) {
         date_exploit: res.date_exploit,
         deposit: res.deposit,
         status: res.status,
+        notes: res.notes,
       })),
       count: reservations.length,
     });
@@ -70,7 +84,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { salon_id, client_id, client_phone, date_exploit, deposit, status } = body;
+    const { salon_id, client_id, client_phone, date_exploit, deposit, status, notes } = body;
 
     if (!salon_id || !date_exploit || (!client_id && !client_phone)) {
       return NextResponse.json(
@@ -103,6 +117,7 @@ export async function POST(request: NextRequest) {
         date_exploit: new Date(date_exploit),
         deposit: deposit ? Number(deposit) : 0,
         status: status || "pending",
+        ...(notes !== undefined && notes !== null && notes !== "" && { notes }),
       },
       include: {
         client: {
@@ -125,6 +140,7 @@ export async function POST(request: NextRequest) {
         date_exploit: reservation.date_exploit,
         deposit: reservation.deposit,
         status: reservation.status,
+        notes: reservation.notes,
       },
       message: "تم إضافة الحجز بنجاح",
     }, { status: 201 });
@@ -141,7 +157,7 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
-    const { reservation_id, date_exploit, deposit, status } = body;
+    const { reservation_id, date_exploit, deposit, status, notes } = body;
 
     if (!reservation_id) {
       return NextResponse.json(
@@ -167,6 +183,7 @@ export async function PUT(request: NextRequest) {
         ...(date_exploit && { date_exploit: new Date(date_exploit) }),
         ...(deposit !== undefined && { deposit: Number(deposit) }),
         ...(status && { status }),
+        ...(notes !== undefined && { notes: notes === "" ? null : notes }),
       },
       include: {
         client: {
@@ -189,6 +206,7 @@ export async function PUT(request: NextRequest) {
         date_exploit: updatedReservation.date_exploit,
         deposit: updatedReservation.deposit,
         status: updatedReservation.status,
+        notes: updatedReservation.notes,
       },
       message: "تم تحديث الحجز بنجاح",
     });

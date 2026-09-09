@@ -8,7 +8,8 @@ import {
   STATUS_INACTIVE,
   BLANK_RESERVATION_FORM,
 } from "../constants";
-import { HiCalendarDays, HiPencilSquare, HiPhone, HiUser, HiCurrencyDollar, HiTag, HiCheckCircle, HiXCircle } from "react-icons/hi2";
+import { fetchReservationsByDate } from "../model/Reservations";
+import { HiCalendarDays, HiPencilSquare, HiPhone, HiUser, HiCurrencyDollar, HiTag, HiCheckCircle, HiXCircle, HiClipboardDocumentList, HiInformationCircle } from "react-icons/hi2";
 
 interface AddEditReservationModalProps {
   readonly editingReservation: Reservation | null;
@@ -56,6 +57,8 @@ export function AddEditReservationModal({
   const [formData, setFormData] = useState<ReservationFormData>(BLANK_RESERVATION_FORM());
   const [clientNameQuery, setClientNameQuery] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [dayReservations, setDayReservations] = useState<Reservation[]>([]);
+  const [checkingDay, setCheckingDay] = useState(false);
 
   const matchedClient = findClientBySearch(clients, clientNameQuery, formData.client_phone);
   const clientExists = Boolean(matchedClient);
@@ -74,13 +77,35 @@ export function AddEditReservationModal({
         date_exploit: new Date(editingReservation.date_exploit).toISOString().slice(0, 10),
         deposit: String(editingReservation.deposit ?? 0),
         status: editingReservation.status,
+        notes: editingReservation.notes || "",
       });
       setClientNameQuery(editingReservation.client_name || "");
+      if (editingReservation.date_exploit) {
+        void checkDayReservations(new Date(editingReservation.date_exploit).toISOString().slice(0, 10), editingReservation.reservation_id);
+      }
     } else {
       setFormData(BLANK_RESERVATION_FORM());
       setClientNameQuery("");
+      setDayReservations([]);
     }
   }, [editingReservation]);
+
+  const checkDayReservations = async (dateValue: string, excludeId?: string) => {
+    if (!salonId || !dateValue) {
+      setDayReservations([]);
+      return;
+    }
+    setCheckingDay(true);
+    try {
+      const data = await fetchReservationsByDate(salonId, dateValue);
+      setDayReservations(data.filter((r) => r.reservation_id !== excludeId));
+    } catch (err) {
+      console.error("Error fetching day reservations:", err);
+      setDayReservations([]);
+    } finally {
+      setCheckingDay(false);
+    }
+  };
 
   const handleClose = () => {
     setFormData(BLANK_RESERVATION_FORM());
@@ -240,7 +265,10 @@ export function AddEditReservationModal({
                 type="date"
                 className="w-full px-3 py-2.5 border border-gray-200 dark:border-zinc-700 rounded-xl bg-gray-50 dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm transition"
                 value={formData.date_exploit}
-                onChange={(e) => setFormData({ ...formData, date_exploit: e.target.value })}
+                onChange={(e) => {
+                  setFormData({ ...formData, date_exploit: e.target.value });
+                  void checkDayReservations(e.target.value, editingReservation?.reservation_id);
+                }}
                 required
               />
             </div>
@@ -259,6 +287,54 @@ export function AddEditReservationModal({
                 placeholder="0.00"
               />
             </div>
+          </div>
+
+          {/* Day reservations check */}
+          {formData.date_exploit && (
+            <div className="rounded-xl border border-blue-200 dark:border-blue-900 bg-blue-50 dark:bg-blue-950/40 p-3">
+              <div className="flex items-center gap-2 text-blue-700 dark:text-blue-300 font-semibold text-sm mb-2">
+                <HiClipboardDocumentList />
+                <span>حجوزات هذا اليوم</span>
+                {checkingDay && <span className="text-xs text-blue-500">جارٍ التحميل...</span>}
+              </div>
+              {!checkingDay && dayReservations.length === 0 ? (
+                <p className="text-sm text-blue-600 dark:text-blue-400 flex items-center gap-1">
+                  <HiCheckCircle /> لا توجد حجوزات أخرى في هذا اليوم.
+                </p>
+              ) : (
+                <ul className="space-y-2 max-h-40 overflow-y-auto pr-1">
+                  {dayReservations.map((r) => (
+                    <li key={r.reservation_id} className="bg-white dark:bg-zinc-800 rounded-lg px-3 py-2 border border-blue-100 dark:border-blue-900">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-semibold text-sm">{r.client_name}</span>
+                        <span className="text-xs text-gray-500">{new Date(r.date_exploit).toLocaleTimeString("ar-DZ", { hour: "2-digit", minute: "2-digit" })}</span>
+                      </div>
+                      {r.notes ? (
+                        <div className="mt-1 flex items-start gap-1.5 text-sm text-gray-700 dark:text-gray-300">
+                          <HiInformationCircle className="text-blue-500 mt-0.5 shrink-0" />
+                          <span>{r.notes}</span>
+                        </div>
+                      ) : null}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+
+          {/* Notes */}
+          <div>
+            <label htmlFor="res-notes" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
+              <span className="inline-flex items-center gap-1"><HiClipboardDocumentList className="text-gray-500" /> الملاحظات</span>
+            </label>
+            <textarea
+              id="res-notes"
+              rows={3}
+              className="w-full px-3 py-2.5 border border-gray-200 dark:border-zinc-700 rounded-xl bg-gray-50 dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm transition resize-none"
+              value={formData.notes}
+              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+              placeholder="مثال: آلة قص الأظافر محجوزة..."
+            />
           </div>
 
           {/* Status */}

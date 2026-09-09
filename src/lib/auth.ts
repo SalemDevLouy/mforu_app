@@ -32,6 +32,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           where: { phone: credentials.email as string },
           include: {
             role: true, // Include role information
+            ownedSalons: { select: { salon_id: true } },
           },
         });
 
@@ -59,7 +60,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           name: user.name,
           email: user.phone,
           role: user.role?.role_name || "",
-          salonId: user.salon_id || null,
+          salonId: user.salon_id ?? user.ownedSalons[0]?.salon_id ?? null,
         } as User & { role: string; salonId: string | null };
       },
     }),

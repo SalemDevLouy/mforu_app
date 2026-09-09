@@ -21,6 +21,7 @@ export async function POST(request: NextRequest) {
       where: { phone: phone },
       include: {
         role: true, // Include role information
+        ownedSalons: { select: { salon_id: true } },
       },
     });
 
@@ -49,13 +50,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Resolve the salon id:
+    // - reception users store it directly on `user.salon_id`
+    // - salon owners store it via the Salon they own (`ownedSalons`)
+    const salonId =
+      user.salon_id ?? user.ownedSalons[0]?.salon_id ?? null;
+
     // Return user data (without password)
     const userData = {
       user_id: user.user_id,
       name: user.name,
       phone: user.phone,
       role: user.role?.role_name || "",
-      salon_id: user.salon_id,
+      salon_id: salonId,
       status: user.status,
     };
 
@@ -66,7 +73,7 @@ export async function POST(request: NextRequest) {
     const token = await new SignJWT({
       userId: user.user_id,
       role: user.role?.role_name || "",
-      salonId: user.salon_id || null,
+      salonId: salonId,
     })
       .setProtectedHeader({ alg: "HS256" })
       .setIssuedAt()

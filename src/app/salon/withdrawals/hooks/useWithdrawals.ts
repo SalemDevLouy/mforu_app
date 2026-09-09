@@ -4,8 +4,10 @@ import { Withdrawal, WithdrawalFilters } from "../types";
 import {
   fetchWithdrawals,
   createWithdrawal,
+  updateWithdrawal,
   deleteWithdrawal,
   WithdrawalCreatePayload,
+  WithdrawalUpdatePayload,
 } from "../model/Withdrawals";
 
 export function useWithdrawals(salonId: string, filters: WithdrawalFilters) {
@@ -35,10 +37,15 @@ export function useWithdrawals(salonId: string, filters: WithdrawalFilters) {
     await load();
   };
 
+  const editWithdrawal = async (payload: WithdrawalUpdatePayload) => {
+    await updateWithdrawal(payload);
+    await load();
+  };
+
   const removeWithdrawal = async (withdrawId: string) => {
     await deleteWithdrawal(withdrawId);
     await load();
   };
 
-  return { withdrawals, loading, refresh: load, addWithdrawal, removeWithdrawal };
+  return { withdrawals, loading, refresh: load, addWithdrawal, editWithdrawal, removeWithdrawal };
 }
