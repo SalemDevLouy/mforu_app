@@ -9,10 +9,10 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
-
+/files/
 # testing
 /coverage
-
+/prisma/migrations/
 # next.js
 /.next/
 /out/
