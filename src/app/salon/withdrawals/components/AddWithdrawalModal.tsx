@@ -135,12 +135,12 @@ export function AddWithdrawalModal({
               <input
                 id="amount-input"
                 type="number"
-                step="0.01"
-                min="0.01"
+                step="5"
+                min="5"
                 className="w-full px-3 py-2 border border-default-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 value={formData.amount}
                 onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-                placeholder="0.00"
+                placeholder="0"
                 required
               />
             </div>

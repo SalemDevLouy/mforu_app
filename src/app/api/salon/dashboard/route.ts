@@ -30,9 +30,14 @@ export async function GET(request: NextRequest) {
       totalExpenses,
       todayWithdrawals,
       totalWithdrawals,
+      todayPendingDebts,
+      totalPendingDebts,
+      todayCredits,
+      totalCredits,
       todayVisitsCount,
       todayReservationsCount,
       activeClientsCount,
+      employeesCount,
     ] = await Promise.all([
       prisma.serviceAction.aggregate({
         where: {
@@ -78,6 +83,40 @@ export async function GET(request: NextRequest) {
         where: { salon_id },
         _sum: { amount: true },
       }),
+      // الديون المسجلة اليوم (المبالغ الغير محصلة - status: pending)
+      prisma.debt.aggregate({
+        where: {
+          client: { salon_id },
+          status: "pending",
+          date_reg: { gte: dayStart, lte: dayEnd },
+        },
+        _sum: { debt_val: true },
+      }),
+      // إجمالي الديون المعلقة على العملاء
+      prisma.debt.aggregate({
+        where: {
+          client: { salon_id },
+          status: "pending",
+        },
+        _sum: { debt_val: true },
+      }),
+      // الفكة المسجلة اليوم (مبالغ مستلمة زائدة مستحقة للعملاء - status: credit)
+      prisma.debt.aggregate({
+        where: {
+          client: { salon_id },
+          status: "credit",
+          date_reg: { gte: dayStart, lte: dayEnd },
+        },
+        _sum: { debt_val: true },
+      }),
+      // إجمالي الفكة المعلقة المستحقة للعملاء
+      prisma.debt.aggregate({
+        where: {
+          client: { salon_id },
+          status: "credit",
+        },
+        _sum: { debt_val: true },
+      }),
       prisma.serviceAction.count({
         where: {
           salon_id,
@@ -91,6 +130,9 @@ export async function GET(request: NextRequest) {
         },
       }),
       prisma.client.count({
+        where: { salon_id },
+      }),
+      prisma.employee.count({
         where: { salon_id },
       }),
     ]);
@@ -107,14 +149,23 @@ export async function GET(request: NextRequest) {
     const todayWithdrawalsTotal = safeNumber(todayWithdrawals._sum.amount);
     const totalWithdrawalsTotal = safeNumber(totalWithdrawals._sum.amount);
 
+    const todayPendingDebtsTotal = safeNumber(todayPendingDebts._sum.debt_val);
+    const totalPendingDebtsTotal = safeNumber(totalPendingDebts._sum.debt_val);
+
+    const todayCreditsTotal = safeNumber(todayCredits._sum.debt_val);
+    const totalCreditsTotal = safeNumber(totalCredits._sum.debt_val);
+
+    // النقود في محفظة الصالون =
+    //   دخل الخدمات + العربون (عربون الحجز) + الفكة المستحقة للعملاء (أموال مستلمة زائدة)
+    //   − المصاريف − السحوبات − الديون المسجلة (أموال لم تُحصل بعد)
     const todayNetWallet = sub(
-      add(todayServicesIncome, todayDepositIncome),
-      add(todayExpensesTotal, todayWithdrawalsTotal)
+      add(add(todayServicesIncome, todayDepositIncome), todayCreditsTotal),
+      add(add(todayExpensesTotal, todayWithdrawalsTotal), todayPendingDebtsTotal)
     );
 
     const totalNetWallet = sub(
-      add(totalServicesIncome, totalDepositIncome),
-      add(totalExpensesTotal, totalWithdrawalsTotal)
+      add(add(totalServicesIncome, totalDepositIncome), totalCreditsTotal),
+      add(add(totalExpensesTotal, totalWithdrawalsTotal), totalPendingDebtsTotal)
     );
 
     return NextResponse.json({
@@ -125,6 +176,8 @@ export async function GET(request: NextRequest) {
         todayDepositIncome,
         todayExpenses: todayExpensesTotal,
         todayWithdrawals: todayWithdrawalsTotal,
+        todayPendingDebts: todayPendingDebtsTotal,
+        todayCredits: todayCreditsTotal,
         todayVisitsCount,
         todayReservationsCount,
         totalNetWallet,
@@ -132,7 +185,10 @@ export async function GET(request: NextRequest) {
         totalDepositIncome,
         totalExpenses: totalExpensesTotal,
         totalWithdrawals: totalWithdrawalsTotal,
+        totalPendingDebts: totalPendingDebtsTotal,
+        totalCredits: totalCreditsTotal,
         activeClientsCount,
+        employeesCount,
       },
     });
   } catch (error) {

@@ -4,6 +4,7 @@ import { MonthlyReport } from "../../types";
 import ServicesTable from "../tables/ServicesTable";
 import ExpensesTable from "../tables/ExpensesTable";
 import ConstantsTable from "../tables/ConstantsTable";
+import DebtsTable from "../tables/DebtsTable";
 import { formatCurrency, formatDate, formatRepetation } from "../../accounting/[salonId]/utils";
 import { HiArrowDownTray, HiPrinter } from "react-icons/hi2";
 
@@ -18,11 +19,13 @@ export default function GlobalTab({ report, selectedMonth, onMonthChange, onPrin
   const handleExportCsv = () => {
     let csv = `تقرير الصالون - ${report.salon.name}\n\n`;
     csv += `الفترة,${formatDate(report.period.start)} - ${formatDate(report.period.end)}\n\n`;
-    csv += `إجمالي الدخل,${report.summary.total_income}\n`;
+    csv += `دخل الصالون الكلي للشهر,${report.summary.total_income}\n`;
     csv += `إجمالي المصروفات,${report.summary.total_expenses}\n`;
     csv += `الثوابت,${report.summary.constants_total}\n`;
     csv += `دخل الموظفين,${report.summary.employee_income_total}\n`;
-    csv += `صافي الربح,${report.summary.net_profit}\n`;
+    csv += `الدخل الصافي للصالون (بعد المصاريف ودخل الموظفين),${report.summary.net_income}\n`;
+    csv += `ديون على العملاء,${report.summary.debts_total}\n`;
+    csv += `فكة مستحقة للعملاء,${report.summary.credits_total}\n`;
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
@@ -80,6 +83,12 @@ export default function GlobalTab({ report, selectedMonth, onMonthChange, onPrin
         constantsTotal={report.summary.constants_total}
         formatCurrency={formatCurrency}
         formatRepetation={formatRepetation}
+      />
+
+      <DebtsTable
+        debts={report.debts}
+        formatCurrency={formatCurrency}
+        formatDate={formatDate}
       />
     </div>
   );

@@ -135,12 +135,12 @@ export default function AddConstantModal({
               <input
                 id="c-val"
                 type="number"
-                step="0.01"
-                min="0.01"
+                step="5"
+                min="5"
                 className="w-full px-3 py-2.5 border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary text-sm"
                 value={formData.const_value}
                 onChange={(e) => setFormData({ ...formData, const_value: e.target.value })}
-                placeholder="0.00"
+                placeholder="0"
                 required
               />
             </div>

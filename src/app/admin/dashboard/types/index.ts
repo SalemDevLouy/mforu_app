@@ -39,6 +39,9 @@ interface MonthlyReport {
     constants_total: number;
     employee_income_total: number;
     net_profit: number;
+    net_income: number;
+    debts_total: number;
+    credits_total: number;
     services_count: number;
   };
   services: Array<{
@@ -58,6 +61,16 @@ interface MonthlyReport {
     const_name: string;
     const_value: number;
     repetation: string;
+  }>;
+  debts: Array<{
+    debt_id: string;
+    date_reg: string;
+    status: string;
+    debt_val: number;
+    client: {
+      name: string;
+      phone: string | null;
+    };
   }>;
   employee_incomes: Array<{
     emp_id: string;

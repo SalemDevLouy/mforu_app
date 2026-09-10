@@ -78,8 +78,8 @@ export default function BalanceModal({
                 <input
                   id="balance-amount"
                   type="number"
-                  step="0.01"
-                  min="0.01"
+                  step="5"
+                  min="5"
                   className="w-full px-3 py-2 border border-default-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   value={formData.amount}
                   onChange={(e) => onChange({ ...formData, amount: e.target.value })}

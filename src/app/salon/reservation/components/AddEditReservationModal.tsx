@@ -279,12 +279,12 @@ export function AddEditReservationModal({
               <input
                 id="res-deposit"
                 type="number"
-                step="0.01"
+                step="5"
                 min="0"
                 className="w-full px-3 py-2.5 border border-gray-200 dark:border-zinc-700 rounded-xl bg-gray-50 dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm transition"
                 value={formData.deposit}
                 onChange={(e) => setFormData({ ...formData, deposit: e.target.value })}
-                placeholder="0.00"
+                placeholder="0"
               />
             </div>
           </div>

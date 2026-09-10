@@ -237,8 +237,39 @@ export async function GET(request: NextRequest) {
 
     const totalEmployeeIncome = sum(employeeIncomeDetails.map((emp) => emp.total_earned));
 
-    // Calculate net profit
+    // Get debts (ديون على العملاء) and credits (فكة مستحقة للعملاء) registered in the period
+    const debts = await prisma.debt.findMany({
+      where: {
+        client: { salon_id },
+        date_reg: { gte: startDate, lte: endDate },
+      },
+      select: {
+        debt_id: true,
+        debt_val: true,
+        date_reg: true,
+        status: true,
+        client: {
+          select: {
+            name: true,
+            phone: true,
+          },
+        },
+      },
+      orderBy: { date_reg: "asc" },
+    });
+
+    const debtsTotal = sum(
+      debts.filter((debt) => debt.status === "pending").map((debt) => debt.debt_val)
+    );
+    const creditsTotal = sum(
+      debts.filter((debt) => debt.status === "credit").map((debt) => debt.debt_val)
+    );
+
+    // Calculate net profit (before deducting employee income)
     const netProfit = sub(sub(totalIncome, totalExpenses), constantsTotal);
+
+    // Net salon income after deducting total expenses (including constants) and employee income
+    const netIncome = sub(netProfit, totalEmployeeIncome);
 
     // eslint-disable-next-line unicorn/no-nested-ternary
     let periodType = "monthly";
@@ -257,11 +288,15 @@ export async function GET(request: NextRequest) {
         constants_total: constantsTotal,
         employee_income_total: totalEmployeeIncome,
         net_profit: netProfit,
+        net_income: netIncome,
+        debts_total: debtsTotal,
+        credits_total: creditsTotal,
         services_count: services.length,
       },
       services,
       expenses,
       constants,
+      debts,
       employee_incomes: employeeIncomeDetails,
     });
   } catch (error) {

@@ -32,6 +32,9 @@ interface MonthlyReport {
     constants_total: number;
     employee_income_total: number;
     net_profit: number;
+    net_income: number;
+    debts_total: number;
+    credits_total: number;
     services_count: number;
   };
   services: Array<{
@@ -135,7 +138,10 @@ export default function MonthlyReportsPage() {
     csv += `Total Expenses,${report.summary.total_expenses}\n`;
     csv += `Constants Total,${report.summary.constants_total}\n`;
     csv += `Employee Income,${report.summary.employee_income_total}\n`;
-    csv += `Net Profit,${report.summary.net_profit}\n\n`;
+    csv += `Net Profit,${report.summary.net_profit}\n`;
+    csv += `Net Income (after expenses & employee income),${report.summary.net_income}\n`;
+    csv += `Client Debts,${report.summary.debts_total}\n`;
+    csv += `Client Credits (فكة),${report.summary.credits_total}\n\n`;
 
     csv += "Employee Income Details\n";
     csv += "Name,Role,Total Earned,Withdrawn,Balance,Tasks\n";
@@ -268,7 +274,7 @@ export default function MonthlyReportsPage() {
           {/* Summary Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Card className="p-6 bg-success/10">
-              <p className="text-sm text-default-500 mb-1">إجمالي الدخل</p>
+              <p className="text-sm text-default-500 mb-1">دخل الصالون الكلي للشهر</p>
               <p className="text-2xl font-bold text-success">
                 {formatCurrency(report.summary.total_income)}
               </p>
@@ -287,10 +293,13 @@ export default function MonthlyReportsPage() {
               </p>
             </Card>
 
-            <Card className={`p-6 ${report.summary.net_profit >= 0 ? "bg-primary/10" : "bg-warning/10"}`}>
-              <p className="text-sm text-default-500 mb-1">صافي الربح</p>
-              <p className={`text-2xl font-bold ${report.summary.net_profit >= 0 ? "text-primary" : "text-warning"}`}>
-                {formatCurrency(report.summary.net_profit)}
+            <Card className={`p-6 ${report.summary.net_income >= 0 ? "bg-primary/10" : "bg-danger/10"}`}>
+              <p className="text-sm text-default-500 mb-1">الدخل الصافي للصالون</p>
+              <p className={`text-2xl font-bold ${report.summary.net_income >= 0 ? "text-primary" : "text-danger"}`}>
+                {formatCurrency(report.summary.net_income)}
+              </p>
+              <p className="text-xs text-default-400 mt-1">
+                بعد المصاريف ودخل الموظفين
               </p>
             </Card>
           </div>
